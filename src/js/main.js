@@ -27,6 +27,9 @@ import { CustomiseUI } from './customise-ui.js';
 import { GalleryUI } from './gallery-ui.js';
 import { ReviewsUI } from './reviews-ui.js';
 import { FAQUI } from './faq-ui.js';
+import { GoldParticleCanvas } from './particles.js';
+import { LuxuryMotionEffects } from './effects.js';
+import { DessertShowcase3D } from './showcase3d.js';
 
 class VeniDelightsApp {
   constructor() {
@@ -34,41 +37,62 @@ class VeniDelightsApp {
   }
 
   init() {
-    // 1. Navigation & Header
+    // 1. Ambient Gold Particle & Sparkle Canvas
+    try {
+      this.particles = new GoldParticleCanvas();
+    } catch (e) {
+      console.warn('Particle canvas init error:', e);
+    }
+
+    // 2. Luxury Motion & Cursor Effects (3D Card Tilt, Specular Glare, Sound FX)
+    try {
+      this.effects = new LuxuryMotionEffects();
+    } catch (e) {
+      console.warn('Luxury effects init error:', e);
+    }
+
+    // 3. Navigation & Header
     this.initNavbar();
     this.initMobileMenu();
 
-    // 2. Hero Swiper Slideshow
+    // 4. Hero Swiper Slideshow
     this.initHeroSwiper();
 
-    // 3. Commerce & Order Drawer
+    // 5. 3D Interactive Dessert Showcase & 360 Turntable
+    try {
+      this.showcase3D = new DessertShowcase3D('dessert-3d-stage');
+    } catch (e) {
+      console.warn('3D Showcase init error:', e);
+    }
+
+    // 6. Commerce & Order Drawer
     this.orderDrawer = new OrderDrawer();
 
-    // 4. Products UI (Catalog & Tabs)
+    // 7. Products UI (Catalog & Tabs)
     this.productsUI = new ProductsUI(this.orderDrawer);
 
-    // 5. Dessert Corner UI (Packages & Quotation Builder)
+    // 8. Dessert Corner UI (Packages & Quotation Builder)
     this.dessertCornerUI = new DessertCornerUI();
 
-    // 6. Cake Customisation UI
+    // 9. Cake Customisation UI
     this.customiseUI = new CustomiseUI();
 
-    // 7. Gallery UI & Lightbox
+    // 10. Gallery UI & Lightbox
     this.galleryUI = new GalleryUI();
 
-    // 8. Reviews UI
+    // 11. Reviews UI
     this.reviewsUI = new ReviewsUI();
 
-    // 9. FAQ Accordion
+    // 12. FAQ Accordion
     this.faqUI = new FAQUI();
 
-    // 10. Intelligent Veni Guide Concierge
+    // 13. Intelligent Veni Guide Concierge
     this.concierge = new VeniConcierge();
 
-    // 11. 3D Digital Human Avatar (Progressive Enhancement)
+    // 14. 3D Digital Human Avatar (Progressive Enhancement)
     this.initAvatar();
 
-    // 12. Motion Graphics & GSAP Scroll Reveals
+    // 15. Motion Graphics & GSAP Scroll Reveals
     this.initMotion();
   }
 

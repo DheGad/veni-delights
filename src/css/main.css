@@ -1215,6 +1215,39 @@
   box-shadow: 0 0 12px rgba(201,168,76,0.3);
 }
 
+.avatar-soundwave {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  height: 14px;
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+.avatar-soundwave.speaking {
+  opacity: 1;
+}
+
+.wave-bar {
+  width: 3px;
+  height: 4px;
+  background: var(--color-primary);
+  border-radius: 9999px;
+  transition: height 0.1s ease;
+}
+
+.avatar-soundwave.speaking .wave-bar:nth-child(1) { animation: wave-pulse 0.4s ease-in-out infinite alternate; }
+.avatar-soundwave.speaking .wave-bar:nth-child(2) { animation: wave-pulse 0.35s ease-in-out 0.1s infinite alternate; }
+.avatar-soundwave.speaking .wave-bar:nth-child(3) { animation: wave-pulse 0.5s ease-in-out 0.05s infinite alternate; }
+.avatar-soundwave.speaking .wave-bar:nth-child(4) { animation: wave-pulse 0.38s ease-in-out 0.15s infinite alternate; }
+.avatar-soundwave.speaking .wave-bar:nth-child(5) { animation: wave-pulse 0.45s ease-in-out 0.2s infinite alternate; }
+
+@keyframes wave-pulse {
+  from { height: 4px; }
+  to { height: 16px; }
+}
+
 
 /* Chat Interface */
 .concierge-intro-text {
@@ -2652,3 +2685,315 @@ a.contact-detail-value:hover {
 body.modal-open {
   overflow: hidden;
 }
+
+/* =============================================
+   ADVANCED LUXURY MOTIONS & 3D GRAPHICS
+   ============================================= */
+
+/* 1. Ambient Gold Particle Canvas */
+.ambient-particles-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.85;
+}
+
+/* 2. Custom Fluid Luxury Cursor (Desktop) */
+.luxury-cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background: var(--color-gold-bright);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px rgba(240, 200, 96, 0.8);
+  transition: transform 0.05s ease, opacity 0.2s ease;
+}
+
+.luxury-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 38px;
+  height: 38px;
+  border: 1.5px solid rgba(201, 168, 76, 0.65);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease,
+              background 0.3s ease;
+}
+
+.luxury-cursor-ring.cursor-hover {
+  width: 58px;
+  height: 58px;
+  border-color: var(--color-gold-bright);
+  background: rgba(201, 168, 76, 0.12);
+  box-shadow: 0 0 20px rgba(201, 168, 76, 0.3);
+}
+
+.luxury-cursor-ring.cursor-click {
+  transform: translate(-50%, -50%) scale(0.85);
+  border-color: #ffffff;
+}
+
+/* 3. Card Specular Glare (for 3D tilt) */
+.product-card,
+.collection-card,
+.dessert-package-card,
+.why-card {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, border-color 0.2s ease;
+}
+
+.card-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: screen;
+  z-index: 3;
+  transition: opacity 0.3s ease;
+}
+
+/* 4. Kinetic Luxury Gold Marquee */
+.luxury-marquee {
+  width: 100%;
+  overflow: hidden;
+  background: #0D0D0B;
+  border-top: 1px solid rgba(201, 168, 76, 0.25);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.25);
+  padding: 14px 0;
+  position: relative;
+  z-index: 2;
+}
+
+.marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  white-space: nowrap;
+  width: max-content;
+  animation: marquee-scroll 32s linear infinite;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: var(--color-gold-champagne);
+  text-transform: uppercase;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.marquee-dot {
+  color: var(--color-primary);
+  font-size: 11px;
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* 5. 3D Interactive Artisan Showcase */
+.artisan-3d-section {
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.showcase-stage-wrap {
+  position: relative;
+  background: radial-gradient(circle at 50% 30%, #1c1914 0%, #0a0a08 80%);
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.7), 0 0 35px rgba(201, 168, 76, 0.12);
+}
+
+.dessert-3d-stage {
+  width: 100%;
+  height: 480px;
+  position: relative;
+  cursor: grab;
+}
+
+.dessert-3d-stage:active {
+  cursor: grabbing;
+}
+
+.showcase-3d-ui {
+  position: absolute;
+  top: 18px;
+  left: 0;
+  width: 100%;
+  padding: 0 var(--space-6);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.showcase-cake-switcher {
+  display: flex;
+  gap: 6px;
+  background: rgba(10, 10, 8, 0.85);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  padding: 4px;
+  backdrop-filter: blur(10px);
+  pointer-events: auto;
+}
+
+.showcase-tab-btn {
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.05em;
+  color: var(--color-grey-400);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+
+.showcase-tab-btn:hover {
+  color: var(--color-gold-champagne);
+}
+
+.showcase-tab-btn.active {
+  background: var(--color-primary);
+  color: var(--color-black);
+  font-weight: var(--weight-semibold);
+  box-shadow: 0 2px 10px rgba(201, 168, 76, 0.4);
+}
+
+.showcase-hud-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  pointer-events: auto;
+}
+
+.showcase-control-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(10, 10, 8, 0.85);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  color: var(--color-grey-400);
+  padding: 6px 14px;
+  font-size: 11px;
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: var(--transition-base);
+}
+
+.showcase-control-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-gold-champagne);
+}
+
+.showcase-drag-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--color-gold-champagne);
+  background: rgba(10, 10, 8, 0.6);
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(201, 168, 76, 0.2);
+}
+
+.showcase-features-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+  padding: var(--space-6) var(--space-8);
+  background: rgba(10, 10, 8, 0.95);
+  border-top: 1px solid rgba(201, 168, 76, 0.2);
+}
+
+.showcase-feature-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.showcase-feature-item i {
+  font-size: 24px;
+  color: var(--color-primary);
+  filter: drop-shadow(0 0 8px rgba(201, 168, 76, 0.4));
+}
+
+.showcase-feature-item div {
+  display: flex;
+  flex-direction: column;
+}
+
+.showcase-feature-item strong {
+  font-family: var(--font-display);
+  font-size: 15px;
+  color: var(--color-ivory);
+}
+
+.showcase-feature-item span {
+  font-size: 12px;
+  color: var(--color-grey-400);
+}
+
+/* 6. Dynamic Custom Cake Canvas */
+.custom-cake-canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius-lg);
+  background: radial-gradient(circle at 50% 50%, #1e1b15 0%, #0d0c09 100%);
+  border: 1px solid rgba(201, 168, 76, 0.25);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 900px) {
+  .showcase-features-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dessert-3d-stage {
+    height: 380px;
+  }
+  .showcase-3d-ui {
+    flex-direction: column;
+    gap: var(--space-2);
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .showcase-features-bar {
+    grid-template-columns: 1fr;
+  }
+  .showcase-drag-hint {
+    display: none;
+  }
+}
+

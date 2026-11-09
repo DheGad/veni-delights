@@ -318,6 +318,14 @@ export class VeniDigitalHuman {
         </button>
       </div>
 
+      <div class="avatar-soundwave" id="avatar-soundwave" aria-hidden="true">
+        <span class="wave-bar"></span>
+        <span class="wave-bar"></span>
+        <span class="wave-bar"></span>
+        <span class="wave-bar"></span>
+        <span class="wave-bar"></span>
+      </div>
+
       <div class="avatar-captions" id="avatar-captions" aria-live="polite">
         "Hello! Welcome to Veni Delights. Freshly homemade, crafted with love."
       </div>
@@ -326,6 +334,7 @@ export class VeniDigitalHuman {
     this.container.appendChild(hud);
     this.captionsEl = hud.querySelector('#avatar-captions');
     this.audioToggleBtn = hud.querySelector('#avatar-audio-toggle');
+    this.soundwaveEl = hud.querySelector('#avatar-soundwave');
 
     // Bind persona switching
     hud.querySelectorAll('.persona-btn').forEach(btn => {
@@ -348,6 +357,7 @@ export class VeniDigitalHuman {
         this.audioToggleBtn.classList.remove('active');
         if (window.speechSynthesis) window.speechSynthesis.cancel();
         this.isSpeaking = false;
+        if (this.soundwaveEl) this.soundwaveEl.classList.remove('speaking');
       }
     });
   }
@@ -360,6 +370,9 @@ export class VeniDigitalHuman {
     if (this.captionsEl) {
       this.captionsEl.textContent = `"${text}"`;
       this.captionsEl.classList.add('speaking');
+    }
+    if (this.soundwaveEl) {
+      this.soundwaveEl.classList.add('speaking');
     }
 
     if (!this.audioEnabled || !this.synth) {
@@ -377,14 +390,17 @@ export class VeniDigitalHuman {
 
     utterance.onstart = () => {
       this.isSpeaking = true;
+      if (this.soundwaveEl) this.soundwaveEl.classList.add('speaking');
     };
     utterance.onend = () => {
       this.isSpeaking = false;
       if (this.captionsEl) this.captionsEl.classList.remove('speaking');
+      if (this.soundwaveEl) this.soundwaveEl.classList.remove('speaking');
     };
     utterance.onerror = () => {
       this.isSpeaking = false;
       if (this.captionsEl) this.captionsEl.classList.remove('speaking');
+      if (this.soundwaveEl) this.soundwaveEl.classList.remove('speaking');
     };
 
     this.synth.speak(utterance);
