@@ -158,9 +158,9 @@
 <!-- =============================================
      SECTION 1 — HERO
      ============================================= -->
-<section class="hero-section" id="home" aria-label="Hero">
+<section class="hero-section hero-split-viewport" id="home" aria-label="Hero — Veni Delights 3D Digital Bakery Experience">
   
-  <!-- Background Slideshow -->
+  <!-- Subtle Ambient Slideshow Backdrop -->
   <div class="swiper hero-swiper" aria-hidden="true">
     <div class="swiper-wrapper">
       <div class="swiper-slide">
@@ -187,52 +187,157 @@
     </div>
   </div>
 
-  <!-- Gradient Overlay -->
+  <!-- Gradient & Ambient Mesh Vignette -->
   <div class="hero-overlay" aria-hidden="true"></div>
 
-  <!-- Hero Content -->
-  <div class="hero-content container">
-    <div class="hero-text-wrap">
+  <!-- Single-Shot Split Screen Container -->
+  <div class="hero-split-container container">
+    <div class="hero-split-grid">
 
-      <span class="section-eyebrow hero-eyebrow" data-reveal="fade">
-        Klang Valley's Premium Homemade Bakery
-      </span>
+      <!-- LEFT COLUMN: Brand Identity, 3D Digital Human Avatar Host, CTAs -->
+      <div class="hero-left-column">
 
-      <h1 class="hero-title" aria-label="Freshly Homemade. Beautifully Crafted.">
-        <span class="hero-title-line" data-reveal>Freshly Homemade.</span>
-        <span class="hero-title-line hero-title-accent" data-reveal>Beautifully Crafted.</span>
-      </h1>
+        <!-- Luxury Eyebrow Pill -->
+        <div class="hero-badge-pill" data-reveal="fade">
+          <span class="hero-badge-live-dot"></span>
+          <span class="hero-badge-text">KLANG VALLEY'S PREMIER ARTISAN DIGITAL BAKERY</span>
+          <span class="hero-badge-divider">•</span>
+          <span class="hero-badge-sub">EST. 2020</span>
+        </div>
 
-      <p class="hero-subtitle" data-reveal>
-        Discover our handcrafted desserts made with premium ingredients for every celebration.
-      </p>
+        <!-- Master Title -->
+        <h1 class="hero-title" aria-label="Freshly Homemade. Beautifully Crafted.">
+          <span class="hero-title-line" data-reveal>Freshly Homemade.</span>
+          <span class="hero-title-line hero-title-accent" data-reveal>Beautifully Crafted.</span>
+        </h1>
 
-      <div class="hero-actions" data-reveal="fade">
-        <a href="#products" class="btn btn-primary btn-lg hero-btn-primary">
-          <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
-          Explore Our Desserts
-        </a>
-        <a href="https://wa.me/60123360470?text=Hello%20Veni%20Delights!%20I'd%20like%20to%20place%20an%20order."
-           class="btn btn-ghost btn-lg hero-btn-secondary"
-           target="_blank" rel="noopener noreferrer">
-          <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
-          Order via WhatsApp
-        </a>
+        <!-- Subtitle -->
+        <p class="hero-subtitle" data-reveal>
+          Pure French butter sponges, 100% natural pandan layers, and handcrafted celebration cakes baked fresh to order in Klang, Selangor.
+        </p>
+
+        <!-- 3D Digital Human Avatar Concierge Card -->
+        <div class="hero-avatar-card" id="hero-avatar-card" data-reveal="fade">
+          <div class="avatar-card-header">
+            <div class="avatar-status-pill">
+              <span class="status-indicator-dot"></span>
+              <span class="status-indicator-text">LIVE 3D CONCIERGE</span>
+            </div>
+            <div class="avatar-persona-tags" role="tablist" aria-label="Select avatar guide">
+              <button class="persona-tab-btn active" data-persona="host">Host 👩‍🍳</button>
+              <button class="persona-tab-btn" data-persona="baker">Baker 👨‍🍳</button>
+              <button class="persona-tab-btn" data-persona="specialist">Stylist 🧁</button>
+            </div>
+          </div>
+
+          <div class="avatar-card-body">
+            <!-- 3D Avatar WebGL Canvas Container -->
+            <div class="avatar-container" id="avatar-container" aria-label="Interactive 3D Host Avatar">
+              <div class="avatar-fallback" id="avatar-fallback">
+                <div class="avatar-fallback-emoji">👩‍🍳</div>
+                <div class="avatar-pulse-ring"></div>
+              </div>
+            </div>
+
+            <!-- Avatar Speech & Voice Interaction -->
+            <div class="avatar-dialog-column">
+              <div class="avatar-speech-bubble" id="avatar-speech-bubble">
+                <div class="speech-quote-icon"><i class="fa-solid fa-quote-left"></i></div>
+                <p class="speech-text" id="avatar-speech-text">
+                  "Welcome to Veni Delights! I am your personal host. Let me guide you to our finest handcrafted desserts."
+                </p>
+                <div class="avatar-soundwave-bars" id="avatar-soundwave-bars" aria-hidden="true">
+                  <span class="sw-bar"></span>
+                  <span class="sw-bar"></span>
+                  <span class="sw-bar"></span>
+                  <span class="sw-bar"></span>
+                  <span class="sw-bar"></span>
+                </div>
+              </div>
+
+              <div class="avatar-action-row">
+                <button class="btn btn-voice-audio" id="hero-voice-toggle-btn" aria-label="Listen to Host Voice">
+                  <i class="fa-solid fa-volume-high"></i>
+                  <span>Listen to Host</span>
+                </button>
+                <a href="#veni-guide" class="btn btn-ask-concierge">
+                  <i class="fa-solid fa-comments"></i>
+                  <span>Ask Concierge</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Primary Actions -->
+        <div class="hero-actions" data-reveal="fade">
+          <a href="#products" class="btn btn-primary btn-lg hero-btn-primary">
+            <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+            Explore All Desserts
+          </a>
+          <a href="https://wa.me/60123360470?text=Hello%20Veni%20Delights!%20I'd%20like%20to%20order%20desserts%20for%20my%20celebration."
+             class="btn btn-whatsapp btn-lg"
+             target="_blank" rel="noopener noreferrer">
+            <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+            Order via WhatsApp
+          </a>
+          <a href="#customise-studio" class="btn btn-ghost btn-lg">
+            <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>
+            Cake Studio
+          </a>
+        </div>
+
+        <!-- Trust Signals Row -->
+        <div class="hero-trust" data-reveal="fade">
+          <div class="hero-trust-item">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+            <span>100% Pure Butter</span>
+          </div>
+          <div class="hero-trust-item">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+            <span>Freshly Made Daily</span>
+          </div>
+          <div class="hero-trust-item">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+            <span>Klang Valley Delivery</span>
+          </div>
+          <div class="hero-trust-item">
+            <i class="fa-solid fa-star text-gold" aria-hidden="true"></i>
+            <span>5.0 (500+ Reviews)</span>
+          </div>
+        </div>
+
       </div>
 
-      <!-- Trust Signals -->
-      <div class="hero-trust" data-reveal="fade">
-        <div class="hero-trust-item">
-          <i class="fa-solid fa-check-circle" aria-hidden="true"></i>
-          <span>Freshly Made Daily</span>
-        </div>
-        <div class="hero-trust-item">
-          <i class="fa-solid fa-check-circle" aria-hidden="true"></i>
-          <span>Premium Ingredients</span>
-        </div>
-        <div class="hero-trust-item">
-          <i class="fa-solid fa-check-circle" aria-hidden="true"></i>
-          <span>Klang Valley Delivery</span>
+      <!-- RIGHT COLUMN: 3D Multi-Cake Interactive Stage (All Cakes in 3D in First Look!) -->
+      <div class="hero-right-column">
+        <div class="hero-3d-stage-wrapper" data-reveal="fade">
+          
+          <!-- Radial Ambient Backlight -->
+          <div class="stage-radial-glow" aria-hidden="true"></div>
+
+          <!-- Real-Time WebGL 3D Cake Canvas Container -->
+          <div id="hero-3d-stage" class="hero-3d-stage" aria-label="3D Interactive Cake Stage with All Signature Cakes">
+            <!-- Three.js 3D Canvas injected here -->
+          </div>
+
+          <!-- Stage Floating Feature Highlights -->
+          <div class="stage-floating-tag stage-tag-top-right">
+            <span class="tag-icon">🏆</span>
+            <div class="tag-content">
+              <strong>Signature Recipe</strong>
+              <small>Zero Artificial Flavours</small>
+            </div>
+          </div>
+
+          <div class="stage-floating-tag stage-tag-bottom-left">
+            <span class="tag-icon">✨</span>
+            <div class="tag-content">
+              <strong>Interactive 3D Stage</strong>
+              <small>360° Drag & Texture View</small>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -241,7 +346,10 @@
 
   <!-- Scroll Indicator -->
   <div class="hero-scroll" aria-hidden="true">
-    <div class="hero-scroll-dot"></div>
+    <a href="#artisan-showcase" class="hero-scroll-link" aria-label="Scroll to artisan details">
+      <span class="hero-scroll-label">EXPLORE MORE</span>
+      <div class="hero-scroll-dot"></div>
+    </a>
   </div>
 
 </section>
@@ -389,51 +497,139 @@
 </section>
 
 <!-- =============================================
-     SECTION 2.5 — 3D INTERACTIVE ARTISAN SHOWCASE & 360 TURNTABLE
+     SECTION 2.5 — ARTISAN CRAFTSMANSHIP & SIGNATURE CREATIONS
      ============================================= -->
 <section class="artisan-3d-section section-pad bg-black" id="artisan-showcase" aria-labelledby="showcase-heading">
   <div class="container">
     <div class="section-header text-center" data-reveal>
-      <span class="section-eyebrow">Interactive 360° Studio</span>
-      <h2 id="showcase-heading" class="section-title text-cream">Explore Our Craft in 3D</h2>
+      <span class="section-eyebrow">Handcrafted Mastery</span>
+      <h2 id="showcase-heading" class="section-title text-cream">The Anatomy of Pure Taste</h2>
       <p class="section-subtitle" style="color: var(--color-grey-400); max-width: 640px; margin: 0 auto;">
-        Rotate, inspect, and experience the textures, layers, and artisan craftsmanship behind Veni Delights' signature creations.
+        Every layer is crafted from scratch with premium natural ingredients. Explore our 5 signature artisan creations.
       </p>
     </div>
 
-    <div class="showcase-stage-wrap" data-reveal>
-      <div id="dessert-3d-stage" class="dessert-3d-stage" aria-label="3D interactive cake model">
-        <!-- Three.js 3D Canvas injected here -->
+    <!-- 5 Signature Masterpiece Cards -->
+    <div class="artisan-cards-grid" data-reveal>
+      <div class="artisan-card">
+        <div class="artisan-card-header">
+          <span class="artisan-card-badge">Signature Best-Seller</span>
+          <span class="artisan-card-price">RM79</span>
+        </div>
+        <div class="artisan-card-icon">🎂</div>
+        <h3 class="artisan-card-title">Pure Butter Cake</h3>
+        <p class="artisan-card-desc">100% pure butter sponge with golden caramel glaze and edible gold leaf.</p>
+        <div class="artisan-card-layers">
+          <span>Golden Butter Crumb</span>
+          <span>Caramel Drizzle</span>
+          <span>Edible 24K Gold</span>
+        </div>
+        <a href="#home" class="btn btn-ghost btn-sm" onclick="document.querySelector('.cake-dock-btn[data-cake=butter]')?.click()">
+          <i class="fa-solid fa-arrows-rotate"></i> View in 3D
+        </a>
       </div>
-      
-      <div class="showcase-features-bar">
-        <div class="showcase-feature-item">
-          <i class="fa-solid fa-gem" aria-hidden="true"></i>
-          <div>
-            <strong>100% Pure Butter</strong>
-            <span>Rich European golden crumb</span>
-          </div>
+
+      <div class="artisan-card">
+        <div class="artisan-card-header">
+          <span class="artisan-card-badge">100% Natural Pandan</span>
+          <span class="artisan-card-price">RM69 / RM89</span>
         </div>
-        <div class="showcase-feature-item">
-          <i class="fa-solid fa-leaf" aria-hidden="true"></i>
-          <div>
-            <strong>Natural Pandan Extract</strong>
-            <span>Real pandan leaves, zero essence</span>
-          </div>
+        <div class="artisan-card-icon">🌿</div>
+        <h3 class="artisan-card-title">Pandan Layer Cake</h3>
+        <p class="artisan-card-desc">Five alternating layers of pandan sponge and creamy coconut custard.</p>
+        <div class="artisan-card-layers">
+          <span>Fresh Pandan Leaves</span>
+          <span>Coconut Custard</span>
+          <span>5 Soft Sponge Layers</span>
         </div>
-        <div class="showcase-feature-item">
-          <i class="fa-solid fa-clock" aria-hidden="true"></i>
-          <div>
-            <strong>Slow Baked Daily</strong>
-            <span>Freshly made in Klang Valley</span>
-          </div>
+        <a href="#home" class="btn btn-ghost btn-sm" onclick="document.querySelector('.cake-dock-btn[data-cake=pandan]')?.click()">
+          <i class="fa-solid fa-arrows-rotate"></i> View in 3D
+        </a>
+      </div>
+
+      <div class="artisan-card">
+        <div class="artisan-card-header">
+          <span class="artisan-card-badge">5 Fruit Flavours</span>
+          <span class="artisan-card-price">RM88</span>
         </div>
-        <div class="showcase-feature-item">
-          <i class="fa-solid fa-sparkles" aria-hidden="true"></i>
-          <div>
-            <strong>Edible Gold Leaf</strong>
-            <span>Signature celebration finish</span>
-          </div>
+        <div class="artisan-card-icon">🍓</div>
+        <h3 class="artisan-card-title">Pavlova Pudding Cake</h3>
+        <p class="artisan-card-desc">Delicate crisp meringue base with whipped cream and glazed fresh berries.</p>
+        <div class="artisan-card-layers">
+          <span>Crisp Meringue Shell</span>
+          <span>Marshmallow Core</span>
+          <span>Fresh Glazed Fruits</span>
+        </div>
+        <a href="#home" class="btn btn-ghost btn-sm" onclick="document.querySelector('.cake-dock-btn[data-cake=pavlova]')?.click()">
+          <i class="fa-solid fa-arrows-rotate"></i> View in 3D
+        </a>
+      </div>
+
+      <div class="artisan-card">
+        <div class="artisan-card-header">
+          <span class="artisan-card-badge">Fresh Daily</span>
+          <span class="artisan-card-price">RM59</span>
+        </div>
+        <div class="artisan-card-icon">🍫</div>
+        <h3 class="artisan-card-title">Fudgy Brownie Tower</h3>
+        <p class="artisan-card-desc">Decadent chocolate fudge blocks stacked with glossy ganache drip.</p>
+        <div class="artisan-card-layers">
+          <span>Premium Dark Cocoa</span>
+          <span>Chewy Fudge Center</span>
+          <span>Sea Salt Ganache</span>
+        </div>
+        <a href="#home" class="btn btn-ghost btn-sm" onclick="document.querySelector('.cake-dock-btn[data-cake=brownie]')?.click()">
+          <i class="fa-solid fa-arrows-rotate"></i> View in 3D
+        </a>
+      </div>
+
+      <div class="artisan-card">
+        <div class="artisan-card-header">
+          <span class="artisan-card-badge">Vegetarian Friendly</span>
+          <span class="artisan-card-price">From RM2.50</span>
+        </div>
+        <div class="artisan-card-icon">🧀</div>
+        <h3 class="artisan-card-title">Signature Cheese Tarts</h3>
+        <p class="artisan-card-desc">Crisp golden pastry crust filled with rich, creamy molten baked cheese.</p>
+        <div class="artisan-card-layers">
+          <span>Fluted Shortcrust</span>
+          <span>Molten Baked Cheese</span>
+          <span>Blueberry Compote</span>
+        </div>
+        <a href="#home" class="btn btn-ghost btn-sm" onclick="document.querySelector('.cake-dock-btn[data-cake=cheesetart]')?.click()">
+          <i class="fa-solid fa-arrows-rotate"></i> View in 3D
+        </a>
+      </div>
+    </div>
+
+    <!-- Feature Bar -->
+    <div class="showcase-features-bar" style="margin-top: var(--space-8);">
+      <div class="showcase-feature-item">
+        <i class="fa-solid fa-gem" aria-hidden="true"></i>
+        <div>
+          <strong>100% Pure Butter</strong>
+          <span>Rich European golden crumb</span>
+        </div>
+      </div>
+      <div class="showcase-feature-item">
+        <i class="fa-solid fa-leaf" aria-hidden="true"></i>
+        <div>
+          <strong>Natural Pandan Extract</strong>
+          <span>Real pandan leaves, zero essence</span>
+        </div>
+      </div>
+      <div class="showcase-feature-item">
+        <i class="fa-solid fa-clock" aria-hidden="true"></i>
+        <div>
+          <strong>Slow Baked Daily</strong>
+          <span>Freshly made in Klang Valley</span>
+        </div>
+      </div>
+      <div class="showcase-feature-item">
+        <i class="fa-solid fa-sparkles" aria-hidden="true"></i>
+        <div>
+          <strong>Edible Gold Leaf</strong>
+          <span>Signature celebration finish</span>
         </div>
       </div>
     </div>
@@ -2115,14 +2311,13 @@
       <!-- Avatar Column -->
       <div class="concierge-avatar-col" data-reveal="left">
         <div class="concierge-avatar-wrap" aria-hidden="true">
-          <!-- Canvas for 3D avatar — progressive enhancement -->
-          <div class="avatar-container" id="avatar-container" aria-hidden="true">
-            <div class="avatar-fallback" id="avatar-fallback">
-              <div class="avatar-fallback-emoji">👩‍🍳</div>
-              <div class="avatar-pulse-ring"></div>
-            </div>
+          <div class="concierge-avatar-badge-wrap">
+            <div class="concierge-avatar-emoji">👩‍🍳</div>
+            <div class="avatar-pulse-ring"></div>
+            <div class="concierge-avatar-glow"></div>
           </div>
-          <div class="concierge-avatar-label">Veni Host</div>
+          <div class="concierge-avatar-label">Veni Concierge Host</div>
+          <p class="concierge-avatar-sub">Your personal celebration & cake advisor</p>
         </div>
       </div>
 

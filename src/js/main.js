@@ -60,7 +60,7 @@ class VeniDelightsApp {
 
     // 5. 3D Interactive Dessert Showcase & 360 Turntable
     try {
-      this.showcase3D = new DessertShowcase3D('dessert-3d-stage');
+      this.showcase3D = new DessertShowcase3D('hero-3d-stage');
     } catch (e) {
       console.warn('3D Showcase init error:', e);
     }

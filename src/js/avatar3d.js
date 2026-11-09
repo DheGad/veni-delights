@@ -13,7 +13,7 @@ import * as THREE from 'three';
 
 export class VeniDigitalHuman {
   constructor(containerId = 'avatar-container') {
-    this.container = document.getElementById(containerId);
+    this.container = document.getElementById(containerId) || document.getElementById('avatar-container') || document.getElementById('hero-avatar-container');
     if (!this.container) return;
 
     this.activePersona = 'host'; // 'host' | 'baker' | 'specialist'
@@ -336,7 +336,7 @@ export class VeniDigitalHuman {
     this.audioToggleBtn = hud.querySelector('#avatar-audio-toggle');
     this.soundwaveEl = hud.querySelector('#avatar-soundwave');
 
-    // Bind persona switching
+    // Bind internal persona switching
     hud.querySelectorAll('.persona-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         hud.querySelectorAll('.persona-btn').forEach(b => b.classList.remove('active'));
@@ -345,21 +345,47 @@ export class VeniDigitalHuman {
       });
     });
 
-    // Audio toggle
-    this.audioToggleBtn.addEventListener('click', () => {
+    // Bind external hero persona buttons
+    document.querySelectorAll('.persona-tab-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.persona-tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        this.switchPersona(btn.dataset.persona);
+      });
+    });
+
+    // Audio toggle handler
+    const handleVoiceToggle = () => {
       this.audioEnabled = !this.audioEnabled;
+      const heroToggle = document.getElementById('hero-voice-toggle-btn');
       if (this.audioEnabled) {
         this.audioToggleBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i> <span>Voice: Active</span>';
         this.audioToggleBtn.classList.add('active');
+        if (heroToggle) {
+          heroToggle.innerHTML = '<i class="fa-solid fa-volume-high"></i> <span>Voice: Active</span>';
+          heroToggle.classList.add('active');
+        }
         this.speak(this.personas[this.activePersona].greeting);
       } else {
         this.audioToggleBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i> <span>Voice: Muted</span>';
         this.audioToggleBtn.classList.remove('active');
+        if (heroToggle) {
+          heroToggle.innerHTML = '<i class="fa-solid fa-volume-xmark"></i> <span>Listen to Host</span>';
+          heroToggle.classList.remove('active');
+        }
         if (window.speechSynthesis) window.speechSynthesis.cancel();
         this.isSpeaking = false;
         if (this.soundwaveEl) this.soundwaveEl.classList.remove('speaking');
+        const heroWave = document.getElementById('avatar-soundwave-bars');
+        if (heroWave) heroWave.classList.remove('speaking');
       }
-    });
+    };
+
+    this.audioToggleBtn.addEventListener('click', handleVoiceToggle);
+    const heroAudioBtn = document.getElementById('hero-voice-toggle-btn');
+    if (heroAudioBtn) {
+      heroAudioBtn.addEventListener('click', handleVoiceToggle);
+    }
   }
 
   setupSpeechSynthesis() {
@@ -371,8 +397,17 @@ export class VeniDigitalHuman {
       this.captionsEl.textContent = `"${text}"`;
       this.captionsEl.classList.add('speaking');
     }
+    const heroText = document.getElementById('avatar-speech-text');
+    if (heroText) {
+      heroText.textContent = `"${text}"`;
+    }
+
     if (this.soundwaveEl) {
       this.soundwaveEl.classList.add('speaking');
+    }
+    const heroWave = document.getElementById('avatar-soundwave-bars');
+    if (heroWave) {
+      heroWave.classList.add('speaking');
     }
 
     if (!this.audioEnabled || !this.synth) {
@@ -391,16 +426,19 @@ export class VeniDigitalHuman {
     utterance.onstart = () => {
       this.isSpeaking = true;
       if (this.soundwaveEl) this.soundwaveEl.classList.add('speaking');
+      if (heroWave) heroWave.classList.add('speaking');
     };
     utterance.onend = () => {
       this.isSpeaking = false;
       if (this.captionsEl) this.captionsEl.classList.remove('speaking');
       if (this.soundwaveEl) this.soundwaveEl.classList.remove('speaking');
+      if (heroWave) heroWave.classList.remove('speaking');
     };
     utterance.onerror = () => {
       this.isSpeaking = false;
       if (this.captionsEl) this.captionsEl.classList.remove('speaking');
       if (this.soundwaveEl) this.soundwaveEl.classList.remove('speaking');
+      if (heroWave) heroWave.classList.remove('speaking');
     };
 
     this.synth.speak(utterance);
@@ -410,6 +448,16 @@ export class VeniDigitalHuman {
     if (!this.personas[personaKey]) return;
     this.activePersona = personaKey;
     const persona = this.personas[personaKey];
+
+    // Sync persona button classes
+    document.querySelectorAll('.persona-tab-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.persona === personaKey);
+    });
+    if (this.container) {
+      this.container.querySelectorAll('.persona-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.persona === personaKey);
+      });
+    }
 
     // Update avatar uniform accent color
     this.materials.goldTrim.color.setHex(persona.accentColor);
