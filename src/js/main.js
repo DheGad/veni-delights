@@ -30,6 +30,9 @@ import { FAQUI } from './faq-ui.js';
 import { GoldParticleCanvas } from './particles.js';
 import { LuxuryMotionEffects } from './effects.js';
 import { DessertShowcase3D } from './showcase3d.js';
+import { BakeryWorld3D } from './bakery-world-3d.js';
+import { CinematicMediaPlayer } from './cinematic-media.js';
+import { LiquidParallaxSystem } from './liquid-parallax.js';
 
 class VeniDelightsApp {
   constructor() {
@@ -51,6 +54,13 @@ class VeniDelightsApp {
       console.warn('Luxury effects init error:', e);
     }
 
+    // 2b. Liquid Parallax System & Spatial Strawberry Petals
+    try {
+      this.liquidParallax = new LiquidParallaxSystem();
+    } catch (e) {
+      console.warn('Liquid parallax init error:', e);
+    }
+
     // 3. Navigation & Header
     this.initNavbar();
     this.initMobileMenu();
@@ -60,9 +70,27 @@ class VeniDelightsApp {
 
     // 5. 3D Interactive Dessert Showcase & 360 Turntable
     try {
-      this.showcase3D = new DessertShowcase3D('hero-3d-stage');
+      if (document.getElementById('hero-3d-stage')) {
+        this.showcase3D = new DessertShowcase3D('hero-3d-stage');
+      }
     } catch (e) {
       console.warn('3D Showcase init error:', e);
+    }
+
+    // 5b. 3D Bakery World & Patisserie Environment
+    try {
+      if (document.getElementById('bakery-world-stage')) {
+        this.bakeryWorld = new BakeryWorld3D('bakery-world-stage');
+      }
+    } catch (e) {
+      console.warn('Bakery world 3D init error:', e);
+    }
+
+    // 5c. Cinematic Media Player & Food Cinema
+    try {
+      this.cinema = new CinematicMediaPlayer('.cinematic-player-wrap');
+    } catch (e) {
+      console.warn('Cinema player init error:', e);
     }
 
     // 6. Commerce & Order Drawer

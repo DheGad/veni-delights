@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="favGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCEBBF" />
+      <stop offset="60%" stop-color="#D5AE61" />
+      <stop offset="100%" stop-color="#A77E2A" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="#140C0B" stroke="#D5AE61" stroke-width="2" />
+  <circle cx="32" cy="32" r="26" fill="none" stroke="#A92D42" stroke-width="1.5" />
+  <!-- Mini crown -->
+  <path d="M 24,19 L 26,25 L 38,25 L 40,19 L 35,22 L 32,16 L 29,22 Z" fill="url(#favGold)" />
+  <circle cx="32" cy="15" r="1.5" fill="#A92D42" />
+  <!-- VD -->
+  <text x="25" y="44" font-family="'Cormorant Garamond', Georgia, serif" font-size="21" font-weight="700" fill="url(#favGold)" text-anchor="middle">V</text>
+  <text x="39" y="44" font-family="'Cormorant Garamond', Georgia, serif" font-size="21" font-weight="700" fill="url(#favGold)" text-anchor="middle">D</text>
+  <circle cx="32" cy="51" r="1.5" fill="#D5AE61" />
+</svg>

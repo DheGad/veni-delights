@@ -208,3 +208,69 @@ test('Order validation checks for empty cart and minimums', () => {
   ]);
   assert.equal(minOrderFail.valid, false);
 });
+
+// ─── TEST SUITE 13: 20-PAGE ARCHITECTURE INTEGRITY ─────────────────────────
+import fs from 'node:fs';
+import path from 'node:path';
+
+const REQUIRED_PAGES = [
+  'index.html',
+  'about.html',
+  'products.html',
+  'butter-cakes.html',
+  'brownies.html',
+  'pandan-layer.html',
+  'pavlova.html',
+  'fruit-tarts.html',
+  'egg-tarts.html',
+  'cheese-tarts.html',
+  'traditional-indian.html',
+  'traditional-kuih.html',
+  'dessert-corner.html',
+  'customise.html',
+  'concierge.html',
+  'gallery.html',
+  'reviews.html',
+  'faq.html',
+  'contact.html',
+  'order.html'
+];
+
+test('Multi-page architecture: all 20 independent HTML pages must exist and have valid structure', () => {
+  REQUIRED_PAGES.forEach(page => {
+    const filePath = path.join(process.cwd(), page);
+    assert.ok(fs.existsSync(filePath), `Page ${page} must exist in project root`);
+
+    const content = fs.readFileSync(filePath, 'utf-8');
+    assert.ok(content.includes('<title>'), `${page} must include <title> tag`);
+    assert.ok(content.includes('<meta name="description"'), `${page} must include meta description`);
+    assert.ok(content.includes('/src/js/main.js'), `${page} must reference master JS bundle`);
+    assert.ok(content.includes('60123360470'), `${page} must contain verified WhatsApp contact number`);
+    assert.ok(content.includes('order-drawer'), `${page} must include shared order drawer`);
+    assert.ok(content.includes('navbar'), `${page} must include main navigation`);
+    assert.ok(content.includes('footer'), `${page} must include footer with business info`);
+  });
+});
+
+test('Brand asset treatments exist', () => {
+  const brandAssets = [
+    'public/images/logo/logo-strawberry.svg',
+    'public/images/logo/logo-cream.svg',
+    'public/images/logo/logo-dark.svg',
+    'public/images/logo/brandmark-mobile.svg',
+    'public/images/logo/favicon.svg',
+    'public/images/logo/social-profile.svg'
+  ];
+
+  brandAssets.forEach(asset => {
+    assert.ok(fs.existsSync(path.join(process.cwd(), asset)), `Brand asset ${asset} must exist`);
+  });
+});
+
+test('3D Environment & Cinema media modules exist', () => {
+  assert.ok(fs.existsSync(path.join(process.cwd(), 'src/js/bakery-world-3d.js')), 'BakeryWorld3D module exists');
+  assert.ok(fs.existsSync(path.join(process.cwd(), 'src/js/cinematic-media.js')), 'CinematicMediaPlayer module exists');
+  assert.ok(fs.existsSync(path.join(process.cwd(), 'src/js/liquid-parallax.js')), 'LiquidParallaxSystem module exists');
+  assert.ok(fs.existsSync(path.join(process.cwd(), 'src/data/media-manifest.js')), 'MEDIA_MANIFEST exists');
+});
+

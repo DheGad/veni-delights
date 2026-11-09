@@ -8,20 +8,32 @@
    1. DESIGN TOKENS
    ===================== */
 :root {
-  /* --- Brand Colours --- */
-  --color-black:         #0A0A08;
-  --color-black-soft:    #111110;
-  --color-black-card:    #161614;
-  --color-gold-antique:  #C9A84C;
-  --color-gold-champagne:#E8D5A3;
-  --color-gold-bright:   #F0C860;
-  --color-gold-dark:     #8B6914;
-  --color-ivory:         #FAF7F0;
-  --color-cream:         #F5EDD8;
-  --color-cream-warm:    #EEDFC0;
-  --color-brown-chocolate: #3D1F0D;
-  --color-brown-medium:    #7A4A1E;
-  --color-brown-light:     #C47A3A;
+  /* --- Strawberry Luxury Patisserie Brand Palette --- */
+  --color-strawberry:        #A92D42;
+  --color-strawberry-rich:   #8C1F32;
+  --color-strawberry-light:  #C23B52;
+  --color-strawberry-soft:   #E7B9B5;
+  --color-vanilla-cream:     #F8EDE5;
+  --color-cream-pure:        #FCF6F0;
+  --color-chocolate:         #452A27;
+  --color-chocolate-dark:    #241412;
+  --color-chocolate-deep:    #140C0B;
+  --color-gold-champagne:    #D5AE61;
+  --color-gold-bright:       #F2DFAB;
+  --color-gold-antique:      #C9A84C;
+  --color-gold-dark:         #8F6C1E;
+  --color-pure-white:        #FFFFFF;
+
+  /* Legacy aliases for seamless backwards-compatibility */
+  --color-black:             #0D0808;
+  --color-black-soft:        #140C0B;
+  --color-black-card:        #1C1211;
+  --color-ivory:             #FAF7F0;
+  --color-cream:             #F8EDE5;
+  --color-cream-warm:        #EEDFC0;
+  --color-brown-chocolate:   #452A27;
+  --color-brown-medium:      #6E3E39;
+  --color-brown-light:       #9E5A53;
 
   /* --- Neutrals --- */
   --color-white:         #FFFFFF;
@@ -36,26 +48,30 @@
   --color-grey-900:      #1A1612;
 
   /* --- Surface Colours --- */
-  --surface-dark:        var(--color-black);
+  --surface-dark:        var(--color-chocolate-deep);
   --surface-dark-card:   var(--color-black-card);
-  --surface-light:       var(--color-ivory);
+  --surface-light:       var(--color-vanilla-cream);
   --surface-cream:       var(--color-cream);
-  --surface-warm:        #FDF8F0;
+  --surface-warm:        #FFF8F4;
 
-  /* --- Semantic --- */
-  --color-primary:       var(--color-gold-antique);
-  --color-primary-hover: var(--color-gold-bright);
-  --color-primary-dark:  var(--color-gold-dark);
-  --color-text-dark:     var(--color-grey-900);
-  --color-text-body:     var(--color-grey-700);
-  --color-text-muted:    var(--color-grey-500);
-  --color-text-light:    var(--color-cream);
-  --color-text-on-dark:  var(--color-ivory);
-  --color-link:          var(--color-gold-antique);
-  --color-link-hover:    var(--color-gold-bright);
-  --color-border:        rgba(201,168,76, 0.2);
-  --color-border-light:  rgba(255,255,255, 0.1);
-  --color-border-dark:   rgba(0,0,0, 0.12);
+  /* --- Semantic: Strawberry Luxury --- */
+  --color-primary:           var(--color-strawberry);
+  --color-primary-hover:     var(--color-strawberry-light);
+  --color-primary-dark:      var(--color-strawberry-rich);
+  --color-secondary:         var(--color-vanilla-cream);
+  --color-accent-gold:       var(--color-gold-champagne);
+  --color-accent-soft:       var(--color-strawberry-soft);
+  --color-text-dark:         var(--color-chocolate);
+  --color-text-body:         var(--color-grey-700);
+  --color-text-muted:        var(--color-grey-500);
+  --color-text-light:        var(--color-vanilla-cream);
+  --color-text-on-dark:      var(--color-ivory);
+  --color-link:              var(--color-gold-champagne);
+  --color-link-hover:        var(--color-gold-bright);
+  --color-border:            rgba(213, 174, 97, 0.28);
+  --color-border-strawberry: rgba(169, 45, 66, 0.35);
+  --color-border-light:      rgba(255, 255, 255, 0.12);
+  --color-border-dark:       rgba(69, 42, 39, 0.18);
 
   /* --- Typography --- */
   --font-display:        'Cormorant Garamond', 'Georgia', serif;
