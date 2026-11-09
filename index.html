@@ -221,22 +221,19 @@
           <div class="avatar-card-header">
             <div class="avatar-status-pill">
               <span class="status-indicator-dot"></span>
-              <span class="status-indicator-text">LIVE 3D CONCIERGE</span>
+              <span class="status-indicator-text">LIVE PHOTOREAL CONCIERGE</span>
             </div>
             <div class="avatar-persona-tags" role="tablist" aria-label="Select avatar guide">
-              <button class="persona-tab-btn active" data-persona="host">Host 👩‍🍳</button>
-              <button class="persona-tab-btn" data-persona="baker">Baker 👨‍🍳</button>
-              <button class="persona-tab-btn" data-persona="specialist">Stylist 🧁</button>
+              <button class="persona-tab-btn active" data-persona="host">Chef Veni (Host)</button>
+              <button class="persona-tab-btn" data-persona="baker">Master Baker</button>
+              <button class="persona-tab-btn" data-persona="specialist">Dessert Stylist</button>
             </div>
           </div>
 
           <div class="avatar-card-body">
-            <!-- 3D Avatar WebGL Canvas Container -->
-            <div class="avatar-container" id="avatar-container" aria-label="Interactive 3D Host Avatar">
-              <div class="avatar-fallback" id="avatar-fallback">
-                <div class="avatar-fallback-emoji">👩‍🍳</div>
-                <div class="avatar-pulse-ring"></div>
-              </div>
+            <!-- Photorealistic Digital Human Avatar Container -->
+            <div class="avatar-container" id="avatar-container" aria-label="Photorealistic Digital Human Host">
+              <!-- Injected by avatar3d.js with photoreal portraits, audio-reactive canvas, and breathing motion -->
             </div>
 
             <!-- Avatar Speech & Voice Interaction -->
@@ -244,7 +241,7 @@
               <div class="avatar-speech-bubble" id="avatar-speech-bubble">
                 <div class="speech-quote-icon"><i class="fa-solid fa-quote-left"></i></div>
                 <p class="speech-text" id="avatar-speech-text">
-                  "Welcome to Veni Delights! I am your personal host. Let me guide you to our finest handcrafted desserts."
+                  "Welcome to Veni Delights! I am Chef Veni. Every single cake and molten tart is baked fresh to order in Klang using 100% pure butter and natural ingredients."
                 </p>
                 <div class="avatar-soundwave-bars" id="avatar-soundwave-bars" aria-hidden="true">
                   <span class="sw-bar"></span>
@@ -267,6 +264,30 @@
               </div>
             </div>
           </div>
+        </div>
+
+        <!-- Quick Taste Navigation Pills -->
+        <div class="hero-taste-pills" data-reveal="fade">
+          <a href="#artisan-showcase" class="taste-pill active">
+            <span class="taste-pill-icon">🧀</span>
+            <span class="taste-pill-name">Molten Cheese Tarts</span>
+            <span class="taste-pill-tag">Hot & Oozing</span>
+          </a>
+          <a href="#products" class="taste-pill" onclick="document.querySelector('.cake-dock-btn[data-cake=butter]')?.click()">
+            <span class="taste-pill-icon">🧈</span>
+            <span class="taste-pill-name">Pure Butter Series</span>
+            <span class="taste-pill-tag">RM79</span>
+          </a>
+          <a href="#products" class="taste-pill" onclick="document.querySelector('.cake-dock-btn[data-cake=pandan]')?.click()">
+            <span class="taste-pill-icon">🌿</span>
+            <span class="taste-pill-name">Pandan Layer</span>
+            <span class="taste-pill-tag">RM69</span>
+          </a>
+          <a href="#products" class="taste-pill" onclick="document.querySelector('.cake-dock-btn[data-cake=pavlova]')?.click()">
+            <span class="taste-pill-icon">🍓</span>
+            <span class="taste-pill-name">Pavlova Pudding</span>
+            <span class="taste-pill-tag">RM88</span>
+          </a>
         </div>
 
         <!-- Primary Actions -->
@@ -309,14 +330,103 @@
 
       </div>
 
-      <!-- RIGHT COLUMN: 3D Multi-Cake Interactive Stage (All Cakes in 3D in First Look!) -->
+      <!-- RIGHT COLUMN: Interactive Dual-Experience Stage (Live Molten Cheese Lab + 3D Cake Turntable) -->
       <div class="hero-right-column">
+        <!-- Stage Mode Tabs -->
+        <div class="hero-stage-mode-nav" role="tablist">
+          <button class="hero-stage-toggle-btn active" data-mode="cheese-lab" aria-label="View Live Artisan Kitchen & Molten Cheese Tart Lab">
+            <span class="live-dot-pulse"></span>
+            <i class="fa-solid fa-fire-burner"></i>
+            <span>Live Bakery: Molten Cheese Tart Lab</span>
+          </button>
+          <button class="hero-stage-toggle-btn" data-mode="cake-3d" aria-label="View 3D Cake Turntable">
+            <i class="fa-solid fa-cube"></i>
+            <span>3D Cake Turntable</span>
+          </button>
+        </div>
+
         <div class="hero-3d-stage-wrapper" data-reveal="fade">
           
           <!-- Radial Ambient Backlight -->
           <div class="stage-radial-glow" aria-hidden="true"></div>
 
-          <!-- Real-Time WebGL 3D Cake Canvas Container -->
+          <!-- 1. LIVE ARTISAN BAKERY & MOLTEN CHEESE TARTS LAB -->
+          <div id="hero-cheese-lab-stage" class="hero-cheese-lab-stage active" aria-label="Live Artisan Kitchen showing freshly baked Molten Cheese Tarts">
+            <div class="bakery-live-viewport">
+              <img src="/images/artisan/cheese-tarts-oven-live.jpg" alt="Artisan Chefs Baking Molten Cheese Tarts in 230°C Stone Deck Oven" class="bakery-live-bg" />
+              <div class="bakery-oven-glow" aria-hidden="true"></div>
+              
+              <!-- Real-Time Rising Steam Particle Canvas -->
+              <canvas class="bakery-steam-canvas" aria-hidden="true"></canvas>
+
+              <!-- Interactive Hotspots on Live Bakery Scene -->
+              <div class="bakery-hotspot spot-oven" data-title="230°C Stone Deck Oven" data-stat="230°C BAKING" data-desc="Stone-baked deck oven provides rapid, even bottom heat to crisp the fluted shortcrust while keeping the cheese lava luscious.">
+                <span class="hotspot-pin"><i class="fa-solid fa-fire"></i></span>
+                <span class="hotspot-label">Stone Oven (230°C)</span>
+              </div>
+
+              <div class="bakery-hotspot spot-lava" data-title="Molten Cheese Lava Flow" data-stat="68°C CORE" data-desc="Custom triple-cheese blend of cream cheese, mascarpone, and vintage cheddar whipped to bubbling molten lava consistency.">
+                <span class="hotspot-pin"><i class="fa-solid fa-cheese"></i></span>
+                <span class="hotspot-label">Molten Lava Core</span>
+              </div>
+
+              <div class="bakery-hotspot spot-butter" data-title="100% Pure Butter Crust" data-stat="PURE BUTTER" data-desc="Golden Churn European butter hand-rubbed into tender, flaky shortcrust pastry shells with zero artificial shortening.">
+                <span class="hotspot-pin"><i class="fa-solid fa-cookie"></i></span>
+                <span class="hotspot-label">Pure Butter Crust</span>
+              </div>
+
+              <div class="bakery-hotspot spot-chef" data-title="Chef Veni Quality Check" data-stat="HANDCRAFTED" data-desc="Every molten cheese tart is hand-brushed with organic egg wash and baked in small batches for golden blistered perfection.">
+                <span class="hotspot-pin"><i class="fa-solid fa-user-check"></i></span>
+                <span class="hotspot-label">Master Baker</span>
+              </div>
+
+              <!-- Hotspot Active Detail Popup Card -->
+              <div class="hotspot-active-info" id="hotspot-active-info"></div>
+
+              <!-- Live Oven Audio Button -->
+              <button class="bakery-sound-toggle hero-oven-audio-btn" aria-label="Toggle oven and kitchen ambiance sound">
+                <i class="fa-solid fa-volume-xmark"></i>
+                <span>Listen to Bakery</span>
+              </button>
+            </div>
+
+            <!-- Interactive Tart Cut Simulator Dock -->
+            <div class="molten-cut-simulator-dock">
+              <div class="simulator-header">
+                <div class="sim-badge">
+                  <span class="flame-icon">🔥</span>
+                  <strong>MOLTEN TART CUT SIMULATOR</strong>
+                </div>
+                <div class="sim-temp" id="molten-temp-value">68°C Molten Core</div>
+              </div>
+              
+              <div class="simulator-slider-wrap">
+                <label for="molten-cut-slider" class="sim-slider-label">Drag Slider to Cut Hot Tart & Watch Lava Ooze:</label>
+                <div class="sim-slider-track">
+                  <input type="range" id="molten-cut-slider" min="0" max="100" value="70" class="sim-range-input" aria-label="Slide to cut open hot molten cheese tart" />
+                </div>
+                <div class="sim-status-row">
+                  <span class="sim-status-text" id="molten-cut-status">Warm cheese lava oozing through golden butter shortcrust!</span>
+                  <span class="sim-fresh-tag">FRESH OUT OF OVEN</span>
+                </div>
+              </div>
+
+              <div class="simulator-actions">
+                <a href="https://wa.me/60123360470?text=Hello%20Veni%20Delights!%20I%20would%20like%20to%20order%20the%20Signature%20Molten%20Cheese%20Tarts%20(Box%20of%2010%20pcs%20-%20RM25)." 
+                   class="btn btn-primary btn-sm btn-order-molten-direct" 
+                   target="_blank" rel="noopener noreferrer">
+                  <i class="fa-brands fa-whatsapp"></i>
+                  <span>Order Hot Tarts (10 pcs - RM25)</span>
+                </a>
+                <a href="#artisan-showcase" class="btn btn-ghost btn-sm">
+                  <i class="fa-solid fa-kitchen-set"></i>
+                  <span>Explore Full Bakery</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. REAL-TIME THREE.JS 3D CAKE CANVAS CONTAINER -->
           <div id="hero-3d-stage" class="hero-3d-stage" aria-label="3D Interactive Cake Stage with All Signature Cakes">
             <!-- Three.js 3D Canvas injected here -->
           </div>
@@ -333,8 +443,8 @@
           <div class="stage-floating-tag stage-tag-bottom-left">
             <span class="tag-icon">✨</span>
             <div class="tag-content">
-              <strong>Interactive 3D Stage</strong>
-              <small>360° Drag & Texture View</small>
+              <strong>Interactive Kitchen Stage</strong>
+              <small>Play & Explore Live</small>
             </div>
           </div>
 
@@ -497,16 +607,166 @@
 </section>
 
 <!-- =============================================
-     SECTION 2.5 — ARTISAN CRAFTSMANSHIP & SIGNATURE CREATIONS
+     SECTION 2.5 — ARTISAN MOLTEN CHEESE TARTS & LIVE BAKERY SIMULATION
      ============================================= -->
 <section class="artisan-3d-section section-pad bg-black" id="artisan-showcase" aria-labelledby="showcase-heading">
   <div class="container">
     <div class="section-header text-center" data-reveal>
-      <span class="section-eyebrow">Handcrafted Mastery</span>
-      <h2 id="showcase-heading" class="section-title text-cream">The Anatomy of Pure Taste</h2>
-      <p class="section-subtitle" style="color: var(--color-grey-400); max-width: 640px; margin: 0 auto;">
-        Every layer is crafted from scratch with premium natural ingredients. Explore our 5 signature artisan creations.
+      <div class="live-bakery-badge-pill">
+        <span class="live-dot-pulse"></span>
+        <span>LIVE ARTISAN KITCHEN & DECK OVEN THEATER</span>
+      </div>
+      <h2 id="showcase-heading" class="section-title text-cream">Inside Our Master Patisserie: Molten Cheese Tarts & Pure Craft</h2>
+      <p class="section-subtitle" style="color: var(--color-grey-400); max-width: 720px; margin: 0 auto;">
+        Step inside our Klang kitchen. Watch our chefs bake artisan molten cheese tarts at 230°C in stone deck ovens, test the molten cheese cut simulator, and explore our 5 handcrafted signature creations.
       </p>
+    </div>
+
+    <!-- MASTER INTERACTIVE BAKERY & TART LAB STAGE -->
+    <div class="artisan-live-bakery-experience" data-reveal>
+      <div class="artisan-experience-grid">
+        
+        <!-- Left: Live Bakery Viewport with Steam & Hotspots -->
+        <div class="artisan-viewport-container" id="artisan-bakery-viewport">
+          <div class="artisan-viewport-frame">
+            <img src="/images/artisan/cheese-tarts-oven-live.jpg" 
+                 alt="Master Bakers pulling hot molten cheese tarts from stone deck oven at Veni Delights" 
+                 class="artisan-kitchen-img" 
+                 loading="lazy" />
+            
+            <div class="artisan-oven-heat-overlay" aria-hidden="true"></div>
+
+            <!-- Rising Steam Particle Canvas -->
+            <canvas class="bakery-steam-canvas" aria-hidden="true"></canvas>
+
+            <!-- Interactive Hotspot Pins -->
+            <div class="bakery-hotspot spot-oven" 
+                 data-title="230°C Stone Deck Oven" 
+                 data-stat="230°C STONE HEARTH" 
+                 data-desc="Stone deck ovens deliver explosive initial bottom heat, creating a crisp, deeply caramelized fluted shortcrust in just 14 minutes.">
+              <span class="hotspot-pin"><i class="fa-solid fa-fire"></i></span>
+              <span class="hotspot-label">Stone Deck Oven (230°C)</span>
+            </div>
+
+            <div class="bakery-hotspot spot-lava" 
+                 data-title="Triple Molten Cheese Lava" 
+                 data-stat="68°C MOLTEN LAVA" 
+                 data-desc="Our proprietary ratio of Australian cream cheese, Italian mascarpone, and vintage cheddar melts into warm, flowing cheese lava upon breaking.">
+              <span class="hotspot-pin"><i class="fa-solid fa-cheese"></i></span>
+              <span class="hotspot-label">Molten Cheese Core</span>
+            </div>
+
+            <div class="bakery-hotspot spot-butter" 
+                 data-title="European Pure Butter Dough" 
+                 data-stat="100% PURE BUTTER" 
+                 data-desc="Golden Churn butter rubbed by hand with unbleached flour. Zero margarine, zero hydrogenated oils, zero artificial additives.">
+              <span class="hotspot-pin"><i class="fa-solid fa-cookie"></i></span>
+              <span class="hotspot-label">Golden Butter Crust</span>
+            </div>
+
+            <div class="bakery-hotspot spot-chef" 
+                 data-title="Chef Veni Finishing Table" 
+                 data-stat="HANDCRAFTED DAILY" 
+                 data-desc="Every single tart is inspected, glazed with organic egg wash, and packaged warm for immediate Klang Valley dispatch.">
+              <span class="hotspot-pin"><i class="fa-solid fa-user-check"></i></span>
+              <span class="hotspot-label">Master Chef Station</span>
+            </div>
+
+            <!-- Hotspot Details Floating Card -->
+            <div class="hotspot-active-info" id="hotspot-active-info"></div>
+
+            <!-- Live Kitchen Audio Ambient Toggle -->
+            <div class="artisan-viewport-footer-bar">
+              <button class="btn btn-ghost btn-sm bakery-sound-toggle" aria-label="Toggle oven crackle sound">
+                <i class="fa-solid fa-volume-xmark"></i>
+                <span>Listen to Bakery</span>
+              </button>
+              <div class="artisan-live-stream-tag">
+                <span class="live-dot-pulse"></span>
+                <span>BAKERY SIMULATION • KLANG KITCHEN</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right: Interactive Molten Tart Cut Simulator & Flavor Lab -->
+        <div class="artisan-tart-lab-card">
+          <div class="tart-lab-header">
+            <span class="lab-pill-tag">INTERACTIVE LAB</span>
+            <h3 class="tart-lab-title">Artisan Molten Cheese Tart</h3>
+            <p class="tart-lab-subtitle">Test the cheese-flow consistency and select your fresh flavor.</p>
+          </div>
+
+          <!-- Flavour Selector Tabs -->
+          <div class="flavour-tabs-row" role="tablist">
+            <button class="flavour-tab-btn active" data-flavour="original">Original Gold</button>
+            <button class="flavour-tab-btn" data-flavour="blueberry">Wild Blueberry</button>
+            <button class="flavour-tab-btn" data-flavour="chocolate">Dark Chocolate</button>
+          </div>
+
+          <!-- Active Flavour Specifications -->
+          <div class="flavour-specs-box">
+            <div class="spec-header-row">
+              <h4 class="spec-title" id="flavour-display-title">Original Golden Molten Cheese Tart</h4>
+              <span class="spec-price" id="flavour-display-price">RM2.50 / pc (Min 10 pcs)</span>
+            </div>
+            <p class="spec-desc" id="flavour-display-desc">
+              Crisp, crumbly butter shell holding warm, sweet-savory molten lava cheese that flows on the very first bite.
+            </p>
+            <div class="spec-meta-grid">
+              <div class="spec-meta-item">
+                <span class="meta-label">Molten Core</span>
+                <span class="meta-val" id="flavour-display-cheese">Triple Blend (Cream Cheese, Mascarpone, Hokkaido Mild)</span>
+              </div>
+              <div class="spec-meta-item">
+                <span class="meta-label">Pastry Crust</span>
+                <span class="meta-val" id="flavour-display-crust">Fluted Pure Butter Shortcrust</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tart Cut Slider & Physics Simulator -->
+          <div class="tart-simulator-panel">
+            <div class="sim-panel-header">
+              <span class="sim-panel-title"><i class="fa-solid fa-utensils"></i> Molten Lava Cut Simulator</span>
+              <span class="sim-panel-temp" id="molten-temp-value">68°C Molten Core</span>
+            </div>
+            
+            <div class="sim-slider-container">
+              <label for="molten-cut-slider" class="sim-label">Drag Slider to Cut Tart & Release Lava:</label>
+              <input type="range" id="molten-cut-slider" min="0" max="100" value="70" class="sim-range-input" />
+              <div class="sim-status-indicator">
+                <span id="molten-cut-status">Warm cheese lava oozing through golden butter shortcrust!</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick WhatsApp Order Buttons -->
+          <div class="tart-order-cta-row">
+            <a href="https://wa.me/60123360470?text=Hello%20Veni%20Delights!%20I%20would%20like%20to%20order%20the%20Signature%20Molten%20Cheese%20Tarts%20(Box%20of%2010%20pcs%20-%20RM25)." 
+               class="btn btn-primary btn-md btn-order-molten-box" 
+               id="artisan-order-flavour-btn" 
+               target="_blank" rel="noopener noreferrer">
+              <i class="fa-brands fa-whatsapp"></i>
+              <span>Order 10 pcs Box (RM25)</span>
+            </a>
+            <a href="https://wa.me/60123360470?text=Hello%20Veni%20Delights!%20I%20would%20like%20to%20order%20the%20Party%20Box%20of%20Molten%20Cheese%20Tarts%20(20%20pcs%20-%20RM50)." 
+               class="btn btn-ghost btn-md" 
+               target="_blank" rel="noopener noreferrer">
+              <span>Party Box (20 pcs - RM50)</span>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 5 Signature Masterpiece Cards Heading -->
+    <div class="section-subheader text-center" style="margin-top: var(--space-16); margin-bottom: var(--space-8);" data-reveal>
+      <span class="section-eyebrow">The Complete Collection</span>
+      <h3 class="section-title text-cream" style="font-size: 1.85rem;">The Anatomy of Pure Taste: 5 Signature Creations</h3>
     </div>
 
     <!-- 5 Signature Masterpiece Cards -->
@@ -2328,11 +2588,11 @@
       <div class="concierge-avatar-col" data-reveal="left">
         <div class="concierge-avatar-wrap" aria-hidden="true">
           <div class="concierge-avatar-badge-wrap">
-            <div class="concierge-avatar-emoji">👩‍🍳</div>
+            <img src="/images/avatars/host-photoreal.jpg" alt="Chef Veni — Lead Concierge" class="concierge-avatar-photoreal" />
             <div class="avatar-pulse-ring"></div>
             <div class="concierge-avatar-glow"></div>
           </div>
-          <div class="concierge-avatar-label">Veni Concierge Host</div>
+          <div class="concierge-avatar-label">Chef Veni • Lead Concierge</div>
           <p class="concierge-avatar-sub">Your personal celebration & cake advisor</p>
         </div>
       </div>
@@ -2350,7 +2610,7 @@
           
           <div class="concierge-messages" id="concierge-messages" aria-live="polite" aria-label="Conversation">
             <div class="concierge-bubble">
-              <div class="concierge-bubble-avatar" aria-hidden="true">👩‍🍳</div>
+              <div class="concierge-bubble-avatar" aria-hidden="true"><img src="/images/avatars/host-photoreal.jpg" class="concierge-bubble-avatar-img" alt="Chef Veni" /></div>
               <div class="concierge-bubble-text">
                 Hello! Welcome to Veni Delights! 👋 Are you looking for something special for a celebration, or a delicious homemade treat?
               </div>

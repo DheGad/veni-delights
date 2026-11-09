@@ -3195,6 +3195,10 @@ body.modal-open {
   animation-delay: -2s;
 }
 
+.hero-cheese-lab-stage.active ~ .stage-floating-tag {
+  display: none !important;
+}
+
 .stage-floating-tag .tag-icon {
   font-size: 1.15rem;
 }
@@ -4106,5 +4110,842 @@ body.modal-open {
     display: none;
   }
 }
+
+/* ===================================================
+   PHOTOREALISTIC HEYGEN-GRADE DIGITAL HUMAN ENGINE
+   =================================================== */
+.hero-avatar-card .avatar-container {
+  width: 140px;
+  height: 165px;
+  min-width: 140px;
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #0d0c0a;
+  border: 1px solid rgba(201, 168, 76, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(201, 168, 76, 0.15);
+}
+
+.photoreal-digital-human {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.human-viewport {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.human-portrait-stack {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-origin: center bottom;
+  will-change: transform;
+}
+
+.human-portrait-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.human-portrait-img.active {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 1;
+}
+
+.human-lighting-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 25%, rgba(201, 168, 76, 0.12) 0%, rgba(12, 10, 8, 0.4) 75%, rgba(10, 9, 8, 0.85) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.human-equalizer-canvas {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 38px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.human-live-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(12, 11, 9, 0.85);
+  border: 1px solid rgba(201, 168, 76, 0.45);
+  border-radius: var(--radius-full);
+  padding: 3px 8px;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--color-gold-champagne);
+  backdrop-filter: blur(8px);
+}
+
+.live-dot {
+  width: 5px;
+  height: 5px;
+  background-color: #25d366;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #25d366;
+  animation: pulse-glow 2s infinite ease-in-out;
+}
+
+/* Concierge Photoreal Avatars in Chat & Guide */
+.concierge-avatar-photoreal {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  border: 2px solid var(--color-gold-antique);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(201, 168, 76, 0.3);
+  position: relative;
+  z-index: 2;
+}
+
+.concierge-bubble-avatar-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--color-gold-antique);
+  display: block;
+}
+
+/* ===================================================
+   HERO LEFT COLUMN TASTE PILLS & LIQUID SHIMMER
+   =================================================== */
+.hero-taste-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0.6rem 0 0.85rem 0;
+}
+
+.taste-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(22, 19, 16, 0.85);
+  border: 1px solid rgba(201, 168, 76, 0.28);
+  border-radius: var(--radius-full);
+  padding: 5px 12px;
+  font-size: 0.73rem;
+  color: #EDE3D8;
+  text-decoration: none;
+  transition: all 0.25s var(--ease-luxury);
+  backdrop-filter: blur(10px);
+}
+
+.taste-pill:hover,
+.taste-pill.active {
+  background: rgba(201, 168, 76, 0.16);
+  border-color: var(--color-gold-champagne);
+  color: var(--color-gold-champagne);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(201, 168, 76, 0.25);
+}
+
+.taste-pill-tag {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background: rgba(201, 168, 76, 0.12);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.hero-title-accent {
+  background: linear-gradient(135deg, #FFF3D6 0%, #D4AF37 45%, #FFE8A3 65%, #997A2E 100%);
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: liquid-gold-shimmer 7s linear infinite;
+}
+
+@keyframes liquid-gold-shimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ===================================================
+   HERO RIGHT COLUMN: STAGE SWITCHER & LIVE CHEESE LAB
+   =================================================== */
+.hero-stage-mode-nav {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 0.65rem;
+  background: rgba(14, 12, 10, 0.85);
+  padding: 4px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  backdrop-filter: blur(14px);
+  width: fit-content;
+}
+
+.hero-stage-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: transparent;
+  border: none;
+  color: var(--color-grey-400);
+  font-size: 0.74rem;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.hero-stage-toggle-btn:hover {
+  color: var(--color-gold-champagne);
+}
+
+.hero-stage-toggle-btn.active {
+  background: var(--color-primary);
+  color: #0c0a08;
+  font-weight: 600;
+  box-shadow: 0 2px 10px rgba(201, 168, 76, 0.4);
+}
+
+.live-dot-pulse {
+  width: 7px;
+  height: 7px;
+  background: #ff4757;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #ff4757;
+  animation: pulse-glow 1.5s infinite ease-in-out;
+}
+
+/* Hero Cheese Lab Stage */
+.hero-cheese-lab-stage {
+  display: none;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #0c0a08;
+}
+
+.hero-cheese-lab-stage.active {
+  display: flex;
+}
+
+#hero-3d-stage {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+#hero-3d-stage.active {
+  display: block;
+}
+
+.bakery-live-viewport {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  min-height: 310px;
+  overflow: hidden;
+  border-radius: 18px 18px 0 0;
+}
+
+.bakery-live-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 60%;
+  transform: scale(1.02);
+  transition: transform 6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bakery-live-viewport:hover .bakery-live-bg {
+  transform: scale(1.06);
+}
+
+.bakery-oven-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 75% 75%, rgba(255, 120, 40, 0.28) 0%, rgba(201, 168, 76, 0.12) 45%, transparent 75%);
+  pointer-events: none;
+  mix-blend-mode: screen;
+  animation: oven-flicker 3s infinite alternate ease-in-out;
+}
+
+@keyframes oven-flicker {
+  0% { opacity: 0.65; }
+  50% { opacity: 0.95; }
+  100% { opacity: 0.75; }
+}
+
+.bakery-steam-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Interactive Hotspots */
+.bakery-hotspot {
+  position: absolute;
+  z-index: 5;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transform: translate(-50%, -50%);
+}
+
+.spot-oven { top: 38%; left: 68%; }
+.spot-lava { top: 72%; left: 45%; }
+.spot-butter { top: 62%; left: 24%; }
+.spot-chef { top: 32%; left: 34%; }
+
+.hotspot-pin {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(14, 12, 10, 0.9);
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  box-shadow: 0 0 15px rgba(201, 168, 76, 0.6);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.hotspot-pin::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 168, 76, 0.4);
+  animation: pulse-gold 2s infinite ease-out;
+}
+
+.hotspot-label {
+  background: rgba(12, 10, 8, 0.88);
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  color: #F8EDE5;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transition: all 0.25s ease;
+}
+
+.bakery-hotspot:hover .hotspot-pin,
+.bakery-hotspot.active .hotspot-pin {
+  background: var(--color-primary);
+  color: #0c0a08;
+  transform: scale(1.15);
+  box-shadow: 0 0 25px rgba(201, 168, 76, 0.9);
+}
+
+.bakery-hotspot:hover .hotspot-label,
+.bakery-hotspot.active .hotspot-label {
+  border-color: var(--color-gold-champagne);
+  color: var(--color-gold-champagne);
+}
+
+/* Hotspot Info Popup Card */
+.hotspot-active-info {
+  display: none;
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  z-index: 10;
+  background: rgba(14, 12, 10, 0.94);
+  border: 1px solid var(--color-primary);
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(201, 168, 76, 0.2);
+  animation: fade-in-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hotspot-active-info.visible {
+  display: block;
+}
+
+.info-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+}
+
+.info-stat-pill {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #ff9f43;
+  background: rgba(255, 159, 67, 0.12);
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.info-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-grey-400);
+  font-size: 1.1rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.info-title {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  color: var(--color-gold-champagne);
+  margin: 0 0 0.25rem 0;
+}
+
+.info-desc {
+  font-size: 0.74rem;
+  color: #dcd3cc;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.hero-oven-audio-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 6;
+  background: rgba(14, 12, 10, 0.85);
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  border-radius: var(--radius-full);
+  color: var(--color-gold-champagne);
+  padding: 4px 10px;
+  font-size: 0.68rem;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.25s ease;
+}
+
+.hero-oven-audio-btn.active {
+  background: var(--color-primary);
+  color: #0c0a08;
+}
+
+/* Molten Tart Cut Simulator Dock */
+.molten-cut-simulator-dock {
+  background: rgba(16, 14, 12, 0.96);
+  border-top: 1px solid rgba(201, 168, 76, 0.25);
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.simulator-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sim-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  color: var(--color-gold-champagne);
+  letter-spacing: 0.05em;
+}
+
+.sim-temp {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #ff9f43;
+  background: rgba(255, 159, 67, 0.12);
+  border: 1px solid rgba(255, 159, 67, 0.3);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.simulator-slider-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sim-slider-label {
+  font-size: 0.68rem;
+  color: var(--color-grey-400);
+}
+
+.sim-range-input {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(to right, #C9A84C, #ff9f43);
+  outline: none;
+  cursor: pointer;
+}
+
+.sim-range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #FFF5DB;
+  border: 2px solid #C9A84C;
+  box-shadow: 0 0 10px rgba(201, 168, 76, 0.8);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.sim-range-input::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.sim-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.68rem;
+}
+
+.sim-status-text {
+  color: #EDE3D8;
+  font-style: italic;
+}
+
+.sim-fresh-tag {
+  color: #25d366;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.simulator-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.btn-order-molten-direct {
+  flex: 1;
+  font-size: 0.75rem;
+  padding: 7px 12px;
+}
+
+/* ===================================================
+   SECTION 2.5: MASTER ARTISAN LIVE BAKERY EXPERIENCE
+   =================================================== */
+.live-bakery-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(201, 168, 76, 0.12);
+  border: 1px solid rgba(201, 168, 76, 0.4);
+  border-radius: var(--radius-full);
+  padding: 4px 14px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--color-gold-champagne);
+  margin-bottom: 0.75rem;
+}
+
+.artisan-live-bakery-experience {
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-12);
+}
+
+.artisan-experience-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+.artisan-viewport-container {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(201, 168, 76, 0.1);
+  background: #0c0a08;
+  min-height: 480px;
+}
+
+.artisan-viewport-frame {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.artisan-kitchen-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 55%;
+  transition: transform 0.6s ease;
+}
+
+.artisan-oven-heat-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 75% 70%, rgba(255, 120, 30, 0.25) 0%, rgba(201, 168, 76, 0.08) 50%, transparent 75%);
+  pointer-events: none;
+  animation: oven-flicker 3s infinite alternate ease-in-out;
+}
+
+.artisan-viewport-footer-bar {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  right: 14px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.artisan-live-stream-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(14, 12, 10, 0.85);
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  border-radius: var(--radius-full);
+  padding: 4px 12px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--color-gold-champagne);
+  backdrop-filter: blur(8px);
+}
+
+/* Tart Lab Card */
+.artisan-tart-lab-card {
+  background: rgba(18, 16, 14, 0.94);
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  border-radius: 20px;
+  padding: 1.5rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+}
+
+.lab-pill-tag {
+  display: inline-block;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #ff9f43;
+  background: rgba(255, 159, 67, 0.12);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-bottom: 0.35rem;
+}
+
+.tart-lab-title {
+  font-family: var(--font-heading);
+  font-size: 1.45rem;
+  color: var(--color-gold-champagne);
+  margin: 0 0 0.25rem 0;
+}
+
+.tart-lab-subtitle {
+  font-size: 0.82rem;
+  color: var(--color-grey-400);
+  margin: 0;
+}
+
+/* Flavour Selector Tabs */
+.flavour-tabs-row {
+  display: flex;
+  gap: 8px;
+  background: rgba(10, 9, 8, 0.8);
+  border: 1px solid rgba(201, 168, 76, 0.25);
+  border-radius: var(--radius-full);
+  padding: 4px;
+}
+
+.flavour-tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--color-grey-400);
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: center;
+}
+
+.flavour-tab-btn.active {
+  background: var(--color-primary);
+  color: #0c0a08;
+  font-weight: 600;
+  box-shadow: 0 2px 10px rgba(201, 168, 76, 0.4);
+}
+
+.flavour-specs-box {
+  background: rgba(12, 10, 8, 0.75);
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  border-radius: 14px;
+  padding: 1rem 1.15rem;
+}
+
+.spec-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.45rem;
+}
+
+.spec-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-ivory);
+  margin: 0;
+}
+
+.spec-price {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-gold-champagne);
+}
+
+.spec-desc {
+  font-size: 0.78rem;
+  color: #C8BFB6;
+  line-height: 1.45;
+  margin: 0 0 0.75rem 0;
+}
+
+.spec-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid rgba(201, 168, 76, 0.12);
+}
+
+.meta-label {
+  display: block;
+  font-size: 0.65rem;
+  color: var(--color-grey-400);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.meta-val {
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: var(--color-gold-champagne);
+}
+
+/* Tart Simulator Panel in Section 2.5 */
+.tart-simulator-panel {
+  background: rgba(14, 12, 10, 0.85);
+  border: 1px solid rgba(201, 168, 76, 0.25);
+  border-radius: 14px;
+  padding: 0.95rem 1.15rem;
+}
+
+.sim-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.65rem;
+}
+
+.sim-panel-title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-gold-champagne);
+}
+
+.sim-panel-temp {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #ff9f43;
+}
+
+.sim-slider-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sim-label {
+  font-size: 0.72rem;
+  color: var(--color-grey-400);
+}
+
+.sim-status-indicator {
+  font-size: 0.74rem;
+  color: #EDE3D8;
+  font-style: italic;
+  margin-top: 2px;
+}
+
+.tart-order-cta-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.btn-order-molten-box {
+  flex: 1;
+}
+
+@media (max-width: 992px) {
+  .artisan-experience-grid {
+    grid-template-columns: 1fr;
+  }
+  .artisan-viewport-container {
+    min-height: 380px;
+  }
+}
+
 
 

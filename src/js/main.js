@@ -33,6 +33,7 @@ import { DessertShowcase3D } from './showcase3d.js';
 import { BakeryWorld3D } from './bakery-world-3d.js';
 import { CinematicMediaPlayer } from './cinematic-media.js';
 import { LiquidParallaxSystem } from './liquid-parallax.js';
+import { ArtisanBakeryExperience } from './artisan-bakery.js';
 
 class VeniDelightsApp {
   constructor() {
@@ -91,6 +92,13 @@ class VeniDelightsApp {
       this.cinema = new CinematicMediaPlayer('.cinematic-player-wrap');
     } catch (e) {
       console.warn('Cinema player init error:', e);
+    }
+
+    // 5d. Artisan Molten Cheese Tarts & Live Bakery Simulation
+    try {
+      this.artisanBakery = new ArtisanBakeryExperience();
+    } catch (e) {
+      console.warn('Artisan bakery simulation init error:', e);
     }
 
     // 6. Commerce & Order Drawer

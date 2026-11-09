@@ -300,7 +300,7 @@ export class VeniConcierge {
     const wrap = document.createElement('div');
     wrap.className = 'concierge-bubble';
     wrap.innerHTML = `
-      <div class="concierge-bubble-avatar" aria-hidden="true">👩‍🍳</div>
+      <div class="concierge-bubble-avatar" aria-hidden="true"><img src="/images/avatars/host-photoreal.jpg" class="concierge-bubble-avatar-img" alt="Chef Veni" /></div>
       <div class="concierge-bubble-text">${text}</div>
     `;
     this.messagesEl.appendChild(wrap);
@@ -452,7 +452,7 @@ export class VeniConcierge {
     const recDiv = document.createElement('div');
     recDiv.className = 'concierge-bubble';
     recDiv.innerHTML = `
-      <div class="concierge-bubble-avatar" aria-hidden="true">👩‍🍳</div>
+      <div class="concierge-bubble-avatar" aria-hidden="true"><img src="/images/avatars/host-photoreal.jpg" class="concierge-bubble-avatar-img" alt="Chef Veni" /></div>
       <div class="concierge-bubble-text">
         <strong>My top picks for you:</strong>
         <ul style="margin-top:8px; padding-left:16px; font-size:0.85em;">
