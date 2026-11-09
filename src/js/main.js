@@ -1,9 +1,23 @@
 /**
  * VENI DELIGHTS — MASTER JAVASCRIPT ENTRY POINT
- * Coordinates all UI components, GSAP motion design,
- * 3D digital human avatars, concierge, commerce, and event handlers.
+ * Bundled via Vite with GSAP, Swiper, and Three.js.
  */
 
+// Import Swiper and styles directly from npm (no external CDN dependency)
+import Swiper from 'swiper';
+import { Autoplay, EffectFade, Pagination, Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+
+// Import GSAP and ScrollTrigger
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
+// Core Modules
 import { VeniDigitalHuman } from './avatar3d.js';
 import { VeniConcierge } from './concierge.js';
 import { OrderDrawer } from './order-drawer.js';
@@ -107,23 +121,25 @@ class VeniDelightsApp {
   }
 
   initHeroSwiper() {
-    if (typeof Swiper === 'undefined') return;
-
-    this.heroSwiper = new Swiper('.hero-swiper', {
-      effect: 'fade',
-      fadeEffect: { crossFade: true },
-      speed: 1200,
-      loop: true,
-      autoplay: {
-        delay: 5000,
-        disableOnInteraction: false
-      },
-      allowTouchMove: false
-    });
+    try {
+      this.heroSwiper = new Swiper('.hero-swiper', {
+        modules: [Autoplay, EffectFade],
+        effect: 'fade',
+        fadeEffect: { crossFade: true },
+        speed: 1200,
+        loop: true,
+        autoplay: {
+          delay: 4500,
+          disableOnInteraction: false
+        },
+        allowTouchMove: false
+      });
+    } catch (e) {
+      console.warn('Hero swiper initialization error:', e);
+    }
   }
 
   initAvatar() {
-    // Check if user prefers reduced motion or is on an ultra-constrained device
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) {
       console.log('Reduced motion active: digital human avatar running in low-motion mode.');
@@ -137,66 +153,27 @@ class VeniDelightsApp {
   }
 
   initMotion() {
-    // Check for GSAP availability
-    const hasGSAP = typeof gsap !== 'undefined';
-    const hasScrollTrigger = typeof ScrollTrigger !== 'undefined';
+    try {
+      document.documentElement.classList.add('js-motion');
 
-    if (hasGSAP && hasScrollTrigger) {
-      gsap.registerPlugin(ScrollTrigger);
-
-      // Hero Title Stagger Reveal
-      gsap.to('.hero-title-line', {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        stagger: 0.2,
-        ease: 'power3.out',
-        delay: 0.2
-      });
-
-      // Scroll Reveal for elements with [data-reveal]
       const revealElements = document.querySelectorAll('[data-reveal]');
       revealElements.forEach(el => {
-        const revealType = el.getAttribute('data-reveal');
-
-        let xVal = 0;
-        let yVal = 32;
-
-        if (revealType === 'left') { xVal = -40; yVal = 0; }
-        if (revealType === 'right') { xVal = 40; yVal = 0; }
-        if (revealType === 'fade') { yVal = 0; }
-
-        gsap.fromTo(el,
-          { opacity: 0, x: xVal, y: yVal },
-          {
-            opacity: 1,
-            x: 0,
-            y: 0,
-            duration: 0.8,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: el,
-              start: 'top 88%',
-              toggleActions: 'play none none none',
-              once: true
-            }
-          }
-        );
-      });
-    } else {
-      // Fallback: Native IntersectionObserver
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-            observer.unobserve(entry.target);
-          }
+        ScrollTrigger.create({
+          trigger: el,
+          start: 'top 92%',
+          once: true,
+          onEnter: () => el.classList.add('revealed')
         });
-      }, { threshold: 0.1 });
 
-      document.querySelectorAll('[data-reveal], .hero-title-line').forEach(el => {
-        observer.observe(el);
+        // If already in viewport on load, reveal immediately
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight) {
+          el.classList.add('revealed');
+        }
       });
+    } catch (e) {
+      console.warn('ScrollTrigger reveal warning:', e);
+      document.querySelectorAll('[data-reveal]').forEach(el => el.classList.add('revealed'));
     }
   }
 }

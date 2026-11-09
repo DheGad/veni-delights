@@ -1,7 +1,9 @@
 import { defineConfig } from 'vite';
 
-export default defineConfig({
-  base: '/Veni-Delights-Website/',
+export default defineConfig(({ command }) => ({
+  // Use root base for local dev/preview server so http://localhost:3000 works instantly.
+  // Use repo path only for production build if specified.
+  base: command === 'build' ? '/Veni-Delights-Website/' : '/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
@@ -23,7 +25,13 @@ export default defineConfig({
     }
   },
   server: {
+    host: '0.0.0.0',
+    port: 3000,
+    open: false
+  },
+  preview: {
+    host: '0.0.0.0',
     port: 3000,
     open: false
   }
-});
+}));

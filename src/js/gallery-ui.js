@@ -1,12 +1,10 @@
 /**
  * VENI DELIGHTS — GALLERY UI & LIGHTBOX MODULE
- * Renders all genuine gallery images, handles responsive grid,
- * and provides an accessible fullscreen lightbox with keyboard navigation.
+ * Manages responsive gallery interactions and accessible fullscreen lightbox with keyboard navigation.
  */
 
 export class GalleryUI {
   constructor() {
-    this.gridEl = document.getElementById('gallery-grid');
     this.lightboxEl = document.getElementById('lightbox');
     this.lightboxImg = document.getElementById('lightbox-img');
     this.lightboxClose = document.getElementById('lightbox-close');
@@ -26,29 +24,13 @@ export class GalleryUI {
   }
 
   init() {
-    this.renderGallery();
+    this.bindGalleryItems();
     this.bindLightboxEvents();
   }
 
-  renderGallery() {
-    if (!this.gridEl) return;
-    this.gridEl.innerHTML = '';
-
-    this.images.forEach((img, idx) => {
-      const item = document.createElement('div');
-      item.className = 'gallery-item';
-      item.setAttribute('role', 'listitem');
-      item.setAttribute('tabindex', '0');
-      item.setAttribute('aria-label', `View image ${idx + 1} of ${this.images.length}`);
-      item.setAttribute('data-reveal', '');
-
-      item.innerHTML = `
-        <img src="${img.src}" alt="${img.alt}" loading="lazy">
-        <div class="gallery-item-overlay" aria-hidden="true">
-          <i class="fa-solid fa-expand"></i>
-        </div>
-      `;
-
+  bindGalleryItems() {
+    document.querySelectorAll('.gallery-item').forEach(item => {
+      const idx = parseInt(item.dataset.index, 10);
       item.addEventListener('click', () => this.openLightbox(idx));
       item.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -56,8 +38,6 @@ export class GalleryUI {
           this.openLightbox(idx);
         }
       });
-
-      this.gridEl.appendChild(item);
     });
   }
 
@@ -95,7 +75,7 @@ export class GalleryUI {
 
   openLightbox(index) {
     if (!this.lightboxEl) return;
-    this.currentIndex = index;
+    this.currentIndex = isNaN(index) ? 0 : index;
     this.updateLightboxContent();
     this.lightboxEl.hidden = false;
     document.body.classList.add('modal-open');

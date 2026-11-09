@@ -1,9 +1,7 @@
 /**
  * VENI DELIGHTS — FAQ MODULE
- * Renders verified FAQ items with accessible accordion functionality.
+ * Handles accessible accordion interactions for pre-rendered FAQ items.
  */
-
-import { FAQ } from '../data/products.js';
 
 export class FAQUI {
   constructor() {
@@ -12,34 +10,7 @@ export class FAQUI {
   }
 
   init() {
-    this.renderFAQ();
     this.bindAccordion();
-  }
-
-  renderFAQ() {
-    if (!this.listEl) return;
-    this.listEl.innerHTML = '';
-
-    FAQ.forEach((item, index) => {
-      const faqItem = document.createElement('div');
-      faqItem.className = 'faq-item';
-      faqItem.setAttribute('role', 'listitem');
-      faqItem.setAttribute('data-reveal', '');
-
-      faqItem.innerHTML = `
-        <button class="faq-question" aria-expanded="false" aria-controls="faq-ans-${index}">
-          <span>${item.q}</span>
-          <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
-        </button>
-        <div class="faq-answer" id="faq-ans-${index}" role="region" aria-label="${item.q}">
-          <div class="faq-answer-inner">
-            <p>${item.a}</p>
-          </div>
-        </div>
-      `;
-
-      this.listEl.appendChild(faqItem);
-    });
   }
 
   bindAccordion() {
