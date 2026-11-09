@@ -3586,14 +3586,63 @@ body.modal-open {
 }
 
 @media (max-width: 640px) {
+  .avatar-card-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .avatar-persona-tags {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+    scrollbar-width: none;
+  }
+  .avatar-persona-tags::-webkit-scrollbar { display: none; }
+
   .avatar-card-body {
-    flex-direction: column;
-    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
   }
 
   .hero-avatar-card .avatar-container {
-    width: 100%;
-    height: 140px;
+    width: 95px;
+    min-width: 95px;
+    height: 115px;
+    flex-shrink: 0;
+    border-radius: 12px;
+  }
+
+  .avatar-dialog-column {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .avatar-speech-bubble {
+    padding: 8px 10px;
+    font-size: 0.78rem;
+    line-height: 1.35;
+  }
+
+  .speech-text {
+    font-size: 0.76rem;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .avatar-action-row {
+    margin-top: 6px;
+    gap: 6px;
+  }
+
+  .btn-voice-audio, .btn-avatar-order {
+    font-size: 0.7rem;
+    padding: 4px 8px;
   }
 
   .hero-3d-stage {
@@ -4947,5 +4996,624 @@ body.modal-open {
   }
 }
 
+/* ===================================================
+   NAVBAR ENHANCEMENT & CONTAINER ALIGNMENT
+   =================================================== */
+.navbar-container,
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--navbar-height);
+  width: 100%;
+}
 
+/* ===================================================
+   DYNAMIC LIVE THEME PALETTE SWITCHER
+   Supports 3 Handcrafted Luxury Themes:
+   1. Dark Onyx Strawberry & Gold (Default)
+   2. White Strawberry & Vanilla Cream Pearl
+   3. Royal Emerald & Golden Pandan
+   =================================================== */
+.theme-palette-switcher {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(25, 18, 16, 0.7);
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  border-radius: var(--radius-full);
+  padding: 3px;
+  gap: 3px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+}
 
+.theme-swatch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-full);
+  color: var(--color-cream);
+  font-size: 0.72rem;
+  font-weight: 500;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.theme-swatch-btn:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.theme-swatch-btn.active {
+  background: var(--color-primary);
+  color: #FFFFFF;
+  box-shadow: 0 2px 10px rgba(169, 45, 66, 0.5);
+  font-weight: 600;
+}
+
+.swatch-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+}
+
+.dot-dark {
+  background: linear-gradient(135deg, #1c1211, #D5AE61);
+  border: 1px solid #D5AE61;
+}
+
+.dot-white-strawberry {
+  background: linear-gradient(135deg, #FFFFFF, #C72C41);
+  border: 1px solid #C72C41;
+}
+
+.dot-pandan {
+  background: linear-gradient(135deg, #10B981, #D4AF37);
+  border: 1px solid #10B981;
+}
+
+/* Mobile drawer theme selector */
+.mobile-nav-theme-select {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  margin-bottom: 12px;
+}
+
+.mobile-theme-title {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-gold-champagne);
+  font-weight: 600;
+}
+
+.mobile-theme-switcher {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.mobile-theme-switcher .theme-swatch-btn {
+  flex: 1;
+  justify-content: center;
+  padding: 6px 4px;
+}
+
+/* ===================================================
+   MOBILE APP-GRADE STICKY BOTTOM BAR
+   =================================================== */
+.mobile-sticky-bar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .theme-palette-switcher .swatch-label {
+    display: none;
+  }
+
+  .theme-palette-switcher .theme-swatch-btn {
+    padding: 6px;
+  }
+
+  .mobile-sticky-bar {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: calc(58px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: rgba(14, 10, 9, 0.94);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(201, 168, 76, 0.3);
+    z-index: 1000;
+    align-items: center;
+    justify-content: space-around;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+  }
+
+  .mobile-bar-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    color: var(--color-cream);
+    text-decoration: none;
+    font-size: 0.68rem;
+    font-weight: 500;
+    background: none;
+    border: none;
+    cursor: pointer;
+    flex: 1;
+    height: 100%;
+    padding: 4px 0;
+    transition: color 0.2s ease, transform 0.15s ease;
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-bar-btn i {
+    font-size: 1.15rem;
+  }
+
+  .mobile-bar-btn:active {
+    transform: scale(0.92);
+  }
+
+  .mobile-bar-whatsapp {
+    color: #25D366;
+    font-weight: 600;
+  }
+
+  .cart-icon-wrap {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .mobile-cart-badge {
+    position: absolute;
+    top: -6px;
+    right: -10px;
+    background: var(--color-primary);
+    color: #FFFFFF;
+    font-size: 0.6rem;
+    font-weight: 700;
+    min-width: 16px;
+    height: 16px;
+    line-height: 16px;
+    border-radius: 999px;
+    text-align: center;
+    padding: 0 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    display: none;
+  }
+
+  .mobile-cart-badge.has-items {
+    display: inline-block;
+  }
+
+  .mobile-theme-swatch {
+    font-size: 1.15rem;
+    line-height: 1;
+  }
+
+  /* Reposition floating WhatsApp cleanly above mobile sticky bar */
+  .floating-wa {
+    bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
+    right: var(--space-4) !important;
+    padding: 10px !important;
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .floating-wa svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Mobile Taste Pills Horizontal Swipe */
+  .hero-taste-pills {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 8px;
+    padding-bottom: 6px;
+    scrollbar-width: none;
+  }
+  .hero-taste-pills::-webkit-scrollbar {
+    display: none;
+  }
+  .taste-pill {
+    flex-shrink: 0;
+  }
+
+  /* Hero Call To Action Mobile Stacking */
+  .hero-cta-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .hero-cta-group .btn {
+    width: 100%;
+    min-height: 48px;
+    justify-content: center;
+  }
+
+  /* Fluid Clamped Hero Typography */
+  .hero-title {
+    font-size: clamp(2.1rem, 8vw, 3rem) !important;
+    line-height: 1.15 !important;
+  }
+  .hero-title-line {
+    display: block;
+  }
+  .hero-subtitle {
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+  }
+}
+
+/* ===================================================
+   THEME 2: WHITE STRAWBERRY & VANILLA PEARL
+   Luminous luxury patisserie daylight aesthetic
+   =================================================== */
+[data-theme="white-strawberry"] {
+  background-color: #FCFAF7;
+  color: #1C1210;
+}
+
+[data-theme="white-strawberry"] body {
+  background-color: #FCFAF7;
+  color: #1C1210;
+}
+
+[data-theme="white-strawberry"] .navbar {
+  background: rgba(252, 250, 247, 0.85);
+  border-bottom: 1px solid rgba(199, 44, 65, 0.12);
+}
+
+[data-theme="white-strawberry"] .navbar.scrolled {
+  background: rgba(252, 250, 247, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 4px 20px rgba(199, 44, 65, 0.08);
+  border-bottom: 1px solid rgba(199, 44, 65, 0.18);
+}
+
+[data-theme="white-strawberry"] .navbar-logo-name {
+  color: #1C1210;
+}
+
+[data-theme="white-strawberry"] .nav-link {
+  color: #3D2925;
+}
+
+[data-theme="white-strawberry"] .nav-link:hover,
+[data-theme="white-strawberry"] .nav-link.active {
+  color: #C72C41;
+}
+
+[data-theme="white-strawberry"] .hamburger {
+  background: rgba(199, 44, 65, 0.08);
+}
+
+[data-theme="white-strawberry"] .hamburger-line {
+  background: #1C1210;
+}
+
+[data-theme="white-strawberry"] .theme-palette-switcher {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(199, 44, 65, 0.22);
+  box-shadow: 0 4px 16px rgba(199, 44, 65, 0.08);
+}
+
+[data-theme="white-strawberry"] .theme-swatch-btn {
+  color: #3D2925;
+}
+
+[data-theme="white-strawberry"] .theme-swatch-btn:hover {
+  color: #C72C41;
+  background: rgba(199, 44, 65, 0.08);
+}
+
+[data-theme="white-strawberry"] .theme-swatch-btn.active {
+  background: #C72C41;
+  color: #FFFFFF;
+}
+
+[data-theme="white-strawberry"] .mobile-nav {
+  background: #FCFAF7;
+  border-left: 1px solid rgba(199, 44, 65, 0.15);
+}
+
+[data-theme="white-strawberry"] .mobile-nav-link {
+  color: #1C1210;
+  border-bottom-color: rgba(199, 44, 65, 0.08);
+}
+
+[data-theme="white-strawberry"] .mobile-sticky-bar {
+  background: rgba(252, 250, 247, 0.96);
+  border-top-color: rgba(199, 44, 65, 0.18);
+  box-shadow: 0 -4px 20px rgba(199, 44, 65, 0.08);
+}
+
+[data-theme="white-strawberry"] .mobile-bar-btn {
+  color: #3D2925;
+}
+
+[data-theme="white-strawberry"] .hero-section {
+  background: radial-gradient(circle at 75% 25%, #FFF0EB 0%, #FCFAF7 65%);
+}
+
+[data-theme="white-strawberry"] .hero-overlay {
+  background: radial-gradient(circle at 75% 45%, rgba(199, 44, 65, 0.05) 0%, transparent 60%),
+              linear-gradient(180deg, rgba(252, 250, 247, 0.85) 0%, rgba(252, 250, 247, 0.97) 70%, #FCFAF7 100%) !important;
+}
+
+[data-theme="white-strawberry"] .hero-swiper {
+  opacity: 0.1 !important;
+}
+
+[data-theme="white-strawberry"] .hero-title-line {
+  color: #1C1210;
+}
+
+[data-theme="white-strawberry"] .hero-title-accent {
+  background: linear-gradient(135deg, #C72C41 0%, #E83A59 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="white-strawberry"] .hero-subtitle {
+  color: #4A3530;
+}
+
+[data-theme="white-strawberry"] .hero-badge-pill {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(199, 44, 65, 0.25);
+  color: #1C1210;
+  box-shadow: 0 4px 14px rgba(199, 44, 65, 0.08);
+}
+
+[data-theme="white-strawberry"] .hero-badge-pill .pill-accent {
+  color: #C72C41;
+}
+
+[data-theme="white-strawberry"] .taste-pill {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(199, 44, 65, 0.22);
+  color: #1C1210;
+  box-shadow: 0 2px 10px rgba(199, 44, 65, 0.06);
+}
+
+[data-theme="white-strawberry"] .taste-pill:hover,
+[data-theme="white-strawberry"] .taste-pill.active {
+  background: #FFF0EB;
+  border-color: #C72C41;
+  color: #C72C41;
+}
+
+[data-theme="white-strawberry"] .hero-avatar-card {
+  background: #FFFFFF;
+  border-color: rgba(199, 44, 65, 0.2);
+  box-shadow: 0 12px 36px rgba(199, 44, 65, 0.1);
+}
+
+[data-theme="white-strawberry"] .avatar-speech-bubble {
+  background: #FFF7F5;
+  border-color: rgba(199, 44, 65, 0.18);
+  color: #1C1210;
+}
+
+[data-theme="white-strawberry"] .speech-text {
+  color: #1C1210;
+}
+
+[data-theme="white-strawberry"] .speech-quote-icon i {
+  color: #C72C41;
+}
+
+[data-theme="white-strawberry"] .persona-tab-btn {
+  color: #5A433E;
+  background: rgba(199, 44, 65, 0.06);
+}
+
+[data-theme="white-strawberry"] .persona-tab-btn.active {
+  background: #C72C41;
+  color: #FFFFFF;
+}
+
+[data-theme="white-strawberry"] .btn-voice-audio {
+  background: #FFF0EB;
+  border-color: rgba(199, 44, 65, 0.3);
+  color: #C72C41;
+}
+
+[data-theme="white-strawberry"] .hero-stage-toggle {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(199, 44, 65, 0.2);
+}
+
+[data-theme="white-strawberry"] .stage-tab-btn {
+  color: #3D2925;
+}
+
+[data-theme="white-strawberry"] .stage-tab-btn.active {
+  background: #C72C41;
+  color: #FFFFFF;
+}
+
+[data-theme="white-strawberry"] .hero-stage-card {
+  background: #FFFFFF;
+  border-color: rgba(199, 44, 65, 0.2);
+  box-shadow: 0 16px 40px rgba(199, 44, 65, 0.09);
+}
+
+[data-theme="white-strawberry"] .hero-social-proof {
+  color: #4A3530;
+}
+
+[data-theme="white-strawberry"] .hero-proof-text strong {
+  color: #1C1210;
+}
+
+/* Cards & Sections */
+[data-theme="white-strawberry"] .product-card,
+[data-theme="white-strawberry"] .feature-card,
+[data-theme="white-strawberry"] .review-card,
+[data-theme="white-strawberry"] .faq-card,
+[data-theme="white-strawberry"] .package-card,
+[data-theme="white-strawberry"] .step-card,
+[data-theme="white-strawberry"] .drawer-inner,
+[data-theme="white-strawberry"] .modal-content,
+[data-theme="white-strawberry"] .artisan-hud-panel {
+  background: #FFFFFF !important;
+  border-color: rgba(199, 44, 65, 0.16) !important;
+  color: #1C1210 !important;
+  box-shadow: 0 10px 30px rgba(199, 44, 65, 0.07) !important;
+}
+
+[data-theme="white-strawberry"] .product-title,
+[data-theme="white-strawberry"] .section-title,
+[data-theme="white-strawberry"] .artisan-experience-title,
+[data-theme="white-strawberry"] .footer-title,
+[data-theme="white-strawberry"] h1,
+[data-theme="white-strawberry"] h2,
+[data-theme="white-strawberry"] h3,
+[data-theme="white-strawberry"] h4 {
+  color: #1C1210 !important;
+}
+
+[data-theme="white-strawberry"] .product-description,
+[data-theme="white-strawberry"] .section-subtitle,
+[data-theme="white-strawberry"] .artisan-experience-subtitle,
+[data-theme="white-strawberry"] p {
+  color: #4A3530 !important;
+}
+
+[data-theme="white-strawberry"] .footer {
+  background: #F3ECE6 !important;
+  border-top: 1px solid rgba(199, 44, 65, 0.15);
+  color: #1C1210 !important;
+}
+
+[data-theme="white-strawberry"] .footer-link {
+  color: #4A3530 !important;
+}
+
+[data-theme="white-strawberry"] .footer-link:hover {
+  color: #C72C41 !important;
+}
+
+/* ===================================================
+   THEME 3: ROYAL EMERALD & GOLDEN PANDAN
+   Imperial Emerald & Gold Patisserie aesthetic
+   =================================================== */
+[data-theme="royal-pandan"] {
+  background-color: #06140D;
+  color: #F0FAF5;
+}
+
+[data-theme="royal-pandan"] body {
+  background-color: #06140D;
+  color: #F0FAF5;
+}
+
+[data-theme="royal-pandan"] .navbar {
+  border-bottom: 1px solid rgba(16, 185, 129, 0.18);
+}
+
+[data-theme="royal-pandan"] .navbar.scrolled {
+  background: rgba(6, 20, 13, 0.96);
+  border-bottom: 1px solid rgba(16, 185, 129, 0.3);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="royal-pandan"] .theme-palette-switcher {
+  background: rgba(8, 28, 18, 0.85);
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+[data-theme="royal-pandan"] .theme-swatch-btn.active {
+  background: #10B981;
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.6);
+}
+
+[data-theme="royal-pandan"] .mobile-sticky-bar {
+  background: rgba(6, 20, 13, 0.96);
+  border-top-color: rgba(16, 185, 129, 0.3);
+}
+
+[data-theme="royal-pandan"] .hero-title-accent {
+  background: linear-gradient(135deg, #10B981 0%, #D4AF37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="royal-pandan"] .taste-pill {
+  background: rgba(11, 32, 22, 0.85);
+  border-color: rgba(16, 185, 129, 0.35);
+  color: #D4EFE3;
+}
+
+[data-theme="royal-pandan"] .taste-pill:hover,
+[data-theme="royal-pandan"] .taste-pill.active {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: #10B981;
+  color: #34D399;
+}
+
+[data-theme="royal-pandan"] .hero-avatar-card {
+  background: rgba(15, 44, 30, 0.92);
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+[data-theme="royal-pandan"] .avatar-speech-bubble {
+  background: rgba(8, 25, 17, 0.85);
+  border-color: rgba(16, 185, 129, 0.25);
+}
+
+[data-theme="royal-pandan"] .persona-tab-btn.active {
+  background: #10B981;
+}
+
+[data-theme="royal-pandan"] .btn-primary {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%) !important;
+  box-shadow: 0 4px 18px rgba(16, 185, 129, 0.4) !important;
+}
+
+[data-theme="royal-pandan"] .hero-stage-card {
+  background: rgba(15, 44, 30, 0.85);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+[data-theme="royal-pandan"] .hero-overlay {
+  background: radial-gradient(circle at 75% 45%, rgba(16, 185, 129, 0.12) 0%, transparent 60%),
+              linear-gradient(180deg, rgba(6, 20, 13, 0.78) 0%, rgba(6, 20, 13, 0.96) 70%, #06140D 100%) !important;
+}

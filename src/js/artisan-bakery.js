@@ -97,7 +97,34 @@ export class ArtisanBakeryExperience {
         });
       }
 
+      let isVisible = true;
+      let animId = null;
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            isVisible = entry.isIntersecting && !document.hidden;
+            if (isVisible && !animId) {
+              animId = requestAnimationFrame(animateSteam);
+            }
+          });
+        }, { threshold: 0.05 });
+        observer.observe(canvas);
+      }
+
+      document.addEventListener('visibilitychange', () => {
+        isVisible = !document.hidden;
+        if (isVisible && !animId) {
+          animId = requestAnimationFrame(animateSteam);
+        }
+      });
+
       const animateSteam = () => {
+        if (!isVisible) {
+          animId = null;
+          return;
+        }
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         particles.forEach(p => {
@@ -135,10 +162,10 @@ export class ArtisanBakeryExperience {
           }
         });
 
-        requestAnimationFrame(animateSteam);
+        animId = requestAnimationFrame(animateSteam);
       };
 
-      animateSteam();
+      animId = requestAnimationFrame(animateSteam);
     });
   }
 

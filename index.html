@@ -112,8 +112,24 @@
       <a href="#contact" class="nav-link">Contact</a>
     </nav>
 
-    <!-- CTA + Hamburger -->
+    <!-- Theme Palette Switcher + CTA + Hamburger -->
     <div class="navbar-actions">
+      <!-- Live Theme Palette Switcher (Dark Onyx, White Strawberry, Royal Pandan) -->
+      <div class="theme-palette-switcher" id="theme-palette-switcher" role="group" aria-label="Color Palette Switcher">
+        <button class="theme-swatch-btn active" data-theme="dark" title="Dark Onyx & Gold" aria-label="Dark Onyx Theme">
+          <span class="swatch-dot dot-dark"></span>
+          <span class="swatch-label">Dark</span>
+        </button>
+        <button class="theme-swatch-btn" data-theme="white-strawberry" title="White Strawberry & Vanilla Cream" aria-label="White Strawberry Theme">
+          <span class="swatch-dot dot-white-strawberry"></span>
+          <span class="swatch-label">White Strawberry</span>
+        </button>
+        <button class="theme-swatch-btn" data-theme="royal-pandan" title="Royal Emerald Pandan" aria-label="Royal Pandan Theme">
+          <span class="swatch-dot dot-pandan"></span>
+          <span class="swatch-label">Pandan</span>
+        </button>
+      </div>
+
       <a href="https://wa.me/60123360470?text=Hello%20Veni%20Delights!%20I'd%20like%20to%20place%20an%20order."
          class="btn btn-primary btn-sm navbar-cta hide-mobile"
          target="_blank"
@@ -132,8 +148,26 @@
 
   </div>
 
-  <!-- Mobile Navigation -->
+  <!-- Mobile Navigation Drawer -->
   <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" aria-hidden="true">
+    <div class="mobile-nav-theme-select">
+      <span class="mobile-theme-title">Palette Theme:</span>
+      <div class="theme-palette-switcher mobile-theme-switcher">
+        <button class="theme-swatch-btn active" data-theme="dark">
+          <span class="swatch-dot dot-dark"></span>
+          <span>Dark</span>
+        </button>
+        <button class="theme-swatch-btn" data-theme="white-strawberry">
+          <span class="swatch-dot dot-white-strawberry"></span>
+          <span>White Strawberry</span>
+        </button>
+        <button class="theme-swatch-btn" data-theme="royal-pandan">
+          <span class="swatch-dot dot-pandan"></span>
+          <span>Pandan</span>
+        </button>
+      </div>
+    </div>
+
     <a href="#home" class="mobile-nav-link">Home</a>
     <a href="#about" class="mobile-nav-link">About</a>
     <a href="#products" class="mobile-nav-link">Products</a>
@@ -3947,8 +3981,35 @@
   <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" viewBox="0 0 24 24" aria-hidden="true">
     <path d="M20.52 3.48A11.8 11.8 0 0 0 12.04 0C5.42 0 .04 5.38.04 12c0 2.12.55 4.19 1.6 6.02L0 24l6.17-1.61A11.9 11.9 0 0 0 12.04 24C18.66 24 24 18.62 24 12c0-3.2-1.25-6.21-3.48-8.52ZM12.04 21.83c-1.84 0-3.64-.49-5.22-1.43l-.37-.22-3.66.96.98-3.57-.24-.37A9.8 9.8 0 0 1 2.21 12c0-5.42 4.41-9.83 9.83-9.83 2.63 0 5.1 1.03 6.95 2.88A9.77 9.77 0 0 1 21.87 12c0 5.42-4.41 9.83-9.83 9.83Zm5.39-7.36c-.3-.15-1.76-.87-2.03-.97-.27-.1-.46-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.34.22-.64.07-.3-.15-1.25-.46-2.38-1.48-.88-.79-1.47-1.76-1.64-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.34.46-.51.15-.17.2-.29.3-.49.1-.2.05-.37-.02-.52-.07-.15-.66-1.59-.91-2.18-.24-.58-.49-.5-.66-.5h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.49 0 1.47 1.07 2.89 1.22 3.09.15.2 2.09 3.2 5.07 4.49.71.31 1.26.49 1.69.63.71.22 1.35.19 1.86.12.57-.09 1.76-.72 2.01-1.42.25-.69.25-1.29.17-1.42-.08-.13-.27-.2-.57-.35Z"/>
   </svg>
-  <span class="floating-wa-label">Order</span>
 </a>
+
+<!-- =============================================
+     MOBILE APP-GRADE STICKY BOTTOM BAR
+     ============================================= -->
+<nav class="mobile-sticky-bar" id="mobile-sticky-bar" aria-label="Mobile quick actions">
+  <a href="tel:0123360470" class="mobile-bar-btn" aria-label="Call Veni Delights">
+    <i class="fa-solid fa-phone"></i>
+    <span>Call</span>
+  </a>
+  <a href="https://wa.me/60123360470?text=Hello%20Veni%20Delights!%20I'd%20like%20to%20order%20desserts%20for%20my%20celebration." 
+     class="mobile-bar-btn mobile-bar-whatsapp" 
+     target="_blank" rel="noopener noreferrer" 
+     aria-label="Order via WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+    <span>WhatsApp</span>
+  </a>
+  <button class="mobile-bar-btn mobile-bar-cart" id="mobile-bar-cart-btn" aria-label="Open Order Cart">
+    <div class="cart-icon-wrap">
+      <i class="fa-solid fa-basket-shopping"></i>
+      <span class="mobile-cart-badge" id="mobile-cart-badge">0</span>
+    </div>
+    <span>Cart</span>
+  </button>
+  <button class="mobile-bar-btn mobile-bar-theme" id="mobile-bar-theme-toggle" aria-label="Switch Color Theme">
+    <span class="mobile-theme-swatch">🍓</span>
+    <span>Theme</span>
+  </button>
+</nav>
 
 <!-- =============================================
      SCRIPTS

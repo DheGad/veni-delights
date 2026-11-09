@@ -34,6 +34,7 @@ import { BakeryWorld3D } from './bakery-world-3d.js';
 import { CinematicMediaPlayer } from './cinematic-media.js';
 import { LiquidParallaxSystem } from './liquid-parallax.js';
 import { ArtisanBakeryExperience } from './artisan-bakery.js';
+import { ThemeSwitcher } from './theme-switcher.js';
 
 class VeniDelightsApp {
   constructor() {
@@ -41,6 +42,13 @@ class VeniDelightsApp {
   }
 
   init() {
+    // 0. Theme / Color Palette Switcher (Dark Onyx, White Strawberry, Royal Pandan)
+    try {
+      this.themeSwitcher = new ThemeSwitcher();
+    } catch (e) {
+      console.warn('Theme switcher init error:', e);
+    }
+
     // 1. Ambient Gold Particle & Sparkle Canvas
     try {
       this.particles = new GoldParticleCanvas();
@@ -103,6 +111,9 @@ class VeniDelightsApp {
 
     // 6. Commerce & Order Drawer
     this.orderDrawer = new OrderDrawer();
+
+    // 6b. Mobile Sticky Actions Bar
+    this.initMobileStickyBar();
 
     // 7. Products UI (Catalog & Tabs)
     this.productsUI = new ProductsUI(this.orderDrawer);
@@ -235,6 +246,34 @@ class VeniDelightsApp {
       console.warn('ScrollTrigger reveal warning:', e);
       document.querySelectorAll('[data-reveal]').forEach(el => el.classList.add('revealed'));
     }
+  }
+
+  initMobileStickyBar() {
+    const mobileCartBtn = document.getElementById('mobile-bar-cart-btn');
+    if (mobileCartBtn && this.orderDrawer) {
+      mobileCartBtn.addEventListener('click', () => this.orderDrawer.open());
+    }
+
+    const mobileThemeBtn = document.getElementById('mobile-bar-theme-toggle');
+    if (mobileThemeBtn && this.themeSwitcher) {
+      const themes = ['dark', 'white-strawberry', 'royal-pandan'];
+      mobileThemeBtn.addEventListener('click', () => {
+        const nextIdx = (themes.indexOf(this.themeSwitcher.currentTheme) + 1) % themes.length;
+        this.themeSwitcher.applyTheme(themes[nextIdx], true);
+      });
+    }
+
+    const updateBadge = () => {
+      const badge = document.getElementById('mobile-cart-badge');
+      if (badge && this.orderDrawer) {
+        const count = this.orderDrawer.items ? this.orderDrawer.items.reduce((s, i) => s + i.qty, 0) : 0;
+        badge.textContent = count;
+        badge.classList.toggle('has-items', count > 0);
+      }
+    };
+    window.addEventListener('storage', updateBadge);
+    window.addEventListener('cart-updated', updateBadge);
+    updateBadge();
   }
 }
 

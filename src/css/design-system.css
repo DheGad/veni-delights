@@ -203,6 +203,62 @@
   --navbar-height: 80px;
 }
 
+/* ===================================================
+   MULTI-THEME PALETTE OVERRIDES
+   =================================================== */
+
+/* Theme 2: White Strawberry & Vanilla Pearl */
+[data-theme="white-strawberry"] {
+  --color-black:             #FCFAF7;
+  --color-black-soft:        #F8F3ED;
+  --color-black-card:        #FFFFFF;
+  --color-ivory:             #1C1210;
+  --color-cream:             #2D1C18;
+  --color-cream-warm:        #3D2925;
+  --color-strawberry:        #C72C41;
+  --color-strawberry-rich:   #A92235;
+  --color-strawberry-light:  #E83A59;
+  --color-gold-champagne:    #B8860B;
+  --color-gold-bright:       #D4AF37;
+  --color-gold-antique:      #9E740B;
+  --color-primary:           #C72C41;
+  --color-primary-hover:     #E83A59;
+  --color-text-on-dark:      #1C1210;
+  --color-text-light:        #1C1210;
+  --color-border:            rgba(199, 44, 65, 0.22);
+  --color-border-light:      rgba(199, 44, 65, 0.12);
+  --color-grey-400:          #6E5B57;
+  --color-grey-500:          #8F7B77;
+  --surface-dark:            #FCFAF7;
+  --surface-dark-card:       #FFFFFF;
+  --gradient-dark:           linear-gradient(180deg, #FCFAF7 0%, #F5EDE6 100%);
+  --gradient-dark-radial:    radial-gradient(ellipse at center, #FFFFFF 0%, #F7EFE8 100%);
+  --gradient-hero-overlay:   linear-gradient(to bottom, rgba(252,250,247,0.3) 0%, rgba(252,250,247,0.92) 100%);
+}
+
+/* Theme 3: Royal Emerald & Golden Pandan */
+[data-theme="royal-pandan"] {
+  --color-black:             #06140D;
+  --color-black-soft:        #0B2016;
+  --color-black-card:        #0F2C1E;
+  --color-ivory:             #F0FAF5;
+  --color-cream:             #D4EFE3;
+  --color-strawberry:        #10B981;
+  --color-strawberry-rich:   #059669;
+  --color-strawberry-light:  #34D399;
+  --color-gold-champagne:    #D4AF37;
+  --color-gold-antique:      #C59B27;
+  --color-primary:           #10B981;
+  --color-primary-hover:     #34D399;
+  --color-text-on-dark:      #F0FAF5;
+  --color-border:            rgba(16, 185, 129, 0.35);
+  --color-border-light:      rgba(16, 185, 129, 0.15);
+  --surface-dark:            #06140D;
+  --surface-dark-card:       #0F2C1E;
+  --gradient-dark:           linear-gradient(180deg, #06140D 0%, #0B2016 100%);
+  --gradient-hero-overlay:   linear-gradient(to bottom, rgba(6,20,13,0.3) 0%, rgba(6,20,13,0.92) 100%);
+}
+
 /* =====================
    2. RESET & BASE
    ===================== */

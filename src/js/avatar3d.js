@@ -255,7 +255,34 @@ export class VeniDigitalHuman {
   }
 
   startMicroMotionLoop() {
+    this.isVisible = true;
+    
+    // Intersection observer to pause when offscreen
+    if ('IntersectionObserver' in window && this.container) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          this.isVisible = entry.isIntersecting && !document.hidden;
+          if (this.isVisible && !this.animFrameId) {
+            this.animFrameId = requestAnimationFrame(animate);
+          }
+        });
+      }, { threshold: 0.05 });
+      observer.observe(this.container);
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      this.isVisible = !document.hidden;
+      if (this.isVisible && !this.animFrameId) {
+        this.animFrameId = requestAnimationFrame(animate);
+      }
+    });
+
     const animate = (timestamp) => {
+      if (!this.isVisible) {
+        this.animFrameId = null;
+        return;
+      }
+
       const elapsed = (timestamp - this.startTime) / 1000;
 
       // Smooth interpolation for mouse gaze
