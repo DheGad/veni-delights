@@ -271,9 +271,30 @@
           </div>
 
           <div class="avatar-card-body">
-            <!-- Photorealistic Digital Human Avatar Container -->
-            <div class="avatar-container" id="avatar-container" aria-label="Photorealistic Digital Human Host">
-              <!-- Injected by avatar3d.js with photoreal portraits, audio-reactive canvas, and breathing motion -->
+            <!-- Host Profile Identity Bar -->
+            <div class="avatar-host-bar">
+              <!-- Photorealistic Digital Human Avatar Container -->
+              <div class="avatar-container" id="avatar-container" aria-label="Photorealistic Digital Human Host">
+                <!-- Injected by avatar3d.js with photoreal portraits, audio-reactive canvas, and breathing motion -->
+              </div>
+              <div class="avatar-host-meta">
+                <div class="avatar-host-name-row">
+                  <span class="avatar-host-name" id="avatar-host-name">Chef Veni</span>
+                  <span class="avatar-host-badge" id="avatar-host-badge">LIVE HOST</span>
+                </div>
+                <span class="avatar-host-role" id="avatar-host-role">Founder & Master Baker • Klang</span>
+                <div class="avatar-soundwave-bars" id="avatar-soundwave-bars" aria-hidden="true">
+                  <span class="sw-bar"></span>
+                  <span class="sw-bar"></span>
+                  <span class="sw-bar"></span>
+                  <span class="sw-bar"></span>
+                  <span class="sw-bar"></span>
+                </div>
+              </div>
+              <button class="btn btn-voice-audio" id="hero-voice-toggle-btn" aria-label="Listen to Host Voice">
+                <i class="fa-solid fa-volume-high"></i>
+                <span class="voice-btn-label">Listen</span>
+              </button>
             </div>
 
             <!-- Avatar Speech & Voice Interaction -->
@@ -283,17 +304,13 @@
                 <p class="speech-text" id="avatar-speech-text">
                   "Welcome to Veni Delights! I am Chef Veni. Every single cake and molten tart is baked fresh to order in Klang using 100% pure butter and natural ingredients."
                 </p>
-                <div class="avatar-soundwave-bars" id="avatar-soundwave-bars" aria-hidden="true">
-                  <span class="sw-bar"></span>
-                  <span class="sw-bar"></span>
-                  <span class="sw-bar"></span>
-                  <span class="sw-bar"></span>
-                  <span class="sw-bar"></span>
-                </div>
               </div>
 
               <!-- Quick AI Concierge Pre-Filled Question Chips -->
               <div class="avatar-qa-chips-row" role="region" aria-label="Ask Chef Veni pre-filled questions">
+                <div class="qa-chips-header">
+                  <span class="qa-chips-prompt">💡 Tap question to ask host:</span>
+                </div>
                 <div class="qa-chips-scroll" role="tablist" aria-label="Pre-filled bakery questions">
                   <button class="qa-chip-btn" data-qa-id="butter" type="button" title="Do you really use 100% pure butter in all cakes?">
                     <span class="qa-chip-icon">🧈</span>
@@ -323,11 +340,7 @@
               </div>
 
               <div class="avatar-action-row">
-                <button class="btn btn-voice-audio" id="hero-voice-toggle-btn" aria-label="Listen to Host Voice">
-                  <i class="fa-solid fa-volume-high"></i>
-                  <span>Listen to Host</span>
-                </button>
-                <a href="https://wa.me/60123360470" id="avatar-qa-wa-link" class="btn btn-ask-wa" target="_blank" rel="noopener noreferrer" style="display:none;">
+                <a href="https://wa.me/60123360470?text=Hi%20Chef%20Veni!%20I%20would%20like%20to%20order%20from%20Veni%20Delights." id="avatar-qa-wa-link" class="btn btn-ask-wa" target="_blank" rel="noopener noreferrer">
                   <i class="fa-brands fa-whatsapp"></i>
                   <span>Order on WhatsApp</span>
                 </a>
@@ -490,9 +503,135 @@
                 </div>
                 <div class="sim-temp" id="molten-temp-value">68°C Molten Core</div>
               </div>
-              
+
+              <!-- Dedicated Visual Interactive Tart Cross-Section Display -->
+              <div class="tart-cut-visual-stage" id="tart-cut-visual-stage" aria-label="Visual Interactive Tart Slicing Simulation">
+                <!-- Steam Canvas for Cut Tart -->
+                <canvas class="tart-cut-steam-canvas" id="tart-cut-steam-canvas" width="360" height="130" aria-hidden="true"></canvas>
+
+                <!-- Active Flavour Badge -->
+                <div class="tart-flavour-badge" id="tart-cut-flavour-badge">🧀 Original Triple-Cheese</div>
+
+                <!-- Visual Tart Graphics Container -->
+                <div class="tart-cut-display" id="tart-cut-display">
+                  <!-- Left Crust Shell -->
+                  <div class="tart-shell-half shell-left" id="tart-shell-left">
+                    <svg viewBox="0 0 140 100" class="shell-svg" preserveAspectRatio="none">
+                      <defs>
+                        <linearGradient id="crustGradL" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stop-color="#E5A84B"/>
+                          <stop offset="40%" stop-color="#C6822C"/>
+                          <stop offset="85%" stop-color="#8C4E14"/>
+                          <stop offset="100%" stop-color="#5A2E0A"/>
+                        </linearGradient>
+                        <linearGradient id="crustTopL" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stop-color="#FCE1A9"/>
+                          <stop offset="60%" stop-color="#DDA13E"/>
+                          <stop offset="100%" stop-color="#A5641C"/>
+                        </linearGradient>
+                      </defs>
+                      <path d="M10,80 Q25,85 70,85 L140,85 L140,40 Q110,42 70,36 Q30,30 10,45 Z" fill="url(#crustGradL)" stroke="#6E380D" stroke-width="1.5"/>
+                      <path d="M10,45 Q40,32 90,34 L140,35 L140,40 L90,38 Q40,36 10,48 Z" fill="url(#crustTopL)"/>
+                      <circle cx="45" cy="55" r="3.5" fill="#582C0A" opacity="0.6"/>
+                      <circle cx="85" cy="62" r="4.5" fill="#4E2405" opacity="0.55"/>
+                      <circle cx="115" cy="50" r="3" fill="#69350F" opacity="0.5"/>
+                    </svg>
+                  </div>
+
+                  <!-- Right Crust Shell -->
+                  <div class="tart-shell-half shell-right" id="tart-shell-right">
+                    <svg viewBox="0 0 140 100" class="shell-svg" preserveAspectRatio="none">
+                      <defs>
+                        <linearGradient id="crustGradR" x1="100%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stop-color="#E5A84B"/>
+                          <stop offset="40%" stop-color="#C6822C"/>
+                          <stop offset="85%" stop-color="#8C4E14"/>
+                          <stop offset="100%" stop-color="#5A2E0A"/>
+                        </linearGradient>
+                        <linearGradient id="crustTopR" x1="100%" y1="0%" x2="0%" y2="0%">
+                          <stop offset="0%" stop-color="#FCE1A9"/>
+                          <stop offset="60%" stop-color="#DDA13E"/>
+                          <stop offset="100%" stop-color="#A5641C"/>
+                        </linearGradient>
+                      </defs>
+                      <path d="M0,85 L70,85 Q115,85 130,80 Q110,45 70,36 Q30,42 0,40 Z" fill="url(#crustGradR)" stroke="#6E380D" stroke-width="1.5"/>
+                      <path d="M0,35 L50,34 Q100,32 130,45 Q100,36 50,38 L0,40 Z" fill="url(#crustTopR)"/>
+                      <circle cx="95" cy="55" r="3.5" fill="#582C0A" opacity="0.6"/>
+                      <circle cx="55" cy="62" r="4.5" fill="#4E2405" opacity="0.55"/>
+                      <circle cx="25" cy="50" r="3" fill="#69350F" opacity="0.5"/>
+                    </svg>
+                  </div>
+
+                  <!-- Dynamic Molten Lava Core (flows out between shells) -->
+                  <div class="molten-lava-flow-container" id="molten-lava-flow-container">
+                    <div class="molten-lava-core" id="molten-lava-flow">
+                      <svg viewBox="0 0 160 120" class="lava-svg" preserveAspectRatio="none">
+                        <defs>
+                          <linearGradient id="lavaGradCheese" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#FFF2A3" id="lava-stop-1"/>
+                            <stop offset="35%" stop-color="#FFD152" id="lava-stop-2"/>
+                            <stop offset="70%" stop-color="#FF9F1C" id="lava-stop-3"/>
+                            <stop offset="100%" stop-color="#E67E22" id="lava-stop-4"/>
+                          </linearGradient>
+                          <filter id="lavaGlow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feGaussianBlur stdDeviation="2.5" result="blur"/>
+                            <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+                          </filter>
+                        </defs>
+                        <path class="lava-path" id="lava-path" d="M20,25 Q80,10 140,25 Q150,60 125,85 Q105,105 80,115 Q55,105 35,85 Q10,60 20,25 Z" fill="url(#lavaGradCheese)" filter="url(#lavaGlow)"/>
+                        <ellipse cx="65" cy="40" rx="25" ry="9" fill="#FFFFFF" opacity="0.6" transform="rotate(-10 65 40)"/>
+                        <circle cx="100" cy="52" r="5" fill="#FFFBE6" opacity="0.75"/>
+                        <ellipse cx="78" cy="28" rx="14" ry="4.5" fill="#994D0A" opacity="0.7"/>
+                        <circle cx="50" cy="30" r="3" fill="#B35900" opacity="0.6"/>
+                        <circle cx="108" cy="32" r="3.5" fill="#B35900" opacity="0.65"/>
+                      </svg>
+                      <div class="lava-drips" id="lava-drips">
+                        <span class="lava-drip drip-1"></span>
+                        <span class="lava-drip drip-2"></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Slicing Knife Blade Indicator -->
+                  <div class="sim-knife-blade" id="sim-knife-blade" aria-hidden="true">
+                    <div class="knife-handle"></div>
+                    <div class="knife-metal"></div>
+                    <div class="knife-sparkle">✨</div>
+                  </div>
+                </div>
+
+                <!-- Quick Cut Presets -->
+                <div class="sim-cut-presets" role="group" aria-label="Quick cut tart presets">
+                  <button type="button" class="preset-cut-btn" data-cut="0">🥧 Whole Tart</button>
+                  <button type="button" class="preset-cut-btn" data-cut="50">🔪 First Cut (50%)</button>
+                  <button type="button" class="preset-cut-btn active" data-cut="100">🌋 Molten Ooze (100%)</button>
+                </div>
+              </div>
+
+              <!-- Flavour Skin Selector Tabs -->
+              <div class="sim-flavour-selector" role="tablist" aria-label="Select Tart Flavour">
+                <span class="flavour-sel-label">Flavour:</span>
+                <div class="flavour-pills-row">
+                  <button type="button" class="flavour-pill-btn active" data-flavour="original" role="tab" aria-selected="true">
+                    <span class="flavour-dot cheese-dot"></span> 🧀 Original
+                  </button>
+                  <button type="button" class="flavour-pill-btn" data-flavour="blueberry" role="tab" aria-selected="false">
+                    <span class="flavour-dot blueberry-dot"></span> 🫐 Blueberry
+                  </button>
+                  <button type="button" class="flavour-pill-btn" data-flavour="chocolate" role="tab" aria-selected="false">
+                    <span class="flavour-dot chocolate-dot"></span> 🍫 Dark Choc
+                  </button>
+                  <button type="button" class="flavour-pill-btn" data-flavour="strawberry" role="tab" aria-selected="false">
+                    <span class="flavour-dot strawberry-dot"></span> 🍓 Strawberry
+                  </button>
+                </div>
+              </div>
+
               <div class="simulator-slider-wrap">
-                <label for="molten-cut-slider" class="sim-slider-label">Drag Slider to Cut Hot Tart & Watch Lava Ooze:</label>
+                <div class="sim-slider-label-row">
+                  <label for="molten-cut-slider" class="sim-slider-label">Slide knife to cut & release lava:</label>
+                  <span class="sim-cut-percent" id="sim-cut-percent">70% Sliced</span>
+                </div>
                 <div class="sim-slider-track">
                   <input type="range" id="molten-cut-slider" min="0" max="100" value="70" class="sim-range-input" aria-label="Slide to cut open hot molten cheese tart" />
                 </div>
@@ -505,13 +644,14 @@
               <div class="simulator-actions">
                 <a href="https://wa.me/60123360470?text=Hello%20Veni%20Delights!%20I%20would%20like%20to%20order%20the%20Signature%20Molten%20Cheese%20Tarts%20(Box%20of%2010%20pcs%20-%20RM25)." 
                    class="btn btn-primary btn-sm btn-order-molten-direct" 
+                   id="btn-order-molten-direct"
                    target="_blank" rel="noopener noreferrer">
                   <i class="fa-brands fa-whatsapp"></i>
-                  <span>Order Hot Tarts (10 pcs - RM25)</span>
+                  <span id="molten-order-cta-text">Order Hot Tarts (10 pcs - RM25)</span>
                 </a>
                 <a href="#artisan-showcase" class="btn btn-ghost btn-sm">
                   <i class="fa-solid fa-kitchen-set"></i>
-                  <span>Explore Full Bakery</span>
+                  <span>Explore Kitchen Gallery</span>
                 </a>
               </div>
             </div>

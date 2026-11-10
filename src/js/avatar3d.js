@@ -341,7 +341,7 @@ export class VeniDigitalHuman {
       
       if (this.audioEnabled) {
         if (heroToggle) {
-          heroToggle.innerHTML = '<i class="fa-solid fa-volume-high"></i> <span>Voice: Speaking</span>';
+          heroToggle.innerHTML = '<i class="fa-solid fa-volume-high"></i> <span class="voice-btn-label">Speaking</span>';
           heroToggle.classList.add('active');
         }
         const text = this.activeQAId 
@@ -350,7 +350,7 @@ export class VeniDigitalHuman {
         this.speak(text);
       } else {
         if (heroToggle) {
-          heroToggle.innerHTML = '<i class="fa-solid fa-volume-xmark"></i> <span>Listen to Host</span>';
+          heroToggle.innerHTML = '<i class="fa-solid fa-volume-xmark"></i> <span class="voice-btn-label">Listen</span>';
           heroToggle.classList.remove('active');
         }
         if (this.synth) this.synth.cancel();
@@ -379,6 +379,14 @@ export class VeniDigitalHuman {
     document.querySelectorAll('.persona-tab-btn').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.persona === personaKey);
     });
+
+    // Update host bar identity
+    const hostNameEl = document.getElementById('avatar-host-name');
+    if (hostNameEl) hostNameEl.textContent = persona.name;
+    const hostBadgeEl = document.getElementById('avatar-host-badge');
+    if (hostBadgeEl) hostBadgeEl.textContent = persona.badge;
+    const hostRoleEl = document.getElementById('avatar-host-role');
+    if (hostRoleEl) hostRoleEl.textContent = `${persona.role} • Klang`;
 
     // Update badge in avatar
     if (this.badgeTextEl) {

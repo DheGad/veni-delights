@@ -45,6 +45,15 @@ export class ArtisanBakeryExperience {
         cheeseType: '70% Belgian Dark Chocolate & Cream Cheese Ganache',
         crust: 'Cocoa Butter Sablé Shell',
         desc: 'Deep bittersweet chocolate molten core that flows luxuriously inside a crisp dark chocolate crust.'
+      },
+      strawberry: {
+        name: 'Fresh Strawberry Lava Molten Tart',
+        tag: 'Cameron Harvest',
+        pricePerUnit: 2.80,
+        temp: '67°C',
+        cheeseType: 'Mascarpone infused with Fresh Strawberry Puree',
+        crust: 'Pure Butter Sablé Shell',
+        desc: 'Luscious, blushing pink molten cheese center infused with natural Cameron Highlands strawberries.'
       }
     };
 
@@ -217,39 +226,246 @@ export class ArtisanBakeryExperience {
    * ---------------------------------------------------- */
   initCutSimulator() {
     const slider = document.getElementById('molten-cut-slider');
+    const shellLeft = document.getElementById('tart-shell-left');
+    const shellRight = document.getElementById('tart-shell-right');
     const lavaCore = document.getElementById('molten-lava-flow');
+    const knifeBlade = document.getElementById('sim-knife-blade');
+    const drips = document.getElementById('lava-drips');
     const tempBadge = document.getElementById('molten-temp-value');
     const statusText = document.getElementById('molten-cut-status');
+    const percentLabel = document.getElementById('sim-cut-percent');
+    const presetBtns = document.querySelectorAll('.preset-cut-btn');
+    const flavourPills = document.querySelectorAll('.flavour-pill-btn');
+    const flavourBadge = document.getElementById('tart-cut-flavour-badge');
+    const orderCta = document.getElementById('btn-order-molten-direct');
+    const orderText = document.getElementById('molten-order-cta-text');
 
     if (!slider) return;
 
-    slider.addEventListener('input', (e) => {
-      const val = parseFloat(e.target.value);
-      this.cutProgress = val;
+    // Flavour styling and gradient definitions
+    const flavourStyles = {
+      original: {
+        badge: '🧀 Original Triple-Cheese',
+        cta: 'Order Hot Tarts (10 pcs - RM25)',
+        waText: 'Hello Veni Delights! I would like to order the Signature Original Molten Cheese Tarts (Box of 10 pcs - RM25).',
+        stops: ['#FFF2A3', '#FFD152', '#FF9F1C', '#E67E22']
+      },
+      blueberry: {
+        badge: '🫐 Wild Blueberry Lava',
+        cta: 'Order Blueberry Tarts (10 pcs - RM28)',
+        waText: 'Hello Veni Delights! I would like to order the Wild Blueberry Molten Cheese Tarts (Box of 10 pcs - RM28).',
+        stops: ['#E0D8FF', '#A29BFE', '#6C5CE7', '#4834D4']
+      },
+      chocolate: {
+        badge: '🍫 Belgian Dark Choc Lava',
+        cta: 'Order Dark Choc Tarts (10 pcs - RM30)',
+        waText: 'Hello Veni Delights! I would like to order the Belgian Dark Chocolate Molten Tarts (Box of 10 pcs - RM30).',
+        stops: ['#D7CCC8', '#8D6E63', '#5D4037', '#3E2723']
+      },
+      strawberry: {
+        badge: '🍓 Fresh Strawberry Lava',
+        cta: 'Order Strawberry Tarts (10 pcs - RM28)',
+        waText: 'Hello Veni Delights! I would like to order the Fresh Strawberry Molten Cheese Tarts (Box of 10 pcs - RM28).',
+        stops: ['#FFEAEA', '#FF7675', '#D63031', '#A92D42']
+      }
+    };
 
-      if (lavaCore) {
-        // Expand molten lava ooze height and scale
-        lavaCore.style.height = `${val * 0.95}%`;
-        lavaCore.style.opacity = Math.min(1, val / 15 + 0.1);
-        lavaCore.style.transform = `scaleY(${1 + (val / 100) * 0.4}) translateZ(0)`;
+    let activeFlavourKey = 'original';
+
+    // Core Cut Update Function
+    const updateCutSimulation = (val) => {
+      const clamped = Math.max(0, Math.min(100, val));
+      this.cutProgress = clamped;
+      const t = clamped / 100;
+
+      // 1. Animate crust shells splitting open
+      if (shellLeft) {
+        shellLeft.style.transform = `translateX(-${t * 22}px) rotate(-${t * 3.5}deg)`;
+      }
+      if (shellRight) {
+        shellRight.style.transform = `translateX(${t * 22}px) rotate(${t * 3.5}deg)`;
       }
 
+      // 2. Animate slicing knife indicator
+      if (knifeBlade) {
+        if (clamped > 2 && clamped < 95) {
+          knifeBlade.style.opacity = '1';
+          knifeBlade.style.transform = `translate(-50%, ${t * 45 - 20}px)`;
+        } else {
+          knifeBlade.style.opacity = '0';
+          knifeBlade.style.transform = `translate(-50%, -30px)`;
+        }
+      }
+
+      // 3. Animate molten cheese lava ooze
+      if (lavaCore) {
+        if (clamped <= 0) {
+          lavaCore.style.opacity = '0';
+          lavaCore.style.transform = 'scale(0.1) translateZ(0)';
+        } else {
+          lavaCore.style.opacity = `${Math.min(1, t * 1.6 + 0.15)}`;
+          lavaCore.style.transform = `scaleY(${0.35 + t * 0.75}) scaleX(${0.4 + t * 0.6}) translateZ(0)`;
+        }
+      }
+
+      // 4. Animate dripping cheese droplets
+      if (drips) {
+        drips.style.opacity = t > 0.4 ? `${Math.min(1, (t - 0.4) * 2)}` : '0';
+      }
+
+      // 5. Update core temperature badge
       if (tempBadge) {
-        // Temperature rises to molten peak
-        const temp = Math.round(52 + (val / 100) * 16);
+        const temp = Math.round(25 + t * 43); // 25°C to 68°C
         tempBadge.textContent = `${temp}°C Molten Core`;
+        tempBadge.style.color = t > 0.65 ? '#ff4757' : (t > 0.25 ? '#ff9f43' : '#c9a84c');
+        tempBadge.style.borderColor = t > 0.65 ? 'rgba(255, 71, 87, 0.4)' : 'rgba(255, 159, 67, 0.3)';
+      }
+
+      // 6. Update percentage and status text
+      if (percentLabel) {
+        percentLabel.textContent = `${Math.round(clamped)}% Sliced`;
       }
 
       if (statusText) {
-        if (val < 20) {
-          statusText.textContent = "Crispy golden butter shell intact.";
-        } else if (val < 60) {
-          statusText.textContent = "Crust cracking open... warm cheese lava beginning to flow!";
+        if (clamped < 15) {
+          statusText.textContent = "🥧 Crisp golden butter shell intact (25°C). Slide knife or tap presets to cut!";
+        } else if (clamped < 50) {
+          statusText.textContent = "🔪 First incision! Crispy shell cracks open, warm cheese lava emerging...";
+        } else if (clamped < 85) {
+          statusText.textContent = "🔥 Warm cheese lava oozing! Triple-blend cream cheese & mascarpone cascading.";
         } else {
-          statusText.textContent = "Full molten lava ooze! Cream cheese & mascarpone flow perfection.";
+          statusText.textContent = "🌋 Maximum molten rush (68°C)! Pure velvety cheese lava dripping perfection.";
         }
       }
+
+      // 7. Update preset buttons active state
+      presetBtns.forEach(btn => {
+        const cutVal = parseFloat(btn.dataset.cut);
+        if (clamped <= 20) {
+          btn.classList.toggle('active', cutVal === 0);
+        } else if (clamped >= 80) {
+          btn.classList.toggle('active', cutVal === 100);
+        } else {
+          btn.classList.toggle('active', cutVal === 50);
+        }
+      });
+    };
+
+    // Slider Event
+    slider.addEventListener('input', (e) => {
+      updateCutSimulation(parseFloat(e.target.value));
     });
+
+    // Preset Buttons Click
+    presetBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetCut = parseFloat(btn.dataset.cut);
+        slider.value = targetCut;
+        updateCutSimulation(targetCut);
+      });
+    });
+
+    // Flavour Switcher
+    const applyFlavour = (flavourKey) => {
+      activeFlavourKey = flavourKey;
+      const data = flavourStyles[flavourKey] || flavourStyles.original;
+
+      flavourPills.forEach(btn => {
+        const isActive = btn.dataset.flavour === flavourKey;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+
+      if (flavourBadge) {
+        flavourBadge.textContent = data.badge;
+      }
+
+      if (orderCta) {
+        orderCta.href = `https://wa.me/60123360470?text=${encodeURIComponent(data.waText)}`;
+      }
+
+      if (orderText) {
+        orderText.textContent = data.cta;
+      }
+
+      // Update SVG gradient stops
+      const s1 = document.getElementById('lava-stop-1');
+      const s2 = document.getElementById('lava-stop-2');
+      const s3 = document.getElementById('lava-stop-3');
+      const s4 = document.getElementById('lava-stop-4');
+      if (s1 && s2 && s3 && s4 && data.stops) {
+        s1.setAttribute('stop-color', data.stops[0]);
+        s2.setAttribute('stop-color', data.stops[1]);
+        s3.setAttribute('stop-color', data.stops[2]);
+        s4.setAttribute('stop-color', data.stops[3]);
+      }
+    };
+
+    flavourPills.forEach(btn => {
+      btn.addEventListener('click', () => {
+        applyFlavour(btn.dataset.flavour);
+      });
+    });
+
+    // Dedicated Tart Steam Canvas Particle Simulation
+    const steamCanvas = document.getElementById('tart-cut-steam-canvas');
+    if (steamCanvas) {
+      const sCtx = steamCanvas.getContext('2d');
+      if (sCtx) {
+        const steamPuffs = [];
+        const puffCount = 18;
+
+        for (let i = 0; i < puffCount; i++) {
+          steamPuffs.push({
+            x: steamCanvas.width * 0.5 + (Math.random() - 0.5) * 60,
+            y: steamCanvas.height * 0.85 + Math.random() * 20,
+            radius: 8 + Math.random() * 14,
+            maxRadius: 26 + Math.random() * 20,
+            speedY: 0.5 + Math.random() * 0.9,
+            speedX: (Math.random() - 0.5) * 0.4,
+            alpha: 0.04 + Math.random() * 0.1,
+            maxAlpha: 0.16 + Math.random() * 0.08,
+            life: Math.random()
+          });
+        }
+
+        const renderTartSteam = () => {
+          sCtx.clearRect(0, 0, steamCanvas.width, steamCanvas.height);
+          const intensity = Math.max(0.15, this.cutProgress / 100);
+
+          steamPuffs.forEach(p => {
+            p.y -= p.speedY * (0.6 + intensity * 0.8);
+            p.x += p.speedX;
+            p.life += 0.012;
+
+            if (p.life > 1 || p.y < 0) {
+              p.life = 0;
+              p.x = steamCanvas.width * 0.5 + (Math.random() - 0.5) * (40 + intensity * 40);
+              p.y = steamCanvas.height * 0.82;
+            }
+
+            const currentRadius = p.radius + (p.maxRadius - p.radius) * p.life;
+            const currentAlpha = Math.sin(p.life * Math.PI) * p.maxAlpha * intensity;
+
+            const grad = sCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, currentRadius);
+            grad.addColorStop(0, `rgba(255, 245, 230, ${currentAlpha})`);
+            grad.addColorStop(0.5, `rgba(255, 220, 180, ${currentAlpha * 0.5})`);
+            grad.addColorStop(1, 'rgba(255, 220, 180, 0)');
+
+            sCtx.fillStyle = grad;
+            sCtx.beginPath();
+            sCtx.arc(p.x, p.y, currentRadius, 0, Math.PI * 2);
+            sCtx.fill();
+          });
+
+          requestAnimationFrame(renderTartSteam);
+        };
+        requestAnimationFrame(renderTartSteam);
+      }
+    }
+
+    // Initial state setup (70% cut out-of-the-box for instant mouthwatering delight)
+    updateCutSimulation(70);
   }
 
   /* ----------------------------------------------------
