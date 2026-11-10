@@ -406,16 +406,27 @@
 
       <!-- RIGHT COLUMN: Interactive Dual-Experience Stage (Live Molten Cheese Lab + 3D Cake Turntable) -->
       <div class="hero-right-column">
+        <!-- Mobile Studio Eyebrow Banner (visible on mobile / clear framing) -->
+        <div class="mobile-stage-studio-banner">
+          <div class="mobile-studio-badge">
+            <span class="live-dot-pulse"></span>
+            <strong>INTERACTIVE BAKERY STUDIO</strong>
+          </div>
+          <span class="mobile-studio-hint">Tap tabs to switch</span>
+        </div>
+
         <!-- Stage Mode Tabs -->
         <div class="hero-stage-mode-nav" role="tablist">
           <button class="hero-stage-toggle-btn active" data-mode="cheese-lab" aria-label="View Live Artisan Kitchen & Molten Cheese Tart Lab">
             <span class="live-dot-pulse"></span>
             <i class="fa-solid fa-fire-burner"></i>
-            <span>Live Bakery: Molten Cheese Tart Lab</span>
+            <span class="tab-label-full">Live Bakery: Molten Cheese Tart Lab</span>
+            <span class="tab-label-short">🔥 Molten Tart Lab</span>
           </button>
           <button class="hero-stage-toggle-btn" data-mode="cake-3d" aria-label="View 3D Cake Turntable">
             <i class="fa-solid fa-cube"></i>
-            <span>3D Cake Turntable</span>
+            <span class="tab-label-full">3D Cake Turntable</span>
+            <span class="tab-label-short">🎂 3D Cake Studio</span>
           </button>
         </div>
 
@@ -429,6 +440,12 @@
             <div class="bakery-live-viewport">
               <img src="/images/artisan/cheese-tarts-oven-live.jpg" alt="Artisan Chefs Baking Molten Cheese Tarts in 230°C Stone Deck Oven" class="bakery-live-bg" />
               <div class="bakery-oven-glow" aria-hidden="true"></div>
+              
+              <!-- Mobile viewport touch hint -->
+              <div class="bakery-mobile-hint">
+                <i class="fa-solid fa-hand-pointer"></i>
+                <span>Tap pins to inspect</span>
+              </div>
               
               <!-- Real-Time Rising Steam Particle Canvas -->
               <canvas class="bakery-steam-canvas" aria-hidden="true"></canvas>

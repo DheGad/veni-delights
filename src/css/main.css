@@ -3235,6 +3235,7 @@ body.modal-open {
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 60px rgba(201, 168, 76, 0.12);
   overflow: hidden;
   backdrop-filter: blur(14px);
+  touch-action: pan-y;
 }
 
 .stage-radial-glow {
@@ -3256,6 +3257,7 @@ body.modal-open {
   position: relative;
   z-index: 2;
   cursor: grab;
+  touch-action: pan-y;
 }
 
 .hero-3d-stage:active {
@@ -3266,6 +3268,7 @@ body.modal-open {
   width: 100% !important;
   height: 100% !important;
   display: block;
+  touch-action: pan-y;
 }
 
 /* Floating Badges on 3D Stage */
@@ -3705,8 +3708,17 @@ body.modal-open {
 /* Responsive Overrides */
 @media (max-width: 1024px) {
   .hero-split-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 2rem;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .hero-left-column,
+  .hero-right-column {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
   }
 
   .hero-split-viewport {
@@ -3804,20 +3816,6 @@ body.modal-open {
   .btn-voice-audio, .btn-avatar-order {
     font-size: 0.7rem;
     padding: 4px 8px;
-  }
-
-  .hero-3d-stage {
-    height: 380px;
-  }
-
-  .hero-3d-info-card {
-    position: static;
-    margin: 12px;
-    max-width: calc(100% - 24px);
-  }
-
-  .hero-3d-hint {
-    display: none;
   }
 
   .showcase-features-bar {
@@ -4510,6 +4508,26 @@ body.modal-open {
 /* ===================================================
    HERO RIGHT COLUMN: STAGE SWITCHER & LIVE CHEESE LAB
    =================================================== */
+.mobile-stage-studio-banner {
+  display: none;
+}
+
+.bakery-mobile-hint {
+  display: none;
+}
+
+.hero-3d-mobile-order-bar {
+  display: none;
+}
+
+.tab-label-short {
+  display: none;
+}
+
+.tab-label-full {
+  display: inline;
+}
+
 .hero-stage-mode-nav {
   display: flex;
   gap: 6px;
@@ -4567,6 +4585,7 @@ body.modal-open {
   border-radius: 20px;
   overflow: hidden;
   background: #0c0a08;
+  touch-action: pan-y;
 }
 
 .hero-cheese-lab-stage.active {
@@ -4590,6 +4609,7 @@ body.modal-open {
   min-height: 310px;
   overflow: hidden;
   border-radius: 18px 18px 0 0;
+  touch-action: pan-y;
 }
 
 .bakery-live-bg {
@@ -5460,6 +5480,362 @@ body.modal-open {
   .hero-subtitle {
     font-size: 0.95rem !important;
     line-height: 1.5 !important;
+  }
+
+  /* ===================================================
+     MOBILE INTERACTIVE BAKERY STUDIO & SPLIT SCREEN HERO
+     =================================================== */
+  .mobile-stage-studio-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 4px 10px 4px;
+    margin-top: 10px;
+  }
+
+  .mobile-studio-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--color-gold-champagne);
+    text-transform: uppercase;
+  }
+
+  .mobile-studio-hint {
+    font-size: 0.64rem;
+    color: var(--color-grey-400);
+    letter-spacing: 0.02em;
+  }
+
+  /* Full-Width 50/50 Mobile Stage Tabs */
+  .hero-stage-mode-nav {
+    width: 100%;
+    display: flex;
+    gap: 6px;
+    padding: 4px;
+    margin-bottom: 12px;
+    background: rgba(16, 14, 12, 0.95);
+    border: 1px solid rgba(201, 168, 76, 0.35);
+    border-radius: var(--radius-full);
+    box-sizing: border-box;
+  }
+
+  .hero-stage-toggle-btn {
+    flex: 1;
+    text-align: center;
+    justify-content: center;
+    padding: 9px 8px;
+    font-size: 0.72rem;
+    min-height: 42px;
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .hero-stage-toggle-btn i {
+    display: none;
+  }
+
+  .hero-stage-toggle-btn .tab-label-full {
+    display: none !important;
+  }
+
+  .hero-stage-toggle-btn .tab-label-short {
+    display: inline !important;
+    font-weight: 600;
+  }
+
+  .hero-3d-stage-wrapper {
+    border-radius: 18px;
+    touch-action: pan-y;
+  }
+
+  .stage-floating-tag {
+    display: none !important;
+  }
+
+  /* 1. Mobile Live Molten Cheese Tart Lab */
+  .hero-cheese-lab-stage {
+    border-radius: 18px;
+    touch-action: pan-y;
+  }
+
+  .bakery-live-viewport {
+    height: 220px !important;
+    min-height: 220px !important;
+    max-height: 220px !important;
+    touch-action: pan-y;
+  }
+
+  .bakery-mobile-hint {
+    display: inline-flex;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 6;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.62rem;
+    color: var(--color-gold-champagne);
+    background: rgba(14, 12, 10, 0.88);
+    border: 1px solid rgba(201, 168, 76, 0.35);
+    border-radius: var(--radius-full);
+    padding: 3px 8px;
+    backdrop-filter: blur(8px);
+    pointer-events: none;
+  }
+
+  .hero-oven-audio-btn {
+    top: 8px;
+    right: 8px;
+    padding: 3px 8px;
+    font-size: 0.64rem;
+  }
+
+  .bakery-hotspot .hotspot-pin {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 0.70rem !important;
+  }
+
+  .bakery-hotspot.spot-oven { top: 28% !important; left: 66% !important; }
+  .bakery-hotspot.spot-chef { top: 24% !important; left: 28% !important; }
+  .bakery-hotspot.spot-butter { top: 68% !important; left: 22% !important; }
+  .bakery-hotspot.spot-lava { top: 72% !important; left: 70% !important; }
+
+  .bakery-hotspot .hotspot-label {
+    font-size: 0.62rem !important;
+    padding: 2px 6px !important;
+  }
+
+  .molten-cut-simulator-dock {
+    padding: 10px 12px;
+    gap: 6px;
+    touch-action: pan-y;
+  }
+
+  .simulator-header {
+    align-items: center;
+  }
+
+  .sim-badge {
+    font-size: 0.68rem;
+  }
+
+  .sim-temp {
+    font-size: 0.70rem;
+    padding: 2px 7px;
+  }
+
+  .sim-slider-label {
+    font-size: 0.66rem;
+  }
+
+  .sim-range-input {
+    height: 8px;
+    touch-action: pan-y;
+  }
+
+  .sim-range-input::-webkit-slider-thumb {
+    width: 22px;
+    height: 22px;
+  }
+
+  .sim-status-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .sim-status-text {
+    font-size: 0.68rem;
+  }
+
+  .sim-fresh-tag {
+    font-size: 0.58rem;
+  }
+
+  .simulator-actions {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .btn-order-molten-direct {
+    width: 100%;
+    min-height: 42px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    justify-content: center;
+  }
+
+  .simulator-actions .btn-ghost {
+    width: 100%;
+    min-height: 34px;
+    font-size: 0.72rem;
+    justify-content: center;
+  }
+
+  /* 2. Mobile 3D Cake Turntable Stage */
+  .hero-3d-stage {
+    height: 330px !important;
+    touch-action: pan-y;
+  }
+
+  .hero-3d-stage canvas {
+    touch-action: pan-y;
+  }
+
+  .hero-3d-info-card {
+    position: absolute !important;
+    top: 8px !important;
+    left: 8px !important;
+    right: auto !important;
+    max-width: 58% !important;
+    padding: 6px 10px !important;
+    margin: 0 !important;
+    border-radius: 12px !important;
+    background: rgba(14, 12, 10, 0.92) !important;
+    backdrop-filter: blur(14px) !important;
+    border: 1px solid rgba(201, 168, 76, 0.35) !important;
+    z-index: 11 !important;
+    pointer-events: auto !important;
+  }
+
+  .hero-3d-info-card .hero-3d-badge-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 2px;
+  }
+
+  .hero-3d-info-card .badge-gold {
+    font-size: 0.55rem !important;
+    padding: 2px 5px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .hero-3d-info-card .hero-3d-status-pill {
+    font-size: 0.55rem !important;
+  }
+
+  .hero-3d-info-card .hero-3d-name {
+    font-size: 0.88rem !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .hero-3d-info-card .hero-3d-desc {
+    display: none !important;
+  }
+
+  .hero-3d-info-card .hero-3d-price-row {
+    margin-top: 2px;
+    gap: 4px;
+  }
+
+  .hero-3d-info-card .hero-3d-price {
+    font-size: 0.88rem !important;
+    font-weight: 700;
+  }
+
+  .hero-3d-info-card #hero-3d-wa-btn {
+    display: none !important;
+  }
+
+  .hero-3d-toolbar {
+    position: absolute !important;
+    top: 8px !important;
+    right: 8px !important;
+    padding: 4px 6px !important;
+    gap: 3px !important;
+    z-index: 11 !important;
+    background: rgba(14, 12, 10, 0.9) !important;
+    pointer-events: auto !important;
+  }
+
+  .turntable-tool-btn {
+    padding: 5px 7px !important;
+    font-size: 0.65rem !important;
+  }
+
+  .turntable-tool-btn span {
+    display: none !important;
+  }
+
+  .turntable-tool-btn i {
+    font-size: 0.82rem !important;
+    margin: 0 !important;
+  }
+
+  .hero-3d-hint {
+    display: inline-flex !important;
+    position: absolute !important;
+    bottom: 84px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    right: auto !important;
+    font-size: 0.62rem !important;
+    padding: 3px 10px !important;
+    background: rgba(14, 12, 10, 0.8) !important;
+    border: 1px solid rgba(201, 168, 76, 0.3) !important;
+    border-radius: var(--radius-full) !important;
+    white-space: nowrap !important;
+    pointer-events: none !important;
+    z-index: 11 !important;
+  }
+
+  .hero-3d-cake-dock {
+    bottom: 50px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: calc(100% - 16px) !important;
+    max-width: 370px !important;
+    padding: 4px 6px !important;
+    gap: 4px !important;
+    justify-content: space-around !important;
+    z-index: 12 !important;
+    pointer-events: auto !important;
+  }
+
+  .cake-dock-btn {
+    padding: 5px 8px !important;
+    font-size: 0.68rem !important;
+    gap: 4px !important;
+  }
+
+  .cake-dock-btn .dock-icon {
+    font-size: 0.85rem !important;
+  }
+
+  .cake-dock-btn .dock-label {
+    font-size: 0.66rem !important;
+  }
+
+  .hero-3d-mobile-order-bar {
+    display: block !important;
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    z-index: 13;
+    pointer-events: auto;
+  }
+
+  .btn-order-turntable-mobile {
+    width: 100%;
+    min-height: 36px;
+    padding: 6px 12px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
   }
 }
 

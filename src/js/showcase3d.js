@@ -134,14 +134,18 @@ export class DessertShowcase3D {
   setupScene() {
     const width = this.container.clientWidth || 540;
     const height = this.container.clientHeight || 500;
+    const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
 
     this.scene = new THREE.Scene();
     this.scene.background = null;
 
-    this.camera = new THREE.PerspectiveCamera(32, width / height, 0.1, 100);
-    this.baseCameraPos = new THREE.Vector3(0, 1.82, 3.35);
+    const fov = isMobile ? 36 : 32;
+    this.camera = new THREE.PerspectiveCamera(fov, width / height, 0.1, 100);
+    this.baseCameraPos = isMobile
+      ? new THREE.Vector3(0, 2.15, 4.15)
+      : new THREE.Vector3(0, 1.82, 3.35);
     this.camera.position.copy(this.baseCameraPos);
-    this.camera.lookAt(0, 0.32, 0);
+    this.camera.lookAt(0, isMobile ? 0.45 : 0.32, 0);
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     this.renderer.setSize(width, height);
@@ -683,6 +687,14 @@ export class DessertShowcase3D {
         <i class="fa-solid fa-arrows-rotate"></i>
         <span>Touch or drag 360° to rotate</span>
       </div>
+
+      <!-- Dedicated Mobile Order Bar -->
+      <div class="hero-3d-mobile-order-bar">
+        <a href="#" id="hero-3d-mobile-wa-btn" class="btn btn-primary btn-sm btn-order-turntable-mobile" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>Order <strong id="hero-3d-mobile-cake-name">Pure Butter Cake</strong> (<span id="hero-3d-mobile-price">RM79</span>)</span>
+        </a>
+      </div>
     `;
 
     this.container.appendChild(ui);
@@ -754,9 +766,15 @@ export class DessertShowcase3D {
     if (nameEl) nameEl.textContent = data.name;
     if (descEl) descEl.textContent = data.desc;
     if (priceEl) priceEl.textContent = data.price;
-    if (waBtn) {
-      waBtn.href = `https://wa.me/60123360470?text=${encodeURIComponent(data.waText)}`;
+    const mobileWaBtn = this.uiOverlay.querySelector('#hero-3d-mobile-wa-btn');
+    const mobileNameEl = this.uiOverlay.querySelector('#hero-3d-mobile-cake-name');
+    const mobilePriceEl = this.uiOverlay.querySelector('#hero-3d-mobile-price');
+
+    if (mobileWaBtn) {
+      mobileWaBtn.href = `https://wa.me/60123360470?text=${encodeURIComponent(data.waText)}`;
     }
+    if (mobileNameEl) mobileNameEl.textContent = data.name;
+    if (mobilePriceEl) mobilePriceEl.textContent = data.price;
   }
 
   bindEvents() {
@@ -785,25 +803,71 @@ export class DessertShowcase3D {
     window.addEventListener('mousemove', (e) => onPointerMove(e.clientX, e.clientY));
     window.addEventListener('mouseup', onPointerUp);
 
-    // Touch events for mobile phones (Android / iOS)
-    canvas.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 1) onPointerDown(e.touches[0].clientX, e.touches[0].clientY);
-    }, { passive: true });
+    // Smart Mobile Touch Disambiguation:
+    // If user swipes vertically (up/down), page scrolls 100% natively without friction.
+    // If user swipes horizontally (left/right), 3D cake turntable rotates effortlessly!
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchAxis = null; // 'x' | 'y' | null
 
-    window.addEventListener('touchmove', (e) => {
-      if (this.isDragging && e.touches.length === 1) {
-        onPointerMove(e.touches[0].clientX, e.touches[0].clientY);
+    canvas.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        touchAxis = null;
+        this.isDragging = false;
+        this.previousMousePosition = { x: touchStartX, y: touchStartY };
       }
     }, { passive: true });
 
-    window.addEventListener('touchend', onPointerUp);
+    canvas.addEventListener('touchmove', (e) => {
+      if (e.touches.length !== 1) return;
+      const curX = e.touches[0].clientX;
+      const curY = e.touches[0].clientY;
+
+      if (!touchAxis) {
+        const dx = Math.abs(curX - touchStartX);
+        const dy = Math.abs(curY - touchStartY);
+        if (dx < 6 && dy < 6) return;
+        if (dy >= dx) {
+          touchAxis = 'y'; // Vertical scroll gesture
+          this.isDragging = false;
+          return;
+        } else {
+          touchAxis = 'x'; // Horizontal 3D rotate gesture
+          this.isDragging = true;
+          this.previousMousePosition = { x: curX, y: curY };
+        }
+      }
+
+      if (touchAxis === 'x' && this.isDragging && this.cakeGroup) {
+        const deltaX = curX - this.previousMousePosition.x;
+        this.cakeGroup.rotation.y += deltaX * 0.012;
+        this.pedestalGroup.rotation.y += deltaX * 0.012;
+        this.previousMousePosition = { x: curX, y: curY };
+      }
+    }, { passive: true });
+
+    const onTouchEnd = () => {
+      this.isDragging = false;
+      touchAxis = null;
+    };
+    canvas.addEventListener('touchend', onTouchEnd, { passive: true });
+    canvas.addEventListener('touchcancel', onTouchEnd, { passive: true });
 
     window.addEventListener('resize', () => {
       if (!this.container || !this.renderer || !this.camera) return;
       const w = this.container.clientWidth;
       const h = this.container.clientHeight;
       if (w === 0 || h === 0) return;
+      const isMobile = window.innerWidth <= 768;
+      this.camera.fov = isMobile ? 36 : 32;
       this.camera.aspect = w / h;
+      this.baseCameraPos = isMobile
+        ? new THREE.Vector3(0, 2.15, 4.15)
+        : new THREE.Vector3(0, 1.82, 3.35);
+      this.camera.position.copy(this.baseCameraPos);
+      this.camera.lookAt(0, isMobile ? 0.45 : 0.32, 0);
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(w, h);
     });
