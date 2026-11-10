@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
 export default defineConfig(({ command }) => ({
-  base: command === 'build' ? '/Veni-Delights-Website/' : '/',
+  base: process.env.BASE_PATH || (process.env.GITHUB_PAGES ? '/Veni-Delights-Website/' : '/'),
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
