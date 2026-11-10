@@ -48,6 +48,9 @@ export class LiquidParallaxSystem {
   }
 
   initSpatialParallax() {
+    // Only run on desktop/fine-pointer devices to keep mobile scrolling buttery smooth
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+
     // Create floating strawberry slices and vanilla cream orbs
     const container = document.createElement('div');
     container.className = 'spatial-parallax-container';
@@ -73,28 +76,37 @@ export class LiquidParallaxSystem {
     let mouseY = 0;
     let targetX = 0;
     let targetY = 0;
+    let isTicking = false;
 
-    window.addEventListener('mousemove', (e) => {
-      targetX = (e.clientX - window.innerWidth / 2);
-      targetY = (e.clientY - window.innerHeight / 2);
-    });
+    const layers = container.querySelectorAll('.parallax-layer');
 
     const updateParallax = () => {
       mouseX += (targetX - mouseX) * 0.06;
       mouseY += (targetY - mouseY) * 0.06;
 
-      const layers = container.querySelectorAll('.parallax-layer');
       layers.forEach(layer => {
         const depth = parseFloat(layer.dataset.depth) || 0.1;
         const x = -(mouseX * depth);
         const y = -(mouseY * depth);
-        layer.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+        layer.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0)`;
       });
 
-      requestAnimationFrame(updateParallax);
+      if (Math.abs(targetX - mouseX) > 0.1 || Math.abs(targetY - mouseY) > 0.1) {
+        requestAnimationFrame(updateParallax);
+      } else {
+        isTicking = false;
+      }
     };
 
-    updateParallax();
+    window.addEventListener('mousemove', (e) => {
+      targetX = (e.clientX - window.innerWidth / 2);
+      targetY = (e.clientY - window.innerHeight / 2);
+
+      if (!isTicking) {
+        isTicking = true;
+        requestAnimationFrame(updateParallax);
+      }
+    }, { passive: true });
   }
 
   initLuxuryCursor() {
@@ -114,20 +126,29 @@ export class LiquidParallaxSystem {
     let cursorY = window.innerHeight / 2;
     let ringX = cursorX;
     let ringY = cursorY;
+    let ringTicking = false;
+
+    const renderCursorRing = () => {
+      ringX += (cursorX - ringX) * 0.22;
+      ringY += (cursorY - ringY) * 0.22;
+      ring.style.transform = `translate3d(${ringX.toFixed(2)}px, ${ringY.toFixed(2)}px, 0)`;
+
+      if (Math.abs(cursorX - ringX) > 0.1 || Math.abs(cursorY - ringY) > 0.1) {
+        requestAnimationFrame(renderCursorRing);
+      } else {
+        ringTicking = false;
+      }
+    };
 
     window.addEventListener('mousemove', (e) => {
       cursorX = e.clientX;
       cursorY = e.clientY;
       dot.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
-    });
-
-    const renderCursorRing = () => {
-      ringX += (cursorX - ringX) * 0.18;
-      ringY += (cursorY - ringY) * 0.18;
-      ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
-      requestAnimationFrame(renderCursorRing);
-    };
-    renderCursorRing();
+      if (!ringTicking) {
+        ringTicking = true;
+        requestAnimationFrame(renderCursorRing);
+      }
+    }, { passive: true });
 
     // Hover interactive expansion
     const interactiveElements = document.querySelectorAll('a, button, input, select, textarea, .product-card, .cake-dock-btn');

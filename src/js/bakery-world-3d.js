@@ -63,6 +63,7 @@ export class BakeryWorld3D {
       }
     };
 
+    this.isVisible = true;
     this.init();
   }
 
@@ -75,6 +76,7 @@ export class BakeryWorld3D {
     this.buildCenterTurntable();
     this.setupControlsUI();
     this.bindEvents();
+    this.setupVisibilityObserver();
     this.animate();
   }
 
@@ -480,8 +482,28 @@ export class BakeryWorld3D {
     });
   }
 
+  setupVisibilityObserver() {
+    if ('IntersectionObserver' in window && this.container) {
+      this.observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          this.isVisible = entry.isIntersecting && !document.hidden;
+        });
+      }, { threshold: 0.05 });
+      this.observer.observe(this.container);
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      this.isVisible = !document.hidden;
+    });
+  }
+
   animate() {
     requestAnimationFrame(() => this.animate());
+
+    // Skip render if offscreen or hidden (0% idle GPU/CPU)
+    if (!this.isVisible || document.hidden || (this.container && this.container.offsetParent === null)) {
+      return;
+    }
 
     const delta = this.clock.getDelta();
 

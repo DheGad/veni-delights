@@ -258,9 +258,15 @@
               <span class="status-indicator-text">LIVE PHOTOREAL CONCIERGE</span>
             </div>
             <div class="avatar-persona-tags" role="tablist" aria-label="Select avatar guide">
-              <button class="persona-tab-btn active" data-persona="host">Chef Veni (Host)</button>
-              <button class="persona-tab-btn" data-persona="baker">Master Baker</button>
-              <button class="persona-tab-btn" data-persona="specialist">Dessert Stylist</button>
+              <button class="persona-tab-btn active" data-persona="host" type="button" aria-selected="true">
+                <span class="tab-emoji">👩‍🍳</span> Chef Veni
+              </button>
+              <button class="persona-tab-btn" data-persona="baker" type="button" aria-selected="false">
+                <span class="tab-emoji">🧑‍🍳</span> Master Baker
+              </button>
+              <button class="persona-tab-btn" data-persona="specialist" type="button" aria-selected="false">
+                <span class="tab-emoji">✨</span> Stylist
+              </button>
             </div>
           </div>
 
@@ -286,11 +292,45 @@
                 </div>
               </div>
 
+              <!-- Quick AI Concierge Pre-Filled Question Chips -->
+              <div class="avatar-qa-chips-row" role="region" aria-label="Ask Chef Veni pre-filled questions">
+                <div class="qa-chips-scroll" role="tablist" aria-label="Pre-filled bakery questions">
+                  <button class="qa-chip-btn" data-qa-id="butter" type="button" title="Do you really use 100% pure butter in all cakes?">
+                    <span class="qa-chip-icon">🧈</span>
+                    <span class="qa-chip-label">100% Pure Butter?</span>
+                  </button>
+                  <button class="qa-chip-btn" data-qa-id="bestseller" type="button" title="Which cake is best for a birthday celebration?">
+                    <span class="qa-chip-icon">🎂</span>
+                    <span class="qa-chip-label">Best Birthday Cake?</span>
+                  </button>
+                  <button class="qa-chip-btn" data-qa-id="delivery" type="button" title="Do you deliver to Klang, PJ, Subang, and KL?">
+                    <span class="qa-chip-icon">🚚</span>
+                    <span class="qa-chip-label">Klang & PJ Delivery?</span>
+                  </button>
+                  <button class="qa-chip-btn" data-qa-id="tarts" type="button" title="How should I reheat the Molten Cheese Tarts for maximum lava flow?">
+                    <span class="qa-chip-icon">🧀</span>
+                    <span class="qa-chip-label">How to Reheat Tarts?</span>
+                  </button>
+                  <button class="qa-chip-btn" data-qa-id="pandan" type="button" title="Is the Pandan Layer cake made from real pandan leaves?">
+                    <span class="qa-chip-icon">🌿</span>
+                    <span class="qa-chip-label">Real Pandan Leaves?</span>
+                  </button>
+                  <button class="qa-chip-btn" data-qa-id="custom" type="button" title="Can I add a custom chocolate message or birthday toppers?">
+                    <span class="qa-chip-icon">✍️</span>
+                    <span class="qa-chip-label">Custom Inscriptions?</span>
+                  </button>
+                </div>
+              </div>
+
               <div class="avatar-action-row">
                 <button class="btn btn-voice-audio" id="hero-voice-toggle-btn" aria-label="Listen to Host Voice">
                   <i class="fa-solid fa-volume-high"></i>
                   <span>Listen to Host</span>
                 </button>
+                <a href="https://wa.me/60123360470" id="avatar-qa-wa-link" class="btn btn-ask-wa" target="_blank" rel="noopener noreferrer" style="display:none;">
+                  <i class="fa-brands fa-whatsapp"></i>
+                  <span>Order on WhatsApp</span>
+                </a>
                 <a href="#veni-guide" class="btn btn-ask-concierge">
                   <i class="fa-solid fa-comments"></i>
                   <span>Ask Concierge</span>
@@ -3986,17 +4026,22 @@
 <!-- =============================================
      MOBILE APP-GRADE STICKY BOTTOM BAR
      ============================================= -->
-<nav class="mobile-sticky-bar" id="mobile-sticky-bar" aria-label="Mobile quick actions">
-  <a href="tel:0123360470" class="mobile-bar-btn" aria-label="Call Veni Delights">
-    <i class="fa-solid fa-phone"></i>
-    <span>Call</span>
+<nav class="mobile-sticky-bar" id="mobile-sticky-bar" aria-label="Mobile App Navigation">
+  <a href="#top" class="mobile-bar-btn active" id="mob-tab-home" aria-label="Home">
+    <i class="fa-solid fa-house"></i>
+    <span>Home</span>
   </a>
-  <a href="https://wa.me/60123360470?text=Hello%20Veni%20Delights!%20I'd%20like%20to%20order%20desserts%20for%20my%20celebration." 
-     class="mobile-bar-btn mobile-bar-whatsapp" 
-     target="_blank" rel="noopener noreferrer" 
-     aria-label="Order via WhatsApp">
-    <i class="fa-brands fa-whatsapp"></i>
-    <span>WhatsApp</span>
+  <a href="#products" class="mobile-bar-btn" id="mob-tab-menu" aria-label="Menu">
+    <i class="fa-solid fa-cake-candles"></i>
+    <span>Menu</span>
+  </a>
+  <a href="#artisan-showcase" class="mobile-bar-btn" id="mob-tab-lab" aria-label="Tart Lab">
+    <i class="fa-solid fa-fire-burner"></i>
+    <span>Tart Lab</span>
+  </a>
+  <a href="#hero-avatar-card" class="mobile-bar-btn" id="mob-tab-concierge" aria-label="AI Concierge">
+    <i class="fa-solid fa-headset"></i>
+    <span>Concierge</span>
   </a>
   <button class="mobile-bar-btn mobile-bar-cart" id="mobile-bar-cart-btn" aria-label="Open Order Cart">
     <div class="cart-icon-wrap">
@@ -4005,7 +4050,7 @@
     </div>
     <span>Cart</span>
   </button>
-  <button class="mobile-bar-btn mobile-bar-theme" id="mobile-bar-theme-toggle" aria-label="Switch Color Theme">
+  <button class="mobile-bar-btn mobile-bar-theme" id="mobile-bar-theme-toggle" aria-label="Switch Color Theme" title="Switch Theme">
     <span class="mobile-theme-swatch">🍓</span>
     <span>Theme</span>
   </button>

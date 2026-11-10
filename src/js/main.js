@@ -249,6 +249,71 @@ class VeniDelightsApp {
   }
 
   initMobileStickyBar() {
+    const bar = document.getElementById('mobile-sticky-bar');
+    if (!bar) return;
+
+    const navTabs = bar.querySelectorAll('a.mobile-bar-btn');
+    navTabs.forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        const href = tab.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          navTabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+
+          if (href === '#top') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            const target = document.querySelector(href);
+            if (target) {
+              const yOffset = -70;
+              const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+              window.scrollTo({ top: y, behavior: 'smooth' });
+            }
+          }
+        }
+      });
+    });
+
+    // Scroll spy to highlight active tab
+    const sections = [
+      { id: 'top', tabId: 'mob-tab-home', el: document.body },
+      { id: 'hero-avatar-card', tabId: 'mob-tab-concierge', el: document.getElementById('hero-avatar-card') },
+      { id: 'products', tabId: 'mob-tab-menu', el: document.getElementById('products') },
+      { id: 'artisan-showcase', tabId: 'mob-tab-lab', el: document.getElementById('artisan-showcase') }
+    ];
+
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+      if (scrollTimeout) return;
+      scrollTimeout = setTimeout(() => {
+        scrollTimeout = null;
+        const scrollY = window.scrollY;
+        if (scrollY < 400) {
+          navTabs.forEach(t => t.classList.toggle('active', t.id === 'mob-tab-home'));
+          return;
+        }
+
+        const midScreen = scrollY + window.innerHeight * 0.35;
+        let currentTab = null;
+
+        for (let i = sections.length - 1; i >= 0; i--) {
+          const sec = sections[i];
+          if (sec.el) {
+            const top = sec.el.offsetTop;
+            if (midScreen >= top - 100) {
+              currentTab = sec.tabId;
+              break;
+            }
+          }
+        }
+
+        if (currentTab) {
+          navTabs.forEach(t => t.classList.toggle('active', t.id === currentTab));
+        }
+      }, 100);
+    }, { passive: true });
+
     const mobileCartBtn = document.getElementById('mobile-bar-cart-btn');
     if (mobileCartBtn && this.orderDrawer) {
       mobileCartBtn.addEventListener('click', () => this.orderDrawer.open());
