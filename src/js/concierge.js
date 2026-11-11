@@ -47,7 +47,7 @@ const FLOW = {
     choices: [
       { label: "Just myself / 2–3 people", value: 'personal', next: 'product_pref' },
       { label: "Small group (5–15 people)", value: 'small', next: 'product_pref' },
-      { label: "Medium gathering (20–50 people)", value: 'medium', next: 'budget' },
+      { label: "Medium gathering (20–50 people)", value: 'medium', next: 'product_pref' },
       { label: "Large event (50+ people)", value: 'large', next: 'dessert_corner_suggest' },
     ],
   },
@@ -111,10 +111,10 @@ const FLOW = {
     id: 'product_pref',
     message: "What type of dessert are you in the mood for? 🍰",
     choices: [
-      { label: "🎂 Rich Butter Cakes", value: 'butter', next: 'budget' },
-      { label: "🍫 Fudgy Brownies", value: 'brownies', next: 'budget' },
-      { label: "🍓 Pavlova Pudding Cake", value: 'pavlova', next: 'flavour_pavlova' },
-      { label: "🥧 Fresh Tarts", value: 'tarts', next: 'tart_type' },
+      { label: "🎂 Rich Butter Cakes (RM79)", value: 'butter', next: 'budget' },
+      { label: "🍫 Fudgy Brownies (RM59)", value: 'brownies', next: 'budget' },
+      { label: "🍓 Pavlova Pudding Cake (RM88)", value: 'pavlova', next: 'flavour_pavlova' },
+      { label: "🥧 Fresh Tarts (From RM2.50)", value: 'tarts', next: 'tart_type' },
       { label: "🌿 Traditional Kuih / Indian Sweets", value: 'traditional', next: 'summary_trad' },
     ],
   },
@@ -164,7 +164,7 @@ const FLOW = {
 
   summary_product: {
     id: 'summary_product',
-    message: "Based on your choices, here are my recommendations! Ready to order?",
+    message: "Based on your choices, here are my handcrafted recommendations! Ready to order?",
     isRecommendation: true,
     choices: [
       { label: "📱 Order via WhatsApp", value: 'order_wa', next: null, action: 'order_wa' },
@@ -176,56 +176,66 @@ const FLOW = {
 
 /**
  * Recommendation engine — deterministic rules
- * Maps user selections to specific products
+ * Maps user selections to specific products with full item details and images
  */
 function getRecommendations(state) {
-  const { productPref, flavour, occasion, guestCount } = state;
-  const recs = [];
+  const { productPref, flavour, occasion } = state;
+  let recs = [];
+
+  const butterCat = PRODUCTS.find(p => p.id === 'butter-series');
+  const browniesCat = PRODUCTS.find(p => p.id === 'brownies');
+  const pavlovaCat = PRODUCTS.find(p => p.id === 'pavlova');
+  const cheeseCat = PRODUCTS.find(p => p.id === 'cheese-tart');
+  const fruitCat = PRODUCTS.find(p => p.id === 'fruit-tart');
+  const eggCat = PRODUCTS.find(p => p.id === 'egg-tart');
 
   if (productPref === 'butter') {
-    // Recommend based on occasion
     if (occasion === 'birthday') {
       recs.push(
-        PRODUCTS.find(p => p.id === 'butter-series')?.items.find(i => i.id === 'red-velvet-butter-cake'),
-        PRODUCTS.find(p => p.id === 'butter-series')?.items.find(i => i.id === 'pure-butter-cake'),
+        butterCat?.items.find(i => i.id === 'red-velvet-butter-cake'),
+        butterCat?.items.find(i => i.id === 'pure-butter-cake'),
       );
     } else {
       recs.push(
-        PRODUCTS.find(p => p.id === 'butter-series')?.items.find(i => i.id === 'pure-butter-cake'),
-        PRODUCTS.find(p => p.id === 'butter-series')?.items.find(i => i.id === 'pandan-butter-cake'),
+        butterCat?.items.find(i => i.id === 'pure-butter-cake'),
+        butterCat?.items.find(i => i.id === 'pandan-butter-cake'),
       );
     }
-  }
-
-  if (productPref === 'brownies') {
+  } else if (productPref === 'brownies') {
     recs.push(
-      PRODUCTS.find(p => p.id === 'brownies')?.items.find(i => i.id === 'brownies-standard'),
-      PRODUCTS.find(p => p.id === 'brownies')?.items.find(i => i.id === 'brownies-celebration'),
+      browniesCat?.items.find(i => i.id === 'brownies-standard'),
+      browniesCat?.items.find(i => i.id === 'brownies-celebration'),
     );
-  }
-
-  if (productPref === 'pavlova') {
-    const pavlovaItems = PRODUCTS.find(p => p.id === 'pavlova')?.items;
-    if (flavour && pavlovaItems) {
-      const matched = pavlovaItems.find(i => i.variant?.toLowerCase().replace(' ', '-') === flavour);
+  } else if (productPref === 'pavlova') {
+    const pavlovaItems = pavlovaCat?.items || [];
+    if (flavour && pavlovaItems.length) {
+      const matched = pavlovaItems.find(i => i.variant?.toLowerCase().replace(/\s+/g, '-') === flavour);
       if (matched) recs.push(matched);
     }
-    if (!recs.length && pavlovaItems) {
-      recs.push(pavlovaItems[1], pavlovaItems[0]); // strawberry, orange defaults
+    if (!recs.length && pavlovaItems.length) {
+      recs.push(pavlovaItems[1] || pavlovaItems[0], pavlovaItems[0]);
+    }
+  } else if (productPref === 'tarts') {
+    if (flavour === 'cheese-tart') {
+      recs.push(
+        cheeseCat?.items.find(i => i.id === 'cheese-tart-strawberry'),
+        cheeseCat?.items.find(i => i.id === 'cheese-tart-blueberry'),
+      );
+    } else if (flavour === 'fruit-tart') {
+      recs.push(fruitCat?.items.find(i => i.isMain) || fruitCat?.items[0]);
+    } else if (flavour === 'egg-tart') {
+      recs.push(eggCat?.items.find(i => i.isMain) || eggCat?.items[0]);
+    } else {
+      recs.push(cheeseCat?.items[0]);
     }
   }
 
-  if (productPref === 'tarts') {
-    if (flavour === 'cheese-tart') {
-      recs.push(
-        PRODUCTS.find(p => p.id === 'cheese-tart')?.items.find(i => i.id === 'cheese-tart-strawberry'),
-        PRODUCTS.find(p => p.id === 'cheese-tart')?.items.find(i => i.id === 'cheese-tart-blueberry'),
-      );
-    } else if (flavour === 'fruit-tart') {
-      recs.push(PRODUCTS.find(p => p.id === 'fruit-tart')?.items.find(i => i.isMain));
-    } else if (flavour === 'egg-tart') {
-      recs.push(PRODUCTS.find(p => p.id === 'egg-tart')?.items.find(i => i.isMain));
-    }
+  // Ensure default fallback recommendations if user skipped or arrived without preference
+  if (!recs.filter(Boolean).length) {
+    const defaultButter = butterCat?.items[0]; // Pure Butter Cake
+    const defaultPavlova = pavlovaCat?.items[1]; // Strawberry Pavlova
+    const defaultTart = cheeseCat?.items[0]; // Cheese Tart Strawberry
+    recs = [defaultButter, defaultPavlova, defaultTart].filter(Boolean);
   }
 
   return recs.filter(Boolean).slice(0, 3);
@@ -409,15 +419,13 @@ export class VeniConcierge {
       eventType: this.state.eventType || '',
     });
 
-    this.addBotMessage("Opening WhatsApp with your Dessert Corner enquiry... 📱 Please send the message to confirm your enquiry!");
-
-    setTimeout(() => openWhatsApp(url), 800);
+    this.addBotMessage("Opening WhatsApp with your Dessert Corner enquiry... 📱 Please send the message to confirm your booking!");
+    openWhatsApp(url);
 
     // Show restart
     this.updateChoices({
       choices: [{ label: "🔄 Start a new enquiry", value: 'restart', next: 'start' }],
     });
-    // Bind the restart action
     this.choicesEl.querySelector('button')?.addEventListener('click', () => this.restart());
   }
 
@@ -433,11 +441,13 @@ export class VeniConcierge {
       name: r.name,
       variant: r.variant || null,
       quantity: 1,
+      price: r.price,
+      priceDisplay: r.priceDisplay || (r.price ? `RM${r.price.toFixed(2)}` : '')
     }));
 
     const url = buildProductOrderURL({ items: orderItems });
     this.addBotMessage("Opening WhatsApp with your recommendations... 📱");
-    setTimeout(() => openWhatsApp(url), 800);
+    openWhatsApp(url);
   }
 
   enquireTraditional() {
@@ -450,19 +460,99 @@ export class VeniConcierge {
     if (!recs.length) return;
 
     const recDiv = document.createElement('div');
-    recDiv.className = 'concierge-bubble';
+    recDiv.className = 'concierge-bubble concierge-bubble-rec';
     recDiv.innerHTML = `
       <div class="concierge-bubble-avatar" aria-hidden="true"><img src="/images/avatars/host-photoreal.jpg" class="concierge-bubble-avatar-img" alt="Chef Veni" /></div>
-      <div class="concierge-bubble-text">
-        <strong>My top picks for you:</strong>
-        <ul style="margin-top:8px; padding-left:16px; font-size:0.85em;">
-          ${recs.map(r => `<li style="margin-bottom:4px;">
-            <strong>${r.name}</strong>${r.variant ? ` — ${r.variant}` : ''} 
-            ${r.priceDisplay ? `<span style="color:var(--color-gold-antique)">${r.priceDisplay}</span>` : ''}
-          </li>`).join('')}
-        </ul>
+      <div class="concierge-bubble-text" style="width:100%;">
+        <div style="font-weight:700; font-size:1.05rem; color:#FAF7F0; margin-bottom:12px;">
+          ✨ My Top Handcrafted Recommendations For You:
+        </div>
+        <div class="concierge-rec-cards-list" style="display:flex; flex-direction:column; gap:12px;">
+          ${recs.map((r, i) => `
+            <div class="concierge-rec-item" style="background:rgba(255,255,255,0.06); border:1px solid rgba(213,174,97,0.3); border-radius:14px; padding:14px; box-shadow:0 4px 16px rgba(0,0,0,0.3);">
+              <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px;">
+                <img src="${r.image || 'images/logo/logo.jpg'}" alt="${r.name}" style="width:58px; height:58px; object-fit:cover; border-radius:10px; border:1px solid rgba(213,174,97,0.4); flex-shrink:0;">
+                <div style="flex:1; min-width:0;">
+                  <h4 style="color:#FAF7F0; margin:0 0 4px 0; font-size:0.95rem; font-family:var(--font-display);">${r.name}</h4>
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="color:var(--color-gold-champagne); font-weight:700; font-size:1.05rem;">${r.price ? `RM${r.price.toFixed(2)}` : (r.priceDisplay || 'Enquiry')}</span>
+                    ${r.variant ? `<span style="font-size:0.72rem; background:rgba(213,174,97,0.2); color:var(--color-gold-champagne); padding:2px 8px; border-radius:99px;">${r.variant}</span>` : ''}
+                  </div>
+                </div>
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                <button class="btn btn-whatsapp btn-sm rec-wa-btn" data-idx="${i}" style="width:100%; justify-content:center; padding:8px 4px; font-size:0.78rem; border-radius:8px; white-space:nowrap;">
+                  <i class="fa-brands fa-whatsapp"></i> Order
+                </button>
+                <button class="btn btn-secondary btn-sm rec-cart-btn" data-idx="${i}" style="width:100%; justify-content:center; padding:8px 4px; font-size:0.78rem; border-radius:8px; white-space:nowrap;">
+                  <i class="fa-solid fa-cart-plus"></i> + Cart
+                </button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
       </div>
     `;
+
+    // Bind direct WhatsApp order for individual items
+    recDiv.querySelectorAll('.rec-wa-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.idx, 10);
+        const item = recs[idx];
+        if (!item) return;
+        const orderUrl = buildProductOrderURL({
+          items: [{
+            name: item.name,
+            variant: item.variant || null,
+            quantity: 1,
+            price: item.price,
+            priceDisplay: item.priceDisplay
+          }]
+        });
+        openWhatsApp(orderUrl, btn);
+      });
+    });
+
+    // Bind Add to Cart for individual items
+    recDiv.querySelectorAll('.rec-cart-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.idx, 10);
+        const item = recs[idx];
+        if (!item) return;
+
+        let items = [];
+        try {
+          const raw = localStorage.getItem('veni_delights_cart') || localStorage.getItem('veni_order_items');
+          if (raw) items = JSON.parse(raw);
+        } catch(e) {}
+
+        const existingIndex = items.findIndex(i => i.name === item.name && i.variant === item.variant);
+        if (existingIndex > -1) {
+          items[existingIndex].quantity = (items[existingIndex].quantity || 1) + 1;
+        } else {
+          items.push({
+            id: item.id || `rec-${Date.now()}`,
+            name: item.name,
+            variant: item.variant || null,
+            price: item.price || 0,
+            priceDisplay: item.priceDisplay || (item.price ? `RM${item.price.toFixed(2)}` : ''),
+            image: item.image || 'images/logo/logo.jpg',
+            quantity: 1
+          });
+        }
+
+        localStorage.setItem('veni_delights_cart', JSON.stringify(items));
+        localStorage.setItem('veni_order_items', JSON.stringify(items));
+        window.dispatchEvent(new CustomEvent('cart-updated'));
+
+        btn.innerHTML = '✓ Added to Cart!';
+        setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-cart-plus"></i> Add to Cart'; }, 2000);
+
+        const drawerOpenBtn = document.getElementById('open-order-builder');
+        if (drawerOpenBtn) drawerOpenBtn.click();
+      });
+    });
+
     this.messagesEl.appendChild(recDiv);
     this.messagesEl.scrollTop = this.messagesEl.scrollHeight;
   }

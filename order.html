@@ -126,7 +126,7 @@
           
           <!-- Order Items Table Card -->
           <div class="card card-dark checkout-card">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:14px; flex-wrap:wrap; gap:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:14px;">
               <h3 style="color:#FAF7F0; font-family:var(--font-display); margin:0;">Selected Creations</h3>
               <a href="products.html" class="btn btn-secondary btn-sm"><i class="fa-solid fa-plus"></i> Add More Items</a>
             </div>
@@ -222,8 +222,7 @@
 
           let total = 0;
           listEl.innerHTML = items.map((item, idx) => {
-            const qty = parseInt(item.quantity || item.qty || 1, 10);
-            const itemTotal = (item.price || 0) * qty;
+            const itemTotal = (item.price || 0) * (item.quantity || 1);
             total += itemTotal;
             return `
               <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background:rgba(255,255,255,0.05); border-radius:12px;">
@@ -231,8 +230,7 @@
                   <img src="${item.image || 'images/product/butter series/pure butter.png'}" alt="${item.name}" style="width:50px; height:50px; object-fit:cover; border-radius:8px;">
                   <div>
                     <h4 style="color:#FAF7F0; margin:0; font-size:0.95rem;">${item.name}</h4>
-                    ${item.variant ? `<div style="color:var(--color-gold-champagne); font-size:0.75rem;">${item.variant}</div>` : ''}
-                    <span style="color:#B5AFA3; font-size:0.8rem;">Qty: ${qty} ${item.price ? '× RM' + item.price : ''}</span>
+                    <span style="color:#B5AFA3; font-size:0.8rem;">Qty: ${item.quantity} ${item.price ? '× RM' + item.price : ''}</span>
                   </div>
                 </div>
                 <div style="text-align:right;">
@@ -259,11 +257,19 @@
         }
 
         loadItems();
-        window.addEventListener('storage', loadItems);
-        window.addEventListener('cart-updated', loadItems);
 
         if (submitBtn) {
           submitBtn.addEventListener('click', () => {
+            let raw = localStorage.getItem('veni_delights_cart');
+            if (!raw) raw = localStorage.getItem('veni_order_items');
+            let items = [];
+            try { items = JSON.parse(raw); } catch(e){}
+
+            if (!items || items.length === 0) {
+              alert('Your order builder is empty. Please add items from our menu first!');
+              return;
+            }
+
             const name = document.getElementById('chk-name').value.trim();
             const phone = document.getElementById('chk-phone').value.trim();
             const date = document.getElementById('chk-date').value;
@@ -271,15 +277,7 @@
             const address = document.getElementById('chk-address').value.trim();
             const notes = document.getElementById('chk-notes').value.trim();
 
-            if (!name) {
-              alert('Please enter your full name.');
-              return;
-            }
-
-            let raw = localStorage.getItem('veni_delights_cart');
-            if (!raw) raw = localStorage.getItem('veni_order_items');
-            let items = [];
-            try { items = JSON.parse(raw); } catch(e){}
+            const customerName = name || 'Customer (Web Order)';
 
             let total = 0;
             const itemLines = items.map((it, i) => {
@@ -299,7 +297,7 @@
 
             let msg = '🎂 *NEW ORDER — VENI DELIGHTS (Klang)*\n';
             msg += '─────────────────────────\n';
-            msg += '👤 *Customer Name:* ' + name + '\n';
+            msg += '👤 *Customer Name:* ' + customerName + '\n';
             if (phone) msg += '📱 *Phone / WhatsApp:* ' + phone + '\n';
             if (date) msg += '📅 *Preferred Date:* ' + date + '\n';
             if (delivery) msg += '🚚 *Collection / Delivery:* ' + delivery + '\n';
@@ -314,7 +312,20 @@
             }
             msg += 'Please confirm availability and banking/DuitNow payment details. Thank you! 🙏';
 
-            window.open('https://wa.me/60123360470?text=' + encodeURIComponent(msg), '_blank');
+            const waUrl = 'https://wa.me/60123360470?text=' + encodeURIComponent(msg);
+            const isMobile = typeof navigator !== 'undefined' && /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+            if (isMobile) {
+              window.location.href = waUrl;
+            } else {
+              try {
+                const win = window.open(waUrl, '_blank', 'noopener,noreferrer');
+                if (!win || win.closed || typeof win.closed === 'undefined') {
+                  window.location.href = waUrl;
+                }
+              } catch (e) {
+                window.location.href = waUrl;
+              }
+            }
           });
         }
       });

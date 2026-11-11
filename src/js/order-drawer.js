@@ -228,14 +228,19 @@ export class OrderDrawer {
   }
 
   submitOrder() {
+    if (!this.items || !this.items.length) {
+      this.showToast('Your order builder is empty. Please add a dessert first!');
+      return;
+    }
+
     const validation = validateOrder(this.items);
     if (!validation.valid) {
-      alert(validation.errors.join('\n'));
+      this.showToast(validation.errors[0] || 'Please review your order items.');
       return;
     }
 
     const orderData = {
-      customerName: this.customerNameInput?.value.trim() || '',
+      customerName: this.customerNameInput?.value.trim() || 'Valued Customer',
       preferredDate: this.dateInput?.value || '',
       deliveryPreference: this.deliverySelect?.value || '',
       specialInstructions: this.instructionsInput?.value.trim() || '',
@@ -243,7 +248,9 @@ export class OrderDrawer {
     };
 
     const waUrl = buildProductOrderURL(orderData);
-    openWhatsApp(waUrl, this.submitBtn);
+    if (waUrl) {
+      openWhatsApp(waUrl, this.submitBtn);
+    }
   }
 
   saveToStorage() {

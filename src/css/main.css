@@ -1778,6 +1778,24 @@ html, body {
   color: var(--color-gold-champagne);
 }
 
+.concierge-bubble-rec {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+.concierge-bubble-rec .concierge-bubble-text {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: 16px 14px !important;
+}
+
+@media (max-width: 600px) {
+  .concierge-card {
+    padding: 20px 14px !important;
+  }
+}
+
+
 .concierge-choices {
   display: flex;
   flex-wrap: wrap;

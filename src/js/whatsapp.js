@@ -150,8 +150,9 @@ export function buildGeneralEnquiryURL(subject = '') {
 }
 
 /**
- * Open WhatsApp URL after optional confirmation
- * Shows a brief confirmation state before opening.
+ * Open WhatsApp URL immediately and synchronously.
+ * On mobile devices, window.location.href triggers native WhatsApp app without popup blockers.
+ * On desktop, window.open is used with fallback to window.location.href.
  * @param {string} url - WhatsApp URL
  * @param {HTMLElement} btn - Button element for state management
  */
@@ -163,16 +164,27 @@ export function openWhatsApp(url, btn = null) {
     btn.innerHTML = '✓ Opening WhatsApp...';
     btn.disabled = true;
     setTimeout(() => {
-      window.open(url, '_blank', 'noopener,noreferrer');
-      setTimeout(() => {
-        btn.innerHTML = originalText;
-        btn.disabled = false;
-      }, 2000);
-    }, 300);
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+    }, 3000);
+  }
+
+  // DIRECT SYNCHRONOUS NAVIGATION (no setTimeout delay to avoid popup blockers)
+  const isMobile = typeof navigator !== 'undefined' && /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+  if (isMobile) {
+    window.location.href = url;
   } else {
-    window.open(url, '_blank', 'noopener,noreferrer');
+    try {
+      const win = window.open(url, '_blank', 'noopener,noreferrer');
+      if (!win || win.closed || typeof win.closed === 'undefined') {
+        window.location.href = url;
+      }
+    } catch (e) {
+      window.location.href = url;
+    }
   }
 }
+
 
 /**
  * Validate order items before building URL

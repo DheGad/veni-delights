@@ -1149,7 +1149,7 @@ fs.writeFileSync(path.join(rootDir, 'customise.html'), customiseHTML, 'utf-8');
 // 14. VIRTUAL CONCIERGE (concierge.html)
 const conciergeHTML = wrapHTML({
   title: 'Veni Virtual Concierge — Personal Dessert Pairing',
-  description: 'Chat with Veni Host for intelligent dessert recommendations. Tailored to your celebration occasion, guest count, flavour preference, and budget.',
+  description: 'Chat with Chef Veni for intelligent dessert recommendations. Tailored to your celebration occasion, guest count, flavour preference, and budget.',
   activePage: 'concierge',
   canonical: 'concierge.html',
   bodyContent: `
@@ -1157,27 +1157,129 @@ const conciergeHTML = wrapHTML({
       <div class="container text-center" style="max-width:850px; margin:0 auto;">
         <span class="hero-badge-pill" style="display:inline-flex; align-items:center; gap:8px; padding:6px 16px; border-radius:99px; background:rgba(213,174,97,0.15); border:1px solid rgba(213,174,97,0.3); color:var(--color-gold-champagne); font-size:0.78rem; font-weight:600; margin-bottom:1.25rem;">
           <span style="width:8px; height:8px; border-radius:50%; background:#25D366;"></span>
-          DIGITAL HUMAN HOST • INSTANT PAIRINGS
+          LIVE PHOTOREAL CONCIERGE • VOICE & SMART PAIRINGS
         </span>
-        <h1 class="hero-title" style="font-size:clamp(2.4rem, 4.5vw, 3.8rem); color:#FAF7F0; margin-bottom:1rem;">
-          Meet <span class="hero-title-accent">Veni Host</span>
+        <h1 class="hero-title" style="font-size:clamp(2.2rem, 4.2vw, 3.6rem); color:#FAF7F0; margin-bottom:1rem;">
+          Meet <span class="hero-title-accent">Chef Veni</span>
         </h1>
         <p class="hero-subtitle" style="color:#d5c5bc; font-size:1.05rem; line-height:1.7;">
-          Not sure what to choose? Let your personal digital patisserie concierge curate the perfect dessert pairing for your celebration.
+          Your personal artisan patisserie concierge. Speak directly with Chef Veni, tap instant bakery Q&As, or let our intelligent guide curate the perfect celebratory dessert pairing.
         </p>
       </div>
     </section>
 
-    <section class="section-pad bg-black">
-      <div class="container" style="max-width:800px; margin:0 auto;">
-        <div class="concierge-card" style="background:#140C0B; border:1px solid rgba(213,174,97,0.35); border-radius:24px; padding:36px; box-shadow:0 20px 60px rgba(0,0,0,0.8);">
+    <section class="section-pad bg-black" style="padding-top:10px; padding-bottom:40px;">
+      <div class="container" style="max-width:850px; margin:0 auto;">
+
+        <!-- 3D Digital Human Avatar Concierge Card -->
+        <div class="hero-avatar-card" id="hero-avatar-card" style="margin-bottom:36px; box-shadow:0 24px 64px rgba(0,0,0,0.85); border:1px solid rgba(213,174,97,0.35);">
+          <div class="avatar-card-header">
+            <div class="avatar-status-pill">
+              <span class="status-indicator-dot"></span>
+              <span class="status-indicator-text">LIVE PHOTOREAL CONCIERGE</span>
+            </div>
+            <div class="avatar-persona-tags" role="tablist" aria-label="Select avatar guide">
+              <button class="persona-tab-btn active" data-persona="host" type="button" aria-selected="true">
+                <span class="tab-emoji">👩‍🍳</span> Chef Veni
+              </button>
+              <button class="persona-tab-btn" data-persona="baker" type="button" aria-selected="false">
+                <span class="tab-emoji">🧑‍🍳</span> Master Baker
+              </button>
+              <button class="persona-tab-btn" data-persona="specialist" type="button" aria-selected="false">
+                <span class="tab-emoji">✨</span> Stylist
+              </button>
+            </div>
+          </div>
+
+          <div class="avatar-card-body">
+            <!-- Host Profile Identity Bar -->
+            <div class="avatar-host-bar">
+              <div class="avatar-container" id="avatar-container" aria-label="Photorealistic Digital Human Host"></div>
+              <div class="avatar-host-meta">
+                <div class="avatar-host-name-row">
+                  <span class="avatar-host-name" id="avatar-host-name">Chef Veni</span>
+                  <span class="avatar-host-badge" id="avatar-host-badge">LIVE HOST</span>
+                </div>
+                <span class="avatar-host-role" id="avatar-host-role">Founder & Master Baker • Klang</span>
+                <div class="avatar-soundwave-bars" id="avatar-soundwave-bars" aria-hidden="true">
+                  <span class="sw-bar"></span>
+                  <span class="sw-bar"></span>
+                  <span class="sw-bar"></span>
+                  <span class="sw-bar"></span>
+                  <span class="sw-bar"></span>
+                </div>
+              </div>
+              <button class="btn btn-voice-audio" id="hero-voice-toggle-btn" aria-label="Listen to Host Voice">
+                <i class="fa-solid fa-volume-high"></i>
+                <span class="voice-btn-label">Listen</span>
+              </button>
+            </div>
+
+            <!-- Avatar Speech & Voice Interaction -->
+            <div class="avatar-dialog-column">
+              <div class="avatar-speech-bubble" id="avatar-speech-bubble">
+                <div class="speech-quote-icon"><i class="fa-solid fa-quote-left"></i></div>
+                <p class="speech-text" id="avatar-speech-text">
+                  "Welcome to Veni Delights! I am Chef Veni. Every single cake and molten tart is baked fresh to order in Klang using 100% pure butter and natural ingredients."
+                </p>
+              </div>
+
+              <!-- Quick AI Concierge Pre-Filled Question Chips -->
+              <div class="avatar-qa-chips-row" role="region" aria-label="Ask Chef Veni pre-filled questions">
+                <div class="qa-chips-header">
+                  <span class="qa-chips-prompt">💡 Tap question to ask host:</span>
+                </div>
+                <div class="qa-chips-scroll" role="tablist" aria-label="Pre-filled bakery questions">
+                  <button class="qa-chip-btn" data-qa-id="butter" type="button" title="Do you really use 100% pure butter in all cakes?">
+                    <span class="qa-chip-icon">🧈</span>
+                    <span class="qa-chip-label">100% Pure Butter?</span>
+                  </button>
+                  <button class="qa-chip-btn" data-qa-id="bestseller" type="button" title="Which cake is best for a birthday celebration?">
+                    <span class="qa-chip-icon">🎂</span>
+                    <span class="qa-chip-label">Best Birthday Cake?</span>
+                  </button>
+                  <button class="qa-chip-btn" data-qa-id="delivery" type="button" title="Do you deliver to Klang, PJ, Subang, and KL?">
+                    <span class="qa-chip-icon">🚚</span>
+                    <span class="qa-chip-label">Klang & PJ Delivery?</span>
+                  </button>
+                  <button class="qa-chip-btn" data-qa-id="tarts" type="button" title="How should I reheat the Molten Cheese Tarts for maximum lava flow?">
+                    <span class="qa-chip-icon">🧀</span>
+                    <span class="qa-chip-label">How to Reheat Tarts?</span>
+                  </button>
+                  <button class="qa-chip-btn" data-qa-id="pandan" type="button" title="Is the Pandan Layer cake made from real pandan leaves?">
+                    <span class="qa-chip-icon">🌿</span>
+                    <span class="qa-chip-label">Real Pandan Leaves?</span>
+                  </button>
+                  <button class="qa-chip-btn" data-qa-id="custom" type="button" title="Can I add a custom chocolate message or birthday toppers?">
+                    <span class="qa-chip-icon">✍️</span>
+                    <span class="qa-chip-label">Custom Inscriptions?</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="avatar-action-row">
+                <a href="https://wa.me/60123360470?text=Hi%20Chef%20Veni!%20I%20would%20like%20to%20order%20from%20Veni%20Delights." id="avatar-qa-wa-link" class="btn btn-ask-wa" target="_blank" rel="noopener noreferrer">
+                  <i class="fa-brands fa-whatsapp"></i>
+                  <span>Order on WhatsApp</span>
+                </a>
+                <a href="#interactive-guide-card" class="btn btn-ask-concierge">
+                  <i class="fa-solid fa-comments"></i>
+                  <span>Start Pairing Guide</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Dessert Pairing Guide Card -->
+        <div class="concierge-card" id="interactive-guide-card" style="background:#140C0B; border:1px solid rgba(213,174,97,0.35); border-radius:24px; padding:32px; box-shadow:0 20px 60px rgba(0,0,0,0.8);">
           <div class="concierge-header" style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(213,174,97,0.2); padding-bottom:18px; margin-bottom:24px;">
             <div style="display:flex; align-items:center; gap:14px;">
               <div style="width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg, #A92D42 0%, #D5AE61 100%); display:flex; align-items:center; justify-content:center; color:#FFF; font-size:1.3rem;">
-                <i class="fa-solid fa-headset"></i>
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
               </div>
               <div>
-                <h3 style="color:#FAF7F0; font-family:var(--font-display); margin:0; font-size:1.25rem;">Veni Digital Concierge</h3>
+                <h3 style="color:#FAF7F0; font-family:var(--font-display); margin:0; font-size:1.25rem;">Interactive Dessert Pairing Guide</h3>
                 <span id="concierge-step-label" style="color:var(--color-gold-champagne); font-size:0.78rem;">Question 1 of 7</span>
               </div>
             </div>
@@ -1186,7 +1288,7 @@ const conciergeHTML = wrapHTML({
             </button>
           </div>
 
-          <div id="concierge-messages" style="display:flex; flex-direction:column; gap:16px; min-height:220px; max-height:460px; overflow-y:auto; padding:10px 0;">
+          <div id="concierge-messages" style="display:flex; flex-direction:column; gap:16px; min-height:220px; max-height:520px; overflow-y:auto; padding:10px 0;">
             <!-- Rendered by concierge.js -->
           </div>
 
@@ -1559,10 +1661,10 @@ const orderHTML = wrapHTML({
 
     <section class="section-pad bg-cream">
       <div class="container">
-        <div style="display:grid; grid-template-columns:1.2fr 0.8fr; gap:3rem; align-items:flex-start;">
+        <div class="checkout-grid">
           
           <!-- Order Items Table Card -->
-          <div class="card card-dark" style="padding:32px; border-radius:20px; border:1px solid rgba(213,174,97,0.3);">
+          <div class="card card-dark checkout-card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:14px;">
               <h3 style="color:#FAF7F0; font-family:var(--font-display); margin:0;">Selected Creations</h3>
               <a href="products.html" class="btn btn-secondary btn-sm"><i class="fa-solid fa-plus"></i> Add More Items</a>
@@ -1580,7 +1682,7 @@ const orderHTML = wrapHTML({
           </div>
 
           <!-- Checkout Details Card -->
-          <div class="card card-dark" style="padding:32px; border-radius:20px; border:1px solid rgba(213,174,97,0.3); position:sticky; top:calc(var(--navbar-height) + 20px);">
+          <div class="card card-dark checkout-card checkout-details-card">
             <h3 style="color:#FAF7F0; font-family:var(--font-display); margin-bottom:1.5rem;">Delivery & Customer Info</h3>
 
             <div class="form-group" style="margin-bottom:14px;">
@@ -1697,6 +1799,16 @@ const orderHTML = wrapHTML({
 
         if (submitBtn) {
           submitBtn.addEventListener('click', () => {
+            let raw = localStorage.getItem('veni_delights_cart');
+            if (!raw) raw = localStorage.getItem('veni_order_items');
+            let items = [];
+            try { items = JSON.parse(raw); } catch(e){}
+
+            if (!items || items.length === 0) {
+              alert('Your order builder is empty. Please add items from our menu first!');
+              return;
+            }
+
             const name = document.getElementById('chk-name').value.trim();
             const phone = document.getElementById('chk-phone').value.trim();
             const date = document.getElementById('chk-date').value;
@@ -1704,15 +1816,7 @@ const orderHTML = wrapHTML({
             const address = document.getElementById('chk-address').value.trim();
             const notes = document.getElementById('chk-notes').value.trim();
 
-            if (!name) {
-              alert('Please enter your full name.');
-              return;
-            }
-
-            let raw = localStorage.getItem('veni_delights_cart');
-            if (!raw) raw = localStorage.getItem('veni_order_items');
-            let items = [];
-            try { items = JSON.parse(raw); } catch(e){}
+            const customerName = name || 'Customer (Web Order)';
 
             let total = 0;
             const itemLines = items.map((it, i) => {
@@ -1732,7 +1836,7 @@ const orderHTML = wrapHTML({
 
             let msg = '🎂 *NEW ORDER — VENI DELIGHTS (Klang)*\\n';
             msg += '─────────────────────────\\n';
-            msg += '👤 *Customer Name:* ' + name + '\\n';
+            msg += '👤 *Customer Name:* ' + customerName + '\\n';
             if (phone) msg += '📱 *Phone / WhatsApp:* ' + phone + '\\n';
             if (date) msg += '📅 *Preferred Date:* ' + date + '\\n';
             if (delivery) msg += '🚚 *Collection / Delivery:* ' + delivery + '\\n';
@@ -1747,7 +1851,20 @@ const orderHTML = wrapHTML({
             }
             msg += 'Please confirm availability and banking/DuitNow payment details. Thank you! 🙏';
 
-            window.open('https://wa.me/60123360470?text=' + encodeURIComponent(msg), '_blank');
+            const waUrl = 'https://wa.me/60123360470?text=' + encodeURIComponent(msg);
+            const isMobile = typeof navigator !== 'undefined' && /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+            if (isMobile) {
+              window.location.href = waUrl;
+            } else {
+              try {
+                const win = window.open(waUrl, '_blank', 'noopener,noreferrer');
+                if (!win || win.closed || typeof win.closed === 'undefined') {
+                  window.location.href = waUrl;
+                }
+              } catch (e) {
+                window.location.href = waUrl;
+              }
+            }
           });
         }
       });
