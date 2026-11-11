@@ -122,11 +122,11 @@
 
     <section class="section-pad bg-cream">
       <div class="container">
-        <div style="display:grid; grid-template-columns:1.2fr 0.8fr; gap:3rem; align-items:flex-start;">
+        <div class="checkout-grid">
           
           <!-- Order Items Table Card -->
-          <div class="card card-dark" style="padding:32px; border-radius:20px; border:1px solid rgba(213,174,97,0.3);">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:14px;">
+          <div class="card card-dark checkout-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:14px; flex-wrap:wrap; gap:10px;">
               <h3 style="color:#FAF7F0; font-family:var(--font-display); margin:0;">Selected Creations</h3>
               <a href="products.html" class="btn btn-secondary btn-sm"><i class="fa-solid fa-plus"></i> Add More Items</a>
             </div>
@@ -143,7 +143,7 @@
           </div>
 
           <!-- Checkout Details Card -->
-          <div class="card card-dark" style="padding:32px; border-radius:20px; border:1px solid rgba(213,174,97,0.3); position:sticky; top:calc(var(--navbar-height) + 20px);">
+          <div class="card card-dark checkout-card checkout-details-card">
             <h3 style="color:#FAF7F0; font-family:var(--font-display); margin-bottom:1.5rem;">Delivery & Customer Info</h3>
 
             <div class="form-group" style="margin-bottom:14px;">
@@ -200,7 +200,8 @@
         const submitBtn = document.getElementById('chk-submit-btn');
 
         function loadItems() {
-          const raw = localStorage.getItem('veni_order_items');
+          let raw = localStorage.getItem('veni_delights_cart');
+          if (!raw) raw = localStorage.getItem('veni_order_items');
           let items = [];
           try {
             if (raw) items = JSON.parse(raw);
@@ -221,7 +222,8 @@
 
           let total = 0;
           listEl.innerHTML = items.map((item, idx) => {
-            const itemTotal = (item.price || 0) * (item.quantity || 1);
+            const qty = parseInt(item.quantity || item.qty || 1, 10);
+            const itemTotal = (item.price || 0) * qty;
             total += itemTotal;
             return `
               <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background:rgba(255,255,255,0.05); border-radius:12px;">
@@ -229,7 +231,8 @@
                   <img src="${item.image || 'images/product/butter series/pure butter.png'}" alt="${item.name}" style="width:50px; height:50px; object-fit:cover; border-radius:8px;">
                   <div>
                     <h4 style="color:#FAF7F0; margin:0; font-size:0.95rem;">${item.name}</h4>
-                    <span style="color:#B5AFA3; font-size:0.8rem;">Qty: ${item.quantity} ${item.price ? '× RM' + item.price : ''}</span>
+                    ${item.variant ? `<div style="color:var(--color-gold-champagne); font-size:0.75rem;">${item.variant}</div>` : ''}
+                    <span style="color:#B5AFA3; font-size:0.8rem;">Qty: ${qty} ${item.price ? '× RM' + item.price : ''}</span>
                   </div>
                 </div>
                 <div style="text-align:right;">
@@ -247,13 +250,17 @@
             btn.addEventListener('click', () => {
               const idx = parseInt(btn.dataset.idx, 10);
               items.splice(idx, 1);
+              localStorage.setItem('veni_delights_cart', JSON.stringify(items));
               localStorage.setItem('veni_order_items', JSON.stringify(items));
+              window.dispatchEvent(new CustomEvent('cart-updated'));
               loadItems();
             });
           });
         }
 
         loadItems();
+        window.addEventListener('storage', loadItems);
+        window.addEventListener('cart-updated', loadItems);
 
         if (submitBtn) {
           submitBtn.addEventListener('click', () => {
@@ -269,30 +276,43 @@
               return;
             }
 
-            const raw = localStorage.getItem('veni_order_items');
+            let raw = localStorage.getItem('veni_delights_cart');
+            if (!raw) raw = localStorage.getItem('veni_order_items');
             let items = [];
             try { items = JSON.parse(raw); } catch(e){}
 
-            let msg = '🎂 *NEW ORDER REQUEST — VENI DELIGHTS*\n\n';
-            msg += '*Customer Name:* ' + name + '\n';
-            if (phone) msg += '*Phone:* ' + phone + '\n';
-            if (date) msg += '*Preferred Date:* ' + date + '\n';
-            if (delivery) msg += '*Delivery/Pickup:* ' + delivery + '\n';
-            if (address) msg += '*Address:* ' + address + '\n';
-            if (notes) msg += '*Special Inscription:* ' + notes + '\n';
-
-            msg += '\n*ORDERED ITEMS:*\n';
             let total = 0;
-            items.forEach((it, i) => {
-              const itTotal = (it.price || 0) * (it.quantity || 1);
-              total += itTotal;
-              msg += (i + 1) + '. ' + it.name + ' (Qty: ' + it.quantity + ')' + (it.price ? ' — RM' + itTotal.toFixed(2) : '') + '\n';
-            });
+            const itemLines = items.map((it, i) => {
+              const qty = parseInt(it.quantity || it.qty || 1, 10);
+              let line = (i + 1) + '. *' + it.name + '*';
+              if (it.variant) line += ' (' + it.variant + ')';
+              line += '\n   Qty: ' + qty;
+              if (typeof it.price === 'number' && it.price > 0) {
+                const itTotal = it.price * qty;
+                total += itTotal;
+                line += ' × RM' + it.price.toFixed(2) + ' = *RM' + itTotal.toFixed(2) + '*';
+              } else if (it.priceDisplay) {
+                line += ' — ' + it.priceDisplay;
+              }
+              return line;
+            }).join('\n\n');
 
+            let msg = '🎂 *NEW ORDER — VENI DELIGHTS (Klang)*\n';
+            msg += '─────────────────────────\n';
+            msg += '👤 *Customer Name:* ' + name + '\n';
+            if (phone) msg += '📱 *Phone / WhatsApp:* ' + phone + '\n';
+            if (date) msg += '📅 *Preferred Date:* ' + date + '\n';
+            if (delivery) msg += '🚚 *Collection / Delivery:* ' + delivery + '\n';
+            if (address) msg += '📍 *Delivery Address:* ' + address + '\n';
+            if (notes) msg += '📝 *Special Inscription / Notes:* ' + notes + '\n';
+            msg += '─────────────────────────\n';
+            msg += '📦 *ORDERED CREATIONS:*\n' + itemLines + '\n';
+            msg += '─────────────────────────\n';
             if (total > 0) {
-              msg += '\n*Estimated Subtotal:* RM' + total.toFixed(2) + '\n';
+              msg += '💰 *ESTIMATED SUBTOTAL:* *RM' + total.toFixed(2) + '*\n';
+              msg += '_*(Delivery fee calculated by distance upon confirmation)*_\n\n';
             }
-            msg += '\nPlease confirm availability and payment details. Thank you!';
+            msg += 'Please confirm availability and banking/DuitNow payment details. Thank you! 🙏';
 
             window.open('https://wa.me/60123360470?text=' + encodeURIComponent(msg), '_blank');
           });

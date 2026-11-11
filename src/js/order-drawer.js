@@ -20,6 +20,7 @@ export class OrderDrawer {
     this.dateInput = document.getElementById('order-date');
     this.deliverySelect = document.getElementById('order-delivery');
     this.instructionsInput = document.getElementById('order-instructions');
+    this.totalEl = document.getElementById('order-drawer-total');
 
     this.items = []; // Array of { id, name, variant, price, priceDisplay, quantity, image, minimumOrder }
 
@@ -143,6 +144,10 @@ export class OrderDrawer {
       if (this.emptyEl) this.emptyEl.style.display = 'flex';
       if (this.detailsEl) this.detailsEl.hidden = true;
       if (this.submitBtn) this.submitBtn.disabled = true;
+      if (this.totalEl) {
+        this.totalEl.textContent = 'RM0.00';
+        if (this.totalEl.parentElement) this.totalEl.parentElement.style.color = 'var(--color-text, #1A1A1A)';
+      }
 
       // Remove existing item rows
       const existingRows = this.bodyEl.querySelectorAll('.order-item, .order-total-bar');
@@ -194,8 +199,12 @@ export class OrderDrawer {
       this.bodyEl.appendChild(row);
     });
 
-    // Render Total Summary Bar
+    // Render Total Summary Bar & Checkout Page Link
     const { total, hasEnquiryOnly } = this.calculateTotal();
+    if (this.totalEl) {
+      this.totalEl.textContent = `RM${total.toFixed(2)}${hasEnquiryOnly ? ' +' : ''}`;
+      if (this.totalEl.parentElement) this.totalEl.parentElement.style.color = 'var(--color-text, #1A1A1A)';
+    }
     const totalBar = document.createElement('div');
     totalBar.className = 'order-total-bar';
     totalBar.style.padding = 'var(--space-4) 0';
@@ -203,14 +212,17 @@ export class OrderDrawer {
     totalBar.style.marginTop = 'var(--space-4)';
     totalBar.innerHTML = `
       <div style="display:flex; justify-content:space-between; align-items:baseline;">
-        <span style="font-weight:600; font-size:1.1rem;">Estimated Subtotal:</span>
-        <span style="font-family:var(--font-display); font-size:1.5rem; font-weight:700; color:var(--color-primary);">
+        <span style="font-weight:600; font-size:1.05rem;">Estimated Subtotal:</span>
+        <span style="font-family:var(--font-display); font-size:1.45rem; font-weight:700; color:var(--color-primary);">
           RM${total.toFixed(2)}${hasEnquiryOnly ? ' + Enquiry items' : ''}
         </span>
       </div>
-      <p style="font-size:0.75rem; color:var(--color-text-muted); margin-top:4px;">
-        *Final pricing confirmed by Veni Delights upon order review.
+      <p style="font-size:0.75rem; color:var(--color-text-muted); margin-top:4px; margin-bottom:12px;">
+        *Direct WhatsApp checkout. Final pricing confirmed upon chat reply.
       </p>
+      <a href="order.html" class="btn btn-secondary btn-full btn-sm" style="display:flex; align-items:center; justify-content:center; gap:8px; text-decoration:none; margin-bottom:4px;">
+        <i class="fa-solid fa-file-invoice" aria-hidden="true"></i> Review Full Order & Delivery Form
+      </a>
     `;
     this.bodyEl.appendChild(totalBar);
   }
@@ -237,6 +249,8 @@ export class OrderDrawer {
   saveToStorage() {
     try {
       localStorage.setItem('veni_delights_cart', JSON.stringify(this.items));
+      localStorage.setItem('veni_order_items', JSON.stringify(this.items));
+      window.dispatchEvent(new CustomEvent('cart-updated'));
     } catch (e) {
       // Storage unavailable or disabled
     }
@@ -244,7 +258,10 @@ export class OrderDrawer {
 
   loadFromStorage() {
     try {
-      const saved = localStorage.getItem('veni_delights_cart');
+      let saved = localStorage.getItem('veni_delights_cart');
+      if (!saved) {
+        saved = localStorage.getItem('veni_order_items');
+      }
       if (saved) {
         this.items = JSON.parse(saved);
       }

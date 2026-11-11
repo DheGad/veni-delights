@@ -2911,6 +2911,22 @@ a.contact-detail-value:hover {
   padding: var(--space-5) var(--space-6);
   border-top: 1px solid var(--color-border-dark);
   background: var(--color-white);
+  color: #1A1A1A !important;
+}
+
+.order-drawer-footer > div:first-child {
+  color: #1A1A1A !important;
+}
+
+[data-theme="dark"] .order-drawer-footer,
+body.theme-dark .order-drawer-footer {
+  background: #181816;
+  color: #FAF7F0 !important;
+}
+
+[data-theme="dark"] .order-drawer-footer > div:first-child,
+body.theme-dark .order-drawer-footer > div:first-child {
+  color: #FAF7F0 !important;
 }
 
 .order-wa-disclaimer {
@@ -6690,3 +6706,41 @@ body.modal-open {
   background: radial-gradient(circle at 75% 45%, rgba(16, 185, 129, 0.12) 0%, transparent 60%),
               linear-gradient(180deg, rgba(6, 20, 13, 0.78) 0%, rgba(6, 20, 13, 0.96) 70%, #06140D 100%) !important;
 }
+
+/* =============================================
+   CHECKOUT PAGE RESPONSIVE LAYOUT
+   ============================================= */
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 2.5rem;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.checkout-card {
+  padding: 32px;
+  border-radius: 20px;
+  border: 1px solid rgba(213, 174, 97, 0.3);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.checkout-details-card {
+  position: sticky;
+  top: calc(var(--navbar-height) + 20px);
+}
+
+@media (max-width: 900px) {
+  .checkout-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+  .checkout-card {
+    padding: 20px !important;
+  }
+  .checkout-details-card {
+    position: static !important;
+  }
+}
+

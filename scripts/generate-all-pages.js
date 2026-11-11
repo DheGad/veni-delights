@@ -1637,7 +1637,8 @@ const orderHTML = wrapHTML({
         const submitBtn = document.getElementById('chk-submit-btn');
 
         function loadItems() {
-          const raw = localStorage.getItem('veni_order_items');
+          let raw = localStorage.getItem('veni_delights_cart');
+          if (!raw) raw = localStorage.getItem('veni_order_items');
           let items = [];
           try {
             if (raw) items = JSON.parse(raw);
@@ -1684,7 +1685,9 @@ const orderHTML = wrapHTML({
             btn.addEventListener('click', () => {
               const idx = parseInt(btn.dataset.idx, 10);
               items.splice(idx, 1);
+              localStorage.setItem('veni_delights_cart', JSON.stringify(items));
               localStorage.setItem('veni_order_items', JSON.stringify(items));
+              window.dispatchEvent(new CustomEvent('cart-updated'));
               loadItems();
             });
           });
@@ -1706,30 +1709,43 @@ const orderHTML = wrapHTML({
               return;
             }
 
-            const raw = localStorage.getItem('veni_order_items');
+            let raw = localStorage.getItem('veni_delights_cart');
+            if (!raw) raw = localStorage.getItem('veni_order_items');
             let items = [];
             try { items = JSON.parse(raw); } catch(e){}
 
-            let msg = '🎂 *NEW ORDER REQUEST — VENI DELIGHTS*\\n\\n';
-            msg += '*Customer Name:* ' + name + '\\n';
-            if (phone) msg += '*Phone:* ' + phone + '\\n';
-            if (date) msg += '*Preferred Date:* ' + date + '\\n';
-            if (delivery) msg += '*Delivery/Pickup:* ' + delivery + '\\n';
-            if (address) msg += '*Address:* ' + address + '\\n';
-            if (notes) msg += '*Special Inscription:* ' + notes + '\\n';
-
-            msg += '\\n*ORDERED ITEMS:*\\n';
             let total = 0;
-            items.forEach((it, i) => {
-              const itTotal = (it.price || 0) * (it.quantity || 1);
-              total += itTotal;
-              msg += (i + 1) + '. ' + it.name + ' (Qty: ' + it.quantity + ')' + (it.price ? ' — RM' + itTotal.toFixed(2) : '') + '\\n';
-            });
+            const itemLines = items.map((it, i) => {
+              const qty = parseInt(it.quantity || it.qty || 1, 10);
+              let line = (i + 1) + '. *' + it.name + '*';
+              if (it.variant) line += ' (' + it.variant + ')';
+              line += '\\n   Qty: ' + qty;
+              if (typeof it.price === 'number' && it.price > 0) {
+                const itTotal = it.price * qty;
+                total += itTotal;
+                line += ' × RM' + it.price.toFixed(2) + ' = *RM' + itTotal.toFixed(2) + '*';
+              } else if (it.priceDisplay) {
+                line += ' — ' + it.priceDisplay;
+              }
+              return line;
+            }).join('\\n\\n');
 
+            let msg = '🎂 *NEW ORDER — VENI DELIGHTS (Klang)*\\n';
+            msg += '─────────────────────────\\n';
+            msg += '👤 *Customer Name:* ' + name + '\\n';
+            if (phone) msg += '📱 *Phone / WhatsApp:* ' + phone + '\\n';
+            if (date) msg += '📅 *Preferred Date:* ' + date + '\\n';
+            if (delivery) msg += '🚚 *Collection / Delivery:* ' + delivery + '\\n';
+            if (address) msg += '📍 *Delivery Address:* ' + address + '\\n';
+            if (notes) msg += '📝 *Special Inscription / Notes:* ' + notes + '\\n';
+            msg += '─────────────────────────\\n';
+            msg += '📦 *ORDERED CREATIONS:*\\n' + itemLines + '\\n';
+            msg += '─────────────────────────\\n';
             if (total > 0) {
-              msg += '\\n*Estimated Subtotal:* RM' + total.toFixed(2) + '\\n';
+              msg += '💰 *ESTIMATED SUBTOTAL:* *RM' + total.toFixed(2) + '*\\n';
+              msg += '_*(Delivery fee calculated by distance upon confirmation)*_\\n\\n';
             }
-            msg += '\\nPlease confirm availability and payment details. Thank you!';
+            msg += 'Please confirm availability and banking/DuitNow payment details. Thank you! 🙏';
 
             window.open('https://wa.me/60123360470?text=' + encodeURIComponent(msg), '_blank');
           });

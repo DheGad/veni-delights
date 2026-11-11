@@ -23,39 +23,59 @@ function encodeWA(message) {
 export function buildProductOrderURL(order) {
   const {
     customerName = '',
+    customerPhone = order.phone || order.customerPhone || '',
+    preferredDate = order.date || order.preferredDate || '',
+    deliveryPreference = order.delivery || order.deliveryPreference || '',
+    deliveryAddress = order.address || order.deliveryAddress || '',
+    specialInstructions = order.instructions || order.notes || order.specialInstructions || '',
     items = [],
-    specialInstructions = '',
-    preferredDate = '',
-    deliveryPreference = '',
   } = order;
 
   if (!items.length) return null;
 
-  const itemLines = items.map(item => {
-    let line = `• ${item.name}`;
-    if (item.variant) line += ` — ${item.variant}`;
-    if (item.quantity > 1) line += ` × ${item.quantity}`;
-    if (item.customisation) line += `\n  Customisation: ${item.customisation}`;
+  let totalRM = 0;
+  let hasEnquiry = false;
+
+  const itemLines = items.map((item, idx) => {
+    let line = `${idx + 1}. *${item.name}*`;
+    if (item.variant) line += ` (${item.variant})`;
+    const qty = parseInt(item.quantity || item.qty || 1, 10);
+    line += `\n   Qty: ${qty}`;
+    if (typeof item.price === 'number' && item.price > 0) {
+      const itemSub = item.price * qty;
+      totalRM += itemSub;
+      line += ` × RM${item.price.toFixed(2)} = *RM${itemSub.toFixed(2)}*`;
+    } else if (item.priceDisplay) {
+      line += ` — ${item.priceDisplay}`;
+      hasEnquiry = true;
+    } else {
+      line += ` — (Price on enquiry)`;
+      hasEnquiry = true;
+    }
+    if (item.customisation) line += `\n   Note: ${item.customisation}`;
     return line;
-  }).join('\n');
+  }).join('\n\n');
+
+  const totalStr = totalRM > 0 ? `RM${totalRM.toFixed(2)}${hasEnquiry ? ' (+ enquiry items)' : ''}` : 'Confirmed on enquiry';
 
   const message = [
-    'Hello Veni Delights! 👋',
-    '',
-    "I would like to place an order.",
-    '',
-    '📦 *Products:*',
-    itemLines,
-    '',
+    '🎂 *NEW ORDER — VENI DELIGHTS (Klang)*',
+    '─────────────────────────',
     customerName ? `👤 *Customer Name:* ${customerName}` : '',
+    customerPhone ? `📱 *Phone / WhatsApp:* ${customerPhone}` : '',
     preferredDate ? `📅 *Preferred Date:* ${preferredDate}` : '',
-    deliveryPreference ? `🚚 *Pickup / Delivery:* ${deliveryPreference}` : '',
-    specialInstructions ? `📝 *Special Instructions:* ${specialInstructions}` : '',
+    deliveryPreference ? `🚚 *Collection / Delivery:* ${deliveryPreference}` : '',
+    deliveryAddress ? `📍 *Delivery Address:* ${deliveryAddress}` : '',
+    specialInstructions ? `📝 *Special Inscription / Notes:* ${specialInstructions}` : '',
+    '─────────────────────────',
+    '📦 *ORDERED CREATIONS:*',
+    itemLines,
+    '─────────────────────────',
+    `💰 *ESTIMATED SUBTOTAL:* *${totalStr}*`,
+    '_*(Delivery fee calculated by distance upon confirmation)*_',
     '',
-    'Please confirm availability and final pricing.',
-    '',
-    'Thank you! 🙏',
-  ].filter(line => line !== null && line !== undefined).join('\n').replace(/\n{3,}/g, '\n\n');
+    'Please confirm availability and banking/DuitNow payment details. Thank you! 🙏',
+  ].filter(line => line !== null && line !== undefined && line !== '').join('\n').replace(/\n{3,}/g, '\n\n');
 
   return encodeWA(message);
 }

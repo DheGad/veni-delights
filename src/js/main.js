@@ -331,13 +331,21 @@ class VeniDelightsApp {
     const updateBadge = () => {
       const badge = document.getElementById('mobile-cart-badge');
       if (badge && this.orderDrawer) {
-        const count = this.orderDrawer.items ? this.orderDrawer.items.reduce((s, i) => s + i.qty, 0) : 0;
+        const count = this.orderDrawer.items ? this.orderDrawer.items.reduce((s, i) => s + (parseInt(i.quantity, 10) || parseInt(i.qty, 10) || 1), 0) : 0;
         badge.textContent = count;
         badge.classList.toggle('has-items', count > 0);
       }
     };
-    window.addEventListener('storage', updateBadge);
-    window.addEventListener('cart-updated', updateBadge);
+    window.addEventListener('storage', () => {
+      if (this.orderDrawer) {
+        this.orderDrawer.loadFromStorage();
+        this.orderDrawer.render();
+      }
+      updateBadge();
+    });
+    window.addEventListener('cart-updated', () => {
+      updateBadge();
+    });
     updateBadge();
   }
 }
